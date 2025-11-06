@@ -5,11 +5,14 @@ on:
     types: [created]
 
 jobs:
+  lint:
+    uses: ./.github/workflows/lint.yml
+
   test:
     uses: ./.github/workflows/test.yml
 
   publish:
-    needs: test
+    needs: [lint, test]
     runs-on: ubuntu-latest
     permissions:
       contents: read
@@ -37,10 +40,6 @@ jobs:
       - name: Install dependencies
         if: steps.cache-deps.outputs.cache-hit != 'true'
         run: npm ci
-
-      - name: Run tests
-        run: npm test
-        continue-on-error: false
 
       - name: Build CJS module
         run: npm run build:cjs
