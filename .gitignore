@@ -17,7 +17,6 @@ coverage/
 *.d.ts.map
 
 # Package manager files
-package-lock.json
 yarn.lock
 pnpm-lock.yaml
 bun.lockb
