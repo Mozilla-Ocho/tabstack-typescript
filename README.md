@@ -8,60 +8,69 @@ TypeScript/JavaScript SDK for [TABStack AI](https://tabstack.ai) - Extract, Gene
 - **Generate**: Transform web content using AI with custom instructions
 - **Automate**: Execute complex browser automation tasks with natural language
 - **Type-Safe**: Full TypeScript support with comprehensive type definitions
-- **Zero Dependencies**: Uses only Node.js standard library (no external dependencies)
+- **Zero Dependencies**: Uses only Node.js standard library
 - **Universal Module Support**: Works with CommonJS, ESM, and all TypeScript configurations
-- **Dual Package**: Supports both `require()` and `import` syntax
-- **JavaScript Compatible**: Works seamlessly with pure JavaScript projects (both CJS and ESM)
 
 ## Installation
 
-### Using Package Managers
+Install the SDK using your preferred package manager:
 
+### npm
 ```bash
-# npm
 npm install @tabstack/sdk
+```
 
-# yarn
+### Yarn
+```bash
 yarn add @tabstack/sdk
+```
 
-# pnpm
+### pnpm
+```bash
 pnpm add @tabstack/sdk
+```
 
-# bun
+### Bun
+```bash
 bun add @tabstack/sdk
 ```
 
 ### From Source
+
+Clone and build the SDK locally:
 
 ```bash
 git clone https://github.com/tabstack/tabs-typescript.git
 cd tabs-typescript
 npm install
 npm run build
-npm link  # For local development
 ```
 
-For detailed installation instructions including npx usage, global installs, and troubleshooting, see [INSTALL.md](INSTALL.md).
+To use the local build in your project:
 
-## Module System Support
+```bash
+# Link the package globally
+npm link
 
-The SDK works with **all** JavaScript module systems:
-
-**ES Modules (ESM)**:
-```javascript
-import { TABStack, Schema, StringType } from '@tabstack/sdk';
+# In your project directory
+npm link @tabstack/sdk
 ```
 
-**CommonJS**:
-```javascript
-const { TABStack, Schema, StringType } = require('@tabstack/sdk');
-```
+Or install directly from the local path:
 
-For comprehensive module system documentation, see [MODULE_SYSTEMS.md](MODULE_SYSTEMS.md).
+```bash
+npm install /path/to/tabs-typescript
+```
 
 ## Quick Start
 
-**TypeScript / ESM:**
+### Get Your API Key
+
+Sign up at [tabstack.ai](https://tabstack.ai) to get your API key.
+
+### Basic Usage
+
+#### ES Modules (ESM)
 ```typescript
 import { TABStack, Schema, StringType, NumberType, ArrayType, ObjectType } from '@tabstack/sdk';
 
@@ -91,22 +100,9 @@ const data = await tabs.extract.json({
 console.log(data.data);
 ```
 
-## API Reference
+## Core Features
 
-### Client Initialization
-
-```typescript
-import { TABStack } from '@tabstack/sdk';
-
-const tabs = new TABStack({
-  apiKey: 'your-api-key',
-  baseURL: 'https://api.tabstack.ai/'  // optional
-});
-```
-
-### Extract Operator
-
-#### Extract Markdown
+### Extract Markdown
 
 Convert web pages to clean Markdown format:
 
@@ -117,56 +113,49 @@ const result = await tabs.extract.markdown({
   nocache: false   // optional: bypass cache
 });
 
-console.log(result.content);    // Markdown content
-console.log(result.metadata);   // Page metadata (if requested)
+console.log(result.content);
+console.log(result.metadata); // if metadata: true
 ```
 
-#### Generate Schema
+### Extract Structured Data
+
+Extract data matching a schema:
+
+```typescript
+const schema = new Schema({
+  products: ArrayType(ObjectType({
+    name: StringType(),
+    price: NumberType(),
+    inStock: BooleanType(),
+  }))
+});
+
+const result = await tabs.extract.json({
+  url: 'https://example.com/products',
+  schema: schema
+});
+
+console.log(result.data);
+```
+
+### Generate Schema
 
 Generate a schema from web content:
 
 ```typescript
 const result = await tabs.extract.schema({
   url: 'https://news.ycombinator.com',
-  instructions: 'extract top stories with title, points, and author',  // optional
-  nocache: false  // optional
+  instructions: 'extract top stories with title, points, and author'
 });
 
-// Use the generated schema
 const schema = result.schema;
 ```
 
-#### Extract Structured JSON
-
-Extract data matching a schema:
-
-```typescript
-import { Schema, StringType, NumberType, ArrayType, ObjectType } from '@tabstack/sdk';
-
-const schema = new Schema({
-  stories: ArrayType(ObjectType({
-    title: StringType(),
-    points: NumberType(),
-    author: StringType(),
-  }))
-});
-
-const result = await tabs.extract.json({
-  url: 'https://news.ycombinator.com',
-  schema: schema,
-  nocache: false  // optional
-});
-
-console.log(result.data);  // Extracted data matching schema
-```
-
-### Generate Operator
+### Generate Content
 
 Transform web content using AI:
 
 ```typescript
-import { Schema, StringType, ArrayType, ObjectType } from '@tabstack/sdk';
-
 const schema = new Schema({
   summaries: ArrayType(ObjectType({
     title: StringType(),
@@ -178,14 +167,13 @@ const schema = new Schema({
 const result = await tabs.generate.json({
   url: 'https://news.ycombinator.com',
   schema: schema,
-  instructions: 'Categorize each story and write a one-sentence summary',
-  nocache: false  // optional
+  instructions: 'Categorize each story and write a one-sentence summary'
 });
 
 console.log(result.data);
 ```
 
-### Automate Operator
+### Automate Tasks
 
 Execute browser automation tasks with streaming updates:
 
@@ -193,9 +181,8 @@ Execute browser automation tasks with streaming updates:
 for await (const event of tabs.automate.execute({
   task: 'Find the top 3 trending repositories and extract their details',
   url: 'https://github.com/trending',
-  guardrails: 'browse and extract only',  // optional
-  maxIterations: 50,                      // optional
-  maxValidationAttempts: 3                // optional
+  guardrails: 'browse and extract only',
+  maxIterations: 50
 })) {
   console.log(`Event: ${event.type}`);
 
@@ -207,9 +194,9 @@ for await (const event of tabs.automate.execute({
 }
 ```
 
-### Schema DSL
+## Schema DSL
 
-The SDK provides a type-safe DSL for defining JSON schemas:
+Define type-safe JSON schemas:
 
 ```typescript
 import {
@@ -222,22 +209,15 @@ import {
 } from '@tabstack/sdk';
 
 const schema = new Schema({
-  // Basic types
   name: StringType('Person name'),
   age: NumberType('Person age'),
   isActive: BooleanType('Active status'),
-
-  // Array of strings
   tags: ArrayType(StringType()),
-
-  // Array of objects
   addresses: ArrayType(ObjectType({
     street: StringType(),
     city: StringType(),
     zipCode: NumberType(),
   })),
-
-  // Nested object
   metadata: ObjectType({
     createdAt: StringType(),
     updatedAt: StringType(),
@@ -251,61 +231,17 @@ const jsonSchema = schema.toJSONSchema();
 const reconstructed = Schema.fromJSONSchema(jsonSchema);
 ```
 
-## Response Types
-
-### MarkdownResponse
-
-```typescript
-interface MarkdownResponse {
-  url: string;
-  content: string;
-  metadata?: Metadata;
-}
-```
-
-### SchemaResponse
-
-```typescript
-interface SchemaResponse {
-  schema: Schema;
-}
-```
-
-### JsonResponse
-
-```typescript
-interface JsonResponse<T = unknown> {
-  data: T;
-}
-```
-
-### AutomateEvent
-
-```typescript
-class AutomateEvent {
-  type: string;
-  data: EventData;
-}
-
-class EventData {
-  get<T>(key: string, defaultValue?: T): T | undefined;
-  getRaw(): Record<string, unknown>;
-}
-```
-
 ## Error Handling
 
-The SDK provides specific error classes for different scenarios:
+Handle errors with specific error classes:
 
 ```typescript
 import {
   TABStackError,
-  BadRequestError,
   UnauthorizedError,
   InvalidURLError,
-  ServerError,
-  ServiceUnavailableError,
-  APIError,
+  BadRequestError,
+  ServerError
 } from '@tabstack/sdk';
 
 try {
@@ -331,101 +267,6 @@ try {
 - `ServiceUnavailableError` - 503: Service unavailable
 - `APIError` - Generic API error with status code
 
-## JavaScript Usage
-
-The SDK works seamlessly with JavaScript:
-
-```javascript
-const { TABStack, Schema, StringType, NumberType, ArrayType, ObjectType } = require('@tabstack/sdk');
-
-const tabs = new TABStack({
-  apiKey: process.env.TABSTACK_API_KEY
-});
-
-// Extract markdown
-tabs.extract.markdown({ url: 'https://example.com' })
-  .then(result => {
-    console.log(result.content);
-  })
-  .catch(error => {
-    console.error('Error:', error.message);
-  });
-
-// Extract structured data
-const schema = new Schema({
-  title: StringType(),
-  price: NumberType(),
-});
-
-tabs.extract.json({ url: 'https://example.com', schema })
-  .then(result => {
-    console.log(result.data);
-  });
-```
-
-## Examples
-
-### Example 1: News Aggregation
-
-```typescript
-import { TABStack, Schema, StringType, NumberType, ArrayType, ObjectType } from '@tabstack/sdk';
-
-const tabs = new TABStack({ apiKey: process.env.TABSTACK_API_KEY! });
-
-const newsSchema = new Schema({
-  articles: ArrayType(ObjectType({
-    title: StringType(),
-    author: StringType(),
-    publishedAt: StringType(),
-    summary: StringType(),
-  }))
-});
-
-const news = await tabs.extract.json({
-  url: 'https://news.ycombinator.com',
-  schema: newsSchema
-});
-
-console.log(`Found ${news.data.articles.length} articles`);
-```
-
-### Example 2: Content Transformation
-
-```typescript
-const summarySchema = new Schema({
-  summary: StringType(),
-  keyPoints: ArrayType(StringType()),
-  sentiment: StringType(),
-});
-
-const result = await tabs.generate.json({
-  url: 'https://example.com/long-article',
-  schema: summarySchema,
-  instructions: 'Create a brief summary, extract key points, and analyze sentiment'
-});
-
-console.log('Summary:', result.data.summary);
-console.log('Key Points:', result.data.keyPoints);
-console.log('Sentiment:', result.data.sentiment);
-```
-
-### Example 3: Automated Research
-
-```typescript
-for await (const event of tabs.automate.execute({
-  task: 'Research the top 5 TypeScript frameworks and create a comparison',
-  url: 'https://www.npmjs.com',
-  guardrails: 'browse, search, and extract only',
-})) {
-  if (event.type === 'agent:thinking') {
-    console.log('Thinking:', event.data.get('thought'));
-  } else if (event.type === 'task:completed') {
-    console.log('Research completed!');
-    console.log(event.data.get('finalAnswer'));
-  }
-}
-```
-
 ## Requirements
 
 - Node.js >= 16.0.0
@@ -433,7 +274,7 @@ for await (const event of tabs.automate.execute({
 
 ## License
 
-MIT
+Apache
 
 ## Support
 
