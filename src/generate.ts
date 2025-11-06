@@ -111,7 +111,12 @@ export class Generate {
    * console.log(result.data.tags);       // ["technology", "innovation", ...]
    * ```
    */
-  async json<T = unknown>(url: string, schema: Record<string, unknown>, instructions: string, options?: GenerateJsonOptions): Promise<JsonResponse<T>> {
+  async json<T = unknown>(
+    url: string,
+    schema: Record<string, unknown>,
+    instructions: string,
+    options?: GenerateJsonOptions
+  ): Promise<JsonResponse<T>> {
     const requestData: Record<string, unknown> = {
       url,
       json_schema: schema,

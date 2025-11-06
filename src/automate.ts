@@ -150,7 +150,10 @@ export class Automate {
    * }
    * ```
    */
-  async *execute(task: string, options?: AutomateExecuteOptions): AsyncGenerator<AutomateEvent, void, undefined> {
+  async *execute(
+    task: string,
+    options?: AutomateExecuteOptions
+  ): AsyncGenerator<AutomateEvent, void, undefined> {
     const requestData: Record<string, unknown> = {
       task,
       maxIterations: options?.maxIterations ?? 50,

@@ -132,7 +132,10 @@ export class Extract {
     if (options?.instructions) requestData.instructions = options.instructions;
     if (options?.nocache) requestData.nocache = options.nocache;
 
-    return await this.httpClient.post<Record<string, unknown>>('v1/extract/json/schema', requestData);
+    return await this.httpClient.post<Record<string, unknown>>(
+      'v1/extract/json/schema',
+      requestData
+    );
   }
 
   /**
@@ -224,7 +227,11 @@ export class Extract {
    * });
    * ```
    */
-  async json<T = unknown>(url: string, schema: Record<string, unknown>, options?: ExtractJsonOptions): Promise<JsonResponse<T>> {
+  async json<T = unknown>(
+    url: string,
+    schema: Record<string, unknown>,
+    options?: ExtractJsonOptions
+  ): Promise<JsonResponse<T>> {
     const requestData: Record<string, unknown> = {
       url,
       json_schema: schema,
