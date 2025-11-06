@@ -1,0 +1,66 @@
+name: Test
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - '**'
+  workflow_call: # Allows this workflow to be called by other workflows
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        node-version: [16, 18, 20]
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ matrix.node-version }}
+
+      - name: Cache dependencies
+        id: cache-deps
+        uses: actions/cache@v4
+        with:
+          path: node_modules
+          key: ${{ runner.os }}-node-${{ matrix.node-version }}-${{ hashFiles('**/package-lock.json') }}
+          restore-keys: |
+            ${{ runner.os }}-node-${{ matrix.node-version }}-
+
+      - name: Install dependencies
+        if: steps.cache-deps.outputs.cache-hit != 'true'
+        run: npm ci
+
+      - name: Run linter
+        run: npm run lint
+
+      - name: Check formatting
+        run: npm run format:check
+
+      - name: Build CJS module
+        run: npm run build:cjs
+
+      - name: Build ESM module
+        run: npm run build:esm
+
+      - name: Build TypeScript declarations
+        run: npm run build:types
+
+      - name: Verify build outputs
+        run: |
+          echo "Verifying build outputs exist..."
+          test -d dist/cjs || { echo "CJS build failed"; exit 1; }
+          test -d dist/esm || { echo "ESM build failed"; exit 1; }
+          test -d dist/types || { echo "Types build failed"; exit 1; }
+          echo "All build outputs verified successfully"
+
+      - name: Run tests
+        run: npm test
