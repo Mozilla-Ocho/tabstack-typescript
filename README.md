@@ -72,32 +72,56 @@ Sign up at [tabstack.ai](https://tabstack.ai) to get your API key.
 
 #### ES Modules (ESM)
 ```typescript
-import { TABStack, Schema, StringType, NumberType, ArrayType, ObjectType } from '@tabstack/sdk';
+import { TABStack } from '@tabstack/sdk';
 
 const tabs = new TABStack({
   apiKey: process.env.TABSTACK_API_KEY!
 });
 
 // Extract markdown from a URL
-const markdown = await tabs.extract.markdown({
-  url: 'https://example.com'
-});
+const markdown = await tabs.extract.markdown('https://example.com');
 console.log(markdown.content);
 
-// Extract structured data
-const schema = new Schema({
-  stories: ArrayType(ObjectType({
-    title: StringType(),
-    points: NumberType(),
-    author: StringType(),
-  }))
+// Extract structured data with JSON schema
+const schema = {
+  type: 'object',
+  properties: {
+    stories: {
+      type: 'array',
+      items: {
+        type: 'object',
+        properties: {
+          title: { type: 'string' },
+          points: { type: 'number' },
+          author: { type: 'string' }
+        },
+        required: ['title', 'points', 'author']
+      }
+    }
+  },
+  required: ['stories']
+};
+
+const data = await tabs.extract.json('https://news.ycombinator.com', schema);
+console.log(data.data);
+```
+
+#### CommonJS
+```javascript
+const { TABStack } = require('@tabstack/sdk');
+
+const tabs = new TABStack({
+  apiKey: process.env.TABSTACK_API_KEY
 });
 
-const data = await tabs.extract.json({
-  url: 'https://news.ycombinator.com',
-  schema: schema
-});
-console.log(data.data);
+// Extract markdown
+tabs.extract.markdown('https://example.com')
+  .then(result => {
+    console.log(result.content);
+  })
+  .catch(error => {
+    console.error('Error:', error.message);
+  });
 ```
 
 ## Core Features
@@ -107,8 +131,7 @@ console.log(data.data);
 Convert web pages to clean Markdown format:
 
 ```typescript
-const result = await tabs.extract.markdown({
-  url: 'https://example.com/blog/article',
+const result = await tabs.extract.markdown('https://example.com/blog/article', {
   metadata: true,  // optional: include page metadata
   nocache: false   // optional: bypass cache
 });
@@ -119,36 +142,44 @@ console.log(result.metadata); // if metadata: true
 
 ### Extract Structured Data
 
-Extract data matching a schema:
+Extract data matching a JSON schema:
 
 ```typescript
-const schema = new Schema({
-  products: ArrayType(ObjectType({
-    name: StringType(),
-    price: NumberType(),
-    inStock: BooleanType(),
-  }))
-});
+const schema = {
+  type: 'object',
+  properties: {
+    products: {
+      type: 'array',
+      items: {
+        type: 'object',
+        properties: {
+          name: { type: 'string' },
+          price: { type: 'number' },
+          inStock: { type: 'boolean' }
+        },
+        required: ['name', 'price', 'inStock']
+      }
+    }
+  },
+  required: ['products']
+};
 
-const result = await tabs.extract.json({
-  url: 'https://example.com/products',
-  schema: schema
-});
-
+const result = await tabs.extract.json('https://example.com/products', schema);
 console.log(result.data);
 ```
 
 ### Generate Schema
 
-Generate a schema from web content:
+Generate a JSON schema from web content:
 
 ```typescript
-const result = await tabs.extract.schema({
-  url: 'https://news.ycombinator.com',
+const schema = await tabs.extract.schema('https://news.ycombinator.com', {
   instructions: 'extract top stories with title, points, and author'
 });
 
-const schema = result.schema;
+// Use the generated schema for extraction
+const result = await tabs.extract.json('https://news.ycombinator.com', schema);
+console.log(result.data);
 ```
 
 ### Generate Content
@@ -156,19 +187,30 @@ const schema = result.schema;
 Transform web content using AI:
 
 ```typescript
-const schema = new Schema({
-  summaries: ArrayType(ObjectType({
-    title: StringType(),
-    category: StringType(),
-    summary: StringType(),
-  }))
-});
+const schema = {
+  type: 'object',
+  properties: {
+    summaries: {
+      type: 'array',
+      items: {
+        type: 'object',
+        properties: {
+          title: { type: 'string' },
+          category: { type: 'string' },
+          summary: { type: 'string' }
+        },
+        required: ['title', 'category', 'summary']
+      }
+    }
+  },
+  required: ['summaries']
+};
 
-const result = await tabs.generate.json({
-  url: 'https://news.ycombinator.com',
-  schema: schema,
-  instructions: 'Categorize each story and write a one-sentence summary'
-});
+const result = await tabs.generate.json(
+  'https://news.ycombinator.com',
+  schema,
+  'Categorize each story and write a one-sentence summary'
+);
 
 console.log(result.data);
 ```
@@ -178,12 +220,14 @@ console.log(result.data);
 Execute browser automation tasks with streaming updates:
 
 ```typescript
-for await (const event of tabs.automate.execute({
-  task: 'Find the top 3 trending repositories and extract their details',
-  url: 'https://github.com/trending',
-  guardrails: 'browse and extract only',
-  maxIterations: 50
-})) {
+for await (const event of tabs.automate.execute(
+  'Find the top 3 trending repositories and extract their details',
+  {
+    url: 'https://github.com/trending',
+    guardrails: 'browse and extract only',
+    maxIterations: 50
+  }
+)) {
   console.log(`Event: ${event.type}`);
 
   if (event.type === 'task:completed') {
@@ -194,41 +238,60 @@ for await (const event of tabs.automate.execute({
 }
 ```
 
-## Schema DSL
+## Working with JSON Schemas
 
-Define type-safe JSON schemas:
+The SDK uses standard [JSON Schema](https://json-schema.org/) format for defining data structures. You can define schemas manually or generate them automatically:
+
+### Manual Schema Definition
 
 ```typescript
-import {
-  Schema,
-  StringType,
-  NumberType,
-  BooleanType,
-  ArrayType,
-  ObjectType
-} from '@tabstack/sdk';
+const schema = {
+  type: 'object',
+  properties: {
+    name: { type: 'string', description: 'Person name' },
+    age: { type: 'number', description: 'Person age' },
+    isActive: { type: 'boolean', description: 'Active status' },
+    tags: {
+      type: 'array',
+      items: { type: 'string' }
+    },
+    addresses: {
+      type: 'array',
+      items: {
+        type: 'object',
+        properties: {
+          street: { type: 'string' },
+          city: { type: 'string' },
+          zipCode: { type: 'number' }
+        },
+        required: ['street', 'city', 'zipCode']
+      }
+    },
+    metadata: {
+      type: 'object',
+      properties: {
+        createdAt: { type: 'string' },
+        updatedAt: { type: 'string' }
+      },
+      required: ['createdAt', 'updatedAt']
+    }
+  },
+  required: ['name', 'age']
+};
+```
 
-const schema = new Schema({
-  name: StringType('Person name'),
-  age: NumberType('Person age'),
-  isActive: BooleanType('Active status'),
-  tags: ArrayType(StringType()),
-  addresses: ArrayType(ObjectType({
-    street: StringType(),
-    city: StringType(),
-    zipCode: NumberType(),
-  })),
-  metadata: ObjectType({
-    createdAt: StringType(),
-    updatedAt: StringType(),
-  })
+### Automatic Schema Generation
+
+Let the AI generate a schema from any webpage:
+
+```typescript
+// Generate schema from content
+const schema = await tabs.extract.schema('https://news.ycombinator.com', {
+  instructions: 'extract stories with title, points, and author'
 });
 
-// Convert to JSON Schema format
-const jsonSchema = schema.toJSONSchema();
-
-// Create Schema from JSON Schema
-const reconstructed = Schema.fromJSONSchema(jsonSchema);
+// Use it immediately
+const data = await tabs.extract.json('https://news.ycombinator.com', schema);
 ```
 
 ## Error Handling
@@ -245,7 +308,7 @@ import {
 } from '@tabstack/sdk';
 
 try {
-  const result = await tabs.extract.markdown({ url: 'https://example.com' });
+  const result = await tabs.extract.markdown('https://example.com');
 } catch (error) {
   if (error instanceof UnauthorizedError) {
     console.error('Invalid API key');

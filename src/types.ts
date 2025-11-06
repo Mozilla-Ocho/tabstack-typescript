@@ -2,8 +2,6 @@
  * Type definitions and response models for TABStack AI SDK
  */
 
-import { Schema, JSONSchema } from './schema';
-
 /**
  * Metadata extracted from a web page
  */
@@ -83,18 +81,6 @@ export class MarkdownResponse {
         : undefined;
 
     return new MarkdownResponse(data.url as string, data.content as string, metadata);
-  }
-}
-
-/**
- * Response from schema generation
- */
-export class SchemaResponse {
-  constructor(public schema: Schema) {}
-
-  static fromJSON(data: JSONSchema): SchemaResponse {
-    const schema = Schema.fromJSONSchema(data);
-    return new SchemaResponse(schema);
   }
 }
 

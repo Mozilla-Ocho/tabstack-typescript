@@ -26,9 +26,7 @@ export interface TABStackOptions {
  *   apiKey: process.env.TABSTACK_API_KEY!
  * });
  *
- * const result = await tabs.extract.markdown({
- *   url: 'https://example.com'
- * });
+ * const result = await tabs.extract.markdown('https://example.com');
  * console.log(result.content);
  * ```
  */
@@ -77,12 +75,5 @@ export class TABStack {
     this.extract = new Extract(this.httpClient);
     this.generate = new Generate(this.httpClient);
     this.automate = new Automate(this.httpClient);
-  }
-
-  /**
-   * Get string representation of the client
-   */
-  toString(): string {
-    return `TABStack(baseURL='${this.httpClient['baseURL']}')`;
   }
 }

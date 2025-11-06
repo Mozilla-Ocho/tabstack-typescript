@@ -6,31 +6,35 @@
  *
  * @example
  * ```typescript
- * import { TABStack, Schema, StringType, NumberType, ArrayType, ObjectType } from '@tabstack/sdk';
+ * import { TABStack } from '@tabstack/sdk';
  *
  * const tabs = new TABStack({
  *   apiKey: process.env.TABSTACK_API_KEY!
  * });
  *
  * // Extract markdown
- * const result = await tabs.extract.markdown({
- *   url: 'https://example.com'
- * });
+ * const result = await tabs.extract.markdown('https://example.com');
  * console.log(result.content);
  *
  * // Extract structured JSON
- * const schema = new Schema({
- *   stories: ArrayType(ObjectType({
- *     title: StringType(),
- *     points: NumberType(),
- *     author: StringType(),
- *   }))
- * });
+ * const schema = {
+ *   type: 'object',
+ *   properties: {
+ *     stories: {
+ *       type: 'array',
+ *       items: {
+ *         type: 'object',
+ *         properties: {
+ *           title: { type: 'string' },
+ *           points: { type: 'number' },
+ *           author: { type: 'string' }
+ *         }
+ *       }
+ *     }
+ *   }
+ * };
  *
- * const data = await tabs.extract.json({
- *   url: 'https://news.ycombinator.com',
- *   schema: schema
- * });
+ * const data = await tabs.extract.json('https://news.ycombinator.com', schema);
  * console.log(data.data);
  * ```
  *
@@ -45,24 +49,11 @@ export { Extract } from './extract';
 export { Generate } from './generate';
 export { Automate } from './automate';
 
-// Schema DSL
-export {
-  Schema,
-  StringType,
-  NumberType,
-  BooleanType,
-  ObjectType,
-  ArrayType,
-  SchemaTypeInterface,
-  JSONSchema,
-} from './schema';
-
 // Response types
 export {
   Metadata,
   MetadataFields,
   MarkdownResponse,
-  SchemaResponse,
   JsonResponse,
   AutomateEvent,
   EventData,

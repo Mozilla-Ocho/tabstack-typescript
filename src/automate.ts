@@ -6,7 +6,6 @@ import { HTTPClient } from './http-client';
 import { AutomateEvent } from './types';
 
 export interface AutomateExecuteOptions {
-  task: string;
   url?: string;
   data?: Record<string, unknown>;
   guardrails?: string;
@@ -27,37 +26,140 @@ export class Automate {
   /**
    * Execute AI-powered browser automation task with streaming updates
    *
-   * This method streams real-time progress updates as Server-Sent Events (SSE).
-   * Use this for web scraping, form filling, navigation, and multi-step workflows.
+   * Execute complex web automation tasks using natural language instructions. This method
+   * always streams responses using Server-Sent Events (SSE), providing real-time progress
+   * updates as the task executes. Perfect for web scraping, form filling, navigation,
+   * information gathering, and multi-step workflows.
    *
-   * @param options - Automation options
+   * @param task - The task description in natural language. Example: "Find the top 3 trending repositories on GitHub and extract their names, descriptions, and star counts"
+   * @param options - Optional automation options
+   * @param options.url - Starting URL for the task. Optional but recommended for better context.
+   * @param options.data - JSON data to provide context for form filling or complex tasks. Example: { "language": "Python", "timeRange": "today" }
+   * @param options.guardrails - Safety constraints for execution. Example: "browse and extract data only, don't star or fork repositories"
+   * @param options.maxIterations - Maximum task iterations. Default: 50, Min: 1, Max: 100
+   * @param options.maxValidationAttempts - Maximum validation attempts. Default: 3, Min: 1, Max: 10
+   *
    * @yields AutomateEvent objects representing different stages of task execution
    *
+   * @throws {BadRequestError} When task is missing, URL format is invalid, or maxIterations is out of range
+   * @throws {UnauthorizedError} When API key is invalid or missing
+   * @throws {ServerError} When automation server call fails
+   * @throws {ServiceUnavailableError} When automate service is not available
+   *
+   * Event Types:
+   * - **Task Events**: `start`, `task:setup`, `task:started`, `task:completed`, `task:aborted`, `task:validated`, `task:validation_error`
+   * - **Agent Events**: `agent:processing`, `agent:status`, `agent:step`, `agent:action`, `agent:reasoned`, `agent:extracted`, `agent:waiting`
+   * - **Browser Events**: `browser:navigated`, `browser:action_started`, `browser:action_completed`, `browser:screenshot_captured`
+   * - **System Events**: `system:debug_compression`, `system:debug_message`
+   * - **Stream Control**: `complete`, `done`, `error`
+   *
    * @example
+   * Extract GitHub trending repositories:
    * ```typescript
-   * for await (const event of tabs.automate.execute({
-   *   task: 'Find the top 3 trending repositories and extract their details',
-   *   url: 'https://github.com/trending',
-   *   guardrails: 'browse and extract only'
-   * })) {
+   * for await (const event of tabs.automate.execute(
+   *   'Find the top 3 trending repositories and extract their names, descriptions, and star counts',
+   *   {
+   *     url: 'https://github.com/trending',
+   *     guardrails: 'browse and extract only, don\'t interact with repositories'
+   *   }
+   * )) {
+   *   console.log(`Event: ${event.type}`);
+   *
    *   if (event.type === 'task:completed') {
    *     console.log('Result:', event.data.get('finalAnswer'));
    *   } else if (event.type === 'agent:extracted') {
-   *     console.log('Extracted:', event.data.get('extractedData'));
+   *     console.log('Extracted data:', event.data.get('extractedData'));
+   *   } else if (event.type === 'browser:navigated') {
+   *     console.log('Navigated to:', event.data.get('url'));
+   *   }
+   * }
+   * ```
+   *
+   * @example
+   * Scrape product information:
+   * ```typescript
+   * for await (const event of tabs.automate.execute(
+   *   'Find the product name, price, and availability status',
+   *   {
+   *     url: 'https://example-store.com/product/wireless-headphones',
+   *     guardrails: 'extract product details only, don\'t add to cart or checkout',
+   *     maxIterations: 20
+   *   }
+   * )) {
+   *   if (event.type === 'agent:processing') {
+   *     console.log('Agent thinking:', event.data.get('operation'));
+   *   } else if (event.type === 'task:completed') {
+   *     const result = event.data.get('finalAnswer');
+   *     console.log('Product info:', result);
+   *   }
+   * }
+   * ```
+   *
+   * @example
+   * Fill out contact form:
+   * ```typescript
+   * for await (const event of tabs.automate.execute(
+   *   'Submit the contact form with my information',
+   *   {
+   *     url: 'https://company.com/contact',
+   *     data: {
+   *       name: 'Alex Johnson',
+   *       email: 'alex@example.com',
+   *       message: 'Interested in learning more about your enterprise plan'
+   *     },
+   *     maxIterations: 30,
+   *     maxValidationAttempts: 5
+   *   }
+   * )) {
+   *   if (event.type === 'agent:action') {
+   *     console.log('Action:', event.data.get('action'), event.data.get('value'));
+   *   } else if (event.type === 'task:completed') {
+   *     console.log('Form submitted successfully!');
+   *   }
+   * }
+   * ```
+   *
+   * @example
+   * Handle all event types:
+   * ```typescript
+   * for await (const event of tabs.automate.execute(
+   *   'Research TypeScript frameworks and compare them',
+   *   { url: 'https://www.npmjs.com' }
+   * )) {
+   *   switch (event.type) {
+   *     case 'start':
+   *       console.log('Task started');
+   *       break;
+   *     case 'agent:status':
+   *       console.log('Status:', event.data.get('message'));
+   *       break;
+   *     case 'agent:step':
+   *       const iteration = event.data.get('currentIteration');
+   *       console.log(`Processing step ${iteration}...`);
+   *       break;
+   *     case 'browser:navigated':
+   *       console.log('Page:', event.data.get('title'));
+   *       break;
+   *     case 'task:completed':
+   *       console.log('Final result:', event.data.get('finalAnswer'));
+   *       break;
+   *     case 'error':
+   *       console.error('Error occurred:', event.data.getRaw());
+   *       break;
    *   }
    * }
    * ```
    */
-  async *execute(options: AutomateExecuteOptions): AsyncGenerator<AutomateEvent, void, undefined> {
+  async *execute(task: string, options?: AutomateExecuteOptions): AsyncGenerator<AutomateEvent, void, undefined> {
     const requestData: Record<string, unknown> = {
-      task: options.task,
-      maxIterations: options.maxIterations ?? 50,
-      maxValidationAttempts: options.maxValidationAttempts ?? 3,
+      task,
+      maxIterations: options?.maxIterations ?? 50,
+      maxValidationAttempts: options?.maxValidationAttempts ?? 3,
     };
 
-    if (options.url) requestData.url = options.url;
-    if (options.data) requestData.data = options.data;
-    if (options.guardrails) requestData.guardrails = options.guardrails;
+    if (options?.url) requestData.url = options.url;
+    if (options?.data) requestData.data = options.data;
+    if (options?.guardrails) requestData.guardrails = options.guardrails;
 
     // Stream the response and parse SSE events
     let currentEventType: string | null = null;
