@@ -368,11 +368,7 @@ describe('Generate', () => {
         'Analyze sentiment'
       );
 
-      const summary = await generate.json(
-        'https://example.com',
-        summarySchema,
-        'Create summary'
-      );
+      const summary = await generate.json('https://example.com', summarySchema, 'Create summary');
 
       expect(sentiment.data).toEqual({ sentiment: 'positive' });
       expect(summary.data).toEqual({ summary: 'A summary of the content' });
@@ -405,14 +401,14 @@ describe('Generate', () => {
 
       mockHttpClient.post = jest.fn().mockResolvedValue(mockData);
 
-      const result = await generate.json(
+      const result = await generate.json<typeof mockData>(
         'https://example.com',
         schema,
         'Categorize all items on the page'
       );
 
       expect(result.data.items).toHaveLength(3);
-      expect(result.data.items[0].category).toBe('tech');
+      expect(result.data.items[0]?.category).toBe('tech');
     });
 
     it('should work with nocache for fresh generation', async () => {

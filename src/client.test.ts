@@ -79,7 +79,7 @@ describe('TABStack Client', () => {
     });
 
     it('should pass HTTPClient to all operators', () => {
-      const client = new TABStack({ apiKey: 'test-api-key' });
+      void new TABStack({ apiKey: 'test-api-key' });
 
       expect(Extract).toHaveBeenCalledTimes(1);
       expect(Generate).toHaveBeenCalledTimes(1);
@@ -144,11 +144,11 @@ describe('TABStack Client', () => {
     });
 
     it('should create clients with different baseURLs', () => {
-      const client1 = new TABStack({
+      void new TABStack({
         apiKey: 'key1',
         baseURL: 'https://api1.example.com',
       });
-      const client2 = new TABStack({
+      void new TABStack({
         apiKey: 'key2',
         baseURL: 'https://api2.example.com',
       });
@@ -181,19 +181,11 @@ describe('TABStack Client', () => {
     });
 
     it('should reject non-string API keys', () => {
-      const invalidKeys = [
-        // @ts-expect-error Testing invalid types
-        123,
-        // @ts-expect-error Testing invalid types
-        true,
-        // @ts-expect-error Testing invalid types
-        {},
-        // @ts-expect-error Testing invalid types
-        [],
-      ];
+      const invalidKeys = [123, true, {}, []];
 
       invalidKeys.forEach((key) => {
-        expect(() => new TABStack({ apiKey: key })).toThrow('apiKey is required');
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        expect(() => new TABStack({ apiKey: key as any })).toThrow('apiKey is required');
       });
     });
 
@@ -206,7 +198,7 @@ describe('TABStack Client', () => {
 
   describe('configuration', () => {
     it('should handle default configuration', () => {
-      const client = new TABStack({ apiKey: 'test-key' });
+      void new TABStack({ apiKey: 'test-key' });
 
       expect(HTTPClient).toHaveBeenCalledWith({
         apiKey: 'test-key',
@@ -215,7 +207,7 @@ describe('TABStack Client', () => {
     });
 
     it('should handle custom baseURL with trailing slash', () => {
-      const client = new TABStack({
+      void new TABStack({
         apiKey: 'test-key',
         baseURL: 'https://custom.api.com/',
       });
@@ -227,7 +219,7 @@ describe('TABStack Client', () => {
     });
 
     it('should handle custom baseURL without trailing slash', () => {
-      const client = new TABStack({
+      void new TABStack({
         apiKey: 'test-key',
         baseURL: 'https://custom.api.com',
       });
@@ -239,7 +231,7 @@ describe('TABStack Client', () => {
     });
 
     it('should handle localhost baseURL', () => {
-      const client = new TABStack({
+      void new TABStack({
         apiKey: 'test-key',
         baseURL: 'http://localhost:8080',
       });

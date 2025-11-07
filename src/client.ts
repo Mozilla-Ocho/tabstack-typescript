@@ -62,7 +62,7 @@ export class TABStack {
    * ```
    */
   constructor(options: TABStackOptions) {
-    if (!options.apiKey) {
+    if (!options.apiKey || typeof options.apiKey !== 'string') {
       throw new Error('apiKey is required');
     }
 

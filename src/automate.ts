@@ -172,7 +172,7 @@ export class Automate {
       // SSE format: "event: <type>" or "data: <json>"
       if (line.startsWith('event:')) {
         // If we have a pending event, yield it before starting a new one
-        if (currentEventType && currentEventData) {
+        if (currentEventType) {
           yield this.parseEvent(currentEventType, currentEventData);
           currentEventData = '';
         }
@@ -189,7 +189,7 @@ export class Automate {
         }
       } else if (line === '') {
         // Empty line marks the end of an event
-        if (currentEventType && currentEventData) {
+        if (currentEventType) {
           yield this.parseEvent(currentEventType, currentEventData);
           currentEventType = null;
           currentEventData = '';
@@ -198,7 +198,7 @@ export class Automate {
     }
 
     // Yield any remaining event
-    if (currentEventType && currentEventData) {
+    if (currentEventType) {
       yield this.parseEvent(currentEventType, currentEventData);
     }
   }
