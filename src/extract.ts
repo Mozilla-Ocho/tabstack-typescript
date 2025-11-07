@@ -2,7 +2,7 @@
  * Extract operator for TABStack AI SDK
  */
 
-import { HTTPClient } from './http-client';
+import { HTTPClient } from './util/http';
 import { MarkdownResponse, JsonResponse } from './types';
 
 export interface ExtractMarkdownOptions {

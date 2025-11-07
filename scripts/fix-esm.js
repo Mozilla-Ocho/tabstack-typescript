@@ -20,9 +20,9 @@ function addJsExtensions(dir) {
     } else if (file.endsWith('.js')) {
       let content = fs.readFileSync(filePath, 'utf8');
 
-      // Add .js to relative imports (from './file')
+      // Add .js to relative imports (from './file' or from '../file')
       content = content.replace(
-        /from ['"](\.\/.+?)['"];/g,
+        /from ['"](\.\.?\/.+?)['"];/g,
         (match, p1) => {
           if (!p1.endsWith('.js')) {
             return `from '${p1}.js';`;
@@ -31,9 +31,9 @@ function addJsExtensions(dir) {
         }
       );
 
-      // Add .js to export from statements (export * from './file')
+      // Add .js to export from statements (export * from './file' or '../file')
       content = content.replace(
-        /export \* from ['"](\.\/.+?)['"];/g,
+        /export \* from ['"](\.\.?\/.+?)['"];/g,
         (match, p1) => {
           if (!p1.endsWith('.js')) {
             return `export * from '${p1}.js';`;
@@ -44,7 +44,7 @@ function addJsExtensions(dir) {
 
       // Add .js to export { } from statements
       content = content.replace(
-        /export \{[^}]+\} from ['"](\.\/.+?)['"];/g,
+        /export \{[^}]+\} from ['"](\.\.?\/.+?)['"];/g,
         (match, p1) => {
           if (!p1.endsWith('.js')) {
             return match.replace(`'${p1}'`, `'${p1}.js'`).replace(`"${p1}"`, `"${p1}.js"`);

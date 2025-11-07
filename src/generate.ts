@@ -2,7 +2,7 @@
  * Generate operator for TABStack AI SDK
  */
 
-import { HTTPClient } from './http-client';
+import { HTTPClient } from './util/http';
 import { JsonResponse } from './types';
 
 export interface GenerateJsonOptions {

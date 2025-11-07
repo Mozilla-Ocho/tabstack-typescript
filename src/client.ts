@@ -2,7 +2,7 @@
  * Main client for TABStack AI SDK
  */
 
-import { HTTPClient } from './http-client';
+import { HTTPClient } from './util/http';
 import { Extract } from './extract';
 import { Generate } from './generate';
 import { Automate } from './automate';

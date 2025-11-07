@@ -2,7 +2,7 @@
  * Automate operator for TABStack AI SDK
  */
 
-import { HTTPClient } from './http-client';
+import { HTTPClient } from './util/http';
 import { AutomateEvent } from './types';
 
 export interface AutomateExecuteOptions {

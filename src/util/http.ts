@@ -13,7 +13,7 @@ import {
   ServerError,
   ServiceUnavailableError,
   APIError,
-} from './exceptions';
+} from '../exceptions';
 
 export interface HTTPClientOptions {
   apiKey: string;
