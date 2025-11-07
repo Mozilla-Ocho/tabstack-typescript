@@ -5,15 +5,22 @@ on:
     types: [created]
 
 jobs:
+  # Run lint checks - MUST PASS before publishing
   lint:
+    name: Lint Check
     uses: ./.github/workflows/lint.yml
 
+  # Run tests on all supported Node versions - MUST PASS before publishing
   test:
+    name: Test Check
     uses: ./.github/workflows/test.yml
 
+  # Publish only if lint and test pass
   publish:
+    name: Publish Package
     needs: [lint, test]
     runs-on: ubuntu-latest
+    container: node:24-slim
     permissions:
       contents: read
       id-token: write # Required for npm provenance
@@ -22,20 +29,17 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
 
-      - name: Setup Node.js
-        uses: actions/setup-node@v4
-        with:
-          node-version: '20'
-          registry-url: 'https://registry.npmjs.org'
+      - name: Setup npm registry
+        run: npm config set registry https://registry.npmjs.org/
 
       - name: Cache dependencies
         id: cache-deps
         uses: actions/cache@v4
         with:
           path: node_modules
-          key: ${{ runner.os }}-node-20-${{ hashFiles('**/package-lock.json') }}
+          key: ${{ runner.os }}-node-24-${{ hashFiles('**/package-lock.json') }}
           restore-keys: |
-            ${{ runner.os }}-node-20-
+            ${{ runner.os }}-node-24-
 
       - name: Install dependencies
         if: steps.cache-deps.outputs.cache-hit != 'true'

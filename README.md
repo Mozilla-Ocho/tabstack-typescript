@@ -332,7 +332,7 @@ try {
 
 ## Requirements
 
-- Node.js >= 16.0.0
+- Node.js >= 20.0.0
 - TABStack API key ([get one here](https://tabstack.ai))
 
 ## Development & Testing
@@ -442,6 +442,37 @@ describe('Feature', () => {
   });
 });
 ```
+
+## Contributing
+
+We welcome contributions! Please see [CONTRIBUTING.md](CONTRIBUTING.md) for guidelines.
+
+### Quick Start for Contributors
+
+```bash
+# Fork and clone the repository
+git clone https://github.com/YOUR_USERNAME/tabs-typescript.git
+cd tabs-typescript
+
+# Install dependencies
+npm install
+
+# Run checks locally before submitting PR
+npm run lint        # Check for linting errors
+npm run format:check # Check formatting
+npm test            # Run all tests
+npm run build       # Verify builds work
+```
+
+### Pull Request Requirements
+
+All PRs must pass these checks before merging:
+
+- ✅ **Lint** - Code style and formatting (ESLint + Prettier)
+- ✅ **Node 20, 22, 24** - Tests and builds on all supported Node versions
+- ✅ **Code Review** - Approval from maintainers
+
+See [CONTRIBUTING.md](CONTRIBUTING.md) for detailed guidelines.
 
 ## License
 
