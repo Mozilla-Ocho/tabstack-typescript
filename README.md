@@ -335,6 +335,114 @@ try {
 - Node.js >= 16.0.0
 - TABStack API key ([get one here](https://tabstack.ai))
 
+## Development & Testing
+
+This SDK includes a comprehensive testing suite with excellent code coverage and type safety.
+
+### Running Tests
+
+```bash
+# Run all tests
+npm test
+
+# Run unit tests only
+npm run test:unit
+
+# Run E2E tests only
+npm run test:e2e
+
+# Run tests in watch mode
+npm run test:watch
+
+# Run tests with coverage report
+npm run test:coverage
+
+# Run TypeScript type tests
+npm run test:types
+```
+
+### Test Structure
+
+The SDK includes multiple types of tests:
+
+**Unit Tests** (`src/**/*.test.ts`)
+- HTTPClient tests - HTTP request/response handling, error scenarios
+- Exception classes tests - Error creation and inheritance
+- Type classes tests - Serialization, deserialization, data access
+- Extract operator tests - Markdown, schema, and JSON extraction
+- Generate operator tests - AI-powered content generation
+- Automate operator tests - SSE streaming and event parsing
+- Client tests - Main client initialization and configuration
+
+**E2E Tests** (`test/e2e/`)
+- Complete workflows from client to operators
+- Real-world use case scenarios
+- Error handling and edge cases
+- Multi-operation workflows
+
+**Type Tests** (`test/types/`)
+- TypeScript type safety validation using `tsd`
+- Generic type inference
+- Type guard verification
+- Compile-time type checking
+
+### Test Coverage
+
+The SDK maintains high test coverage across all modules:
+
+- **172+ test cases** covering all major functionality
+- **~70%+ code coverage** across branches, functions, lines, and statements
+- **Mocked HTTP requests** using `nock` for fast, reliable tests
+- **Type-safe tests** with full TypeScript support
+
+### Test Technologies
+
+- **Jest** - Test runner and assertion library
+- **ts-jest** - TypeScript support for Jest
+- **nock** - HTTP request mocking
+- **tsd** - TypeScript type definition testing
+
+### Writing Tests
+
+When contributing to the SDK, please:
+
+1. Write tests for all new features and bug fixes
+2. Maintain or improve code coverage
+3. Use descriptive test names that explain the behavior being tested
+4. Mock external HTTP requests using `nock`
+5. Test both success and error scenarios
+6. Add type tests for new public APIs
+
+Example test structure:
+
+```typescript
+describe('Feature', () => {
+  describe('method', () => {
+    it('should handle success case', async () => {
+      // Arrange
+      const mockData = { result: 'success' };
+      nock('https://api.tabstack.ai')
+        .post('/endpoint')
+        .reply(200, mockData);
+
+      // Act
+      const result = await client.feature.method();
+
+      // Assert
+      expect(result).toEqual(mockData);
+    });
+
+    it('should handle error case', async () => {
+      nock('https://api.tabstack.ai')
+        .post('/endpoint')
+        .reply(400, { error: 'Bad request' });
+
+      await expect(client.feature.method()).rejects.toThrow(BadRequestError);
+    });
+  });
+});
+```
+
 ## License
 
 Apache
