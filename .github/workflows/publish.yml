@@ -62,7 +62,12 @@ jobs:
           ls -la dist/esm/
           ls -la dist/types/
 
+      - name: Set version from release tag
+        run: |
+          # Extract version from release tag (e.g., v1.2.3 -> 1.2.3)
+          VERSION=${GITHUB_REF#refs/tags/v}
+          echo "Setting version to $VERSION"
+          npm version $VERSION --no-git-tag-version
+
       - name: Publish to npm
         run: npm publish --provenance --access public
-        env:
-          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
