@@ -1,0 +1,90 @@
+{
+  "name": "@tabstack/sdk",
+  "version": "1.0.0",
+  "description": "TypeScript/JavaScript SDK for TABStack AI - Extract, Generate, and Automate web content",
+  "main": "./dist/cjs/index.js",
+  "module": "./dist/esm/index.js",
+  "types": "./dist/types/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/types/index.d.ts",
+      "import": "./dist/esm/index.js",
+      "require": "./dist/cjs/index.js",
+      "default": "./dist/cjs/index.js"
+    }
+  },
+  "files": [
+    "dist",
+    "README.md",
+    "LICENSE"
+  ],
+  "scripts": {
+    "build": "npm run build:cjs && npm run build:esm && npm run build:types",
+    "build:cjs": "tsc -p tsconfig.cjs.json",
+    "build:esm": "tsc -p tsconfig.esm.json && npm run fix:esm",
+    "build:types": "tsc -p tsconfig.cjs.json --declaration --emitDeclarationOnly --outDir dist/types",
+    "fix:esm": "node scripts/fix-esm.js",
+    "build:clean": "npm run clean && npm run build",
+    "clean": "rm -rf dist",
+    "lint": "eslint 'src/**/*.ts'",
+    "lint:fix": "eslint 'src/**/*.ts' --fix",
+    "format": "prettier --write 'src/**/*.ts'",
+    "format:check": "prettier --check 'src/**/*.ts'",
+    "test": "jest",
+    "test:unit": "jest --testPathIgnorePatterns=e2e",
+    "test:e2e": "jest --testPathPattern=e2e",
+    "test:watch": "jest --watch",
+    "test:coverage": "jest --coverage",
+    "test:types": "tsd",
+    "test:legacy": "npm run test:legacy:cjs && npm run test:legacy:esm",
+    "test:legacy:cjs": "node test/test-sdk.js && node test/test-javascript-cjs.js",
+    "test:legacy:esm": "node test/test-esm.mjs && node test/test-javascript-esm.mjs",
+    "test:all": "npm run test:build",
+    "test:build": "npm run build && npm test",
+    "prepublishOnly": "npm run build",
+    "prepare": "npm run build",
+    "watch": "tsc --watch"
+  },
+  "keywords": [
+    "tabstack",
+    "web-scraping",
+    "ai",
+    "automation",
+    "data-extraction",
+    "web-automation",
+    "typescript",
+    "javascript"
+  ],
+  "author": "TABStack",
+  "license": "Apache-2.0",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/tabstack/tabs-typescript.git"
+  },
+  "bugs": {
+    "url": "https://github.com/tabstack/tabs-typescript/issues"
+  },
+  "homepage": "https://tabstack.ai",
+  "engines": {
+    "node": ">=20.0.0"
+  },
+  "publishConfig": {
+    "access": "public",
+    "registry": "https://registry.npmjs.org/"
+  },
+  "devDependencies": {
+    "@types/jest": "^30.0.0",
+    "@types/node": "^20.19.24",
+    "@typescript-eslint/eslint-plugin": "^8.46.3",
+    "@typescript-eslint/parser": "^8.46.3",
+    "eslint": "^9.39.1",
+    "eslint-config-prettier": "^10.1.8",
+    "eslint-plugin-prettier": "^5.5.4",
+    "jest": "^30.2.0",
+    "nock": "^14.0.10",
+    "prettier": "^3.6.2",
+    "ts-jest": "^29.4.5",
+    "tsd": "^0.33.0",
+    "typescript": "^5.0.0"
+  }
+}
