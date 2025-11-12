@@ -4,16 +4,24 @@ on:
   release:
     types: [created]
 
+permissions:
+  contents: read
+  id-token: write
+
 jobs:
   # Run lint checks - MUST PASS before publishing
   lint:
     name: Lint Check
     uses: ./.github/workflows/lint.yml
+    permissions:
+      contents: read
 
   # Run tests on all supported Node versions - MUST PASS before publishing
   test:
     name: Test Check
     uses: ./.github/workflows/test.yml
+    permissions:
+      contents: read
 
   # Publish only if lint and test pass
   publish:
@@ -23,7 +31,7 @@ jobs:
     container: node:24-slim
     permissions:
       contents: read
-      id-token: write # Required for npm provenance
+      id-token: write
 
     steps:
       - name: Checkout code
@@ -68,6 +76,12 @@ jobs:
           VERSION=${GITHUB_REF#refs/tags/v}
           echo "Setting version to $VERSION"
           npm version $VERSION --no-git-tag-version
+
+      - name: Verify package version
+        run: |
+          PACKAGE_VERSION=$(node -p "require('./package.json').version")
+          echo "Package version set to: $PACKAGE_VERSION"
+          echo "Publishing @tabstack/sdk@$PACKAGE_VERSION"
 
       - name: Publish to npm
         run: npm publish --provenance --access public
