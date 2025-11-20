@@ -5,7 +5,7 @@
 import { HTTPClient } from './util/http';
 import { Extract } from './extract';
 import { Generate } from './generate';
-import { Automate } from './automate';
+import { Agent } from './agent';
 
 export interface TABStackOptions {
   apiKey: string;
@@ -44,9 +44,9 @@ export class TABStack {
   public readonly generate: Generate;
 
   /**
-   * Automate operator for browser automation tasks
+   * Agent client for AI-powered browser automation tasks
    */
-  public readonly automate: Automate;
+  public readonly agent: Agent;
 
   /**
    * Initialize TABStack client
@@ -74,6 +74,6 @@ export class TABStack {
     // Initialize operators
     this.extract = new Extract(this.httpClient);
     this.generate = new Generate(this.httpClient);
-    this.automate = new Automate(this.httpClient);
+    this.agent = new Agent(this.httpClient);
   }
 }

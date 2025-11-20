@@ -47,7 +47,7 @@ export { TABStack, TABStackOptions } from './client';
 // Operators
 export { Extract } from './extract';
 export { Generate } from './generate';
-export { Automate } from './automate';
+export { Agent } from './agent';
 
 // Response types
 export {
@@ -71,6 +71,6 @@ export {
 } from './exceptions';
 
 // Re-export option types for convenience
-export type { ExtractMarkdownOptions, ExtractSchemaOptions, ExtractJsonOptions } from './extract';
+export type { ExtractMarkdownOptions, ExtractJsonOptions } from './extract';
 export type { GenerateJsonOptions } from './generate';
-export type { AutomateExecuteOptions } from './automate';
+export type { AutomateOptions } from './agent';

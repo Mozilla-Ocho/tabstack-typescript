@@ -4,9 +4,9 @@ TypeScript/JavaScript SDK for [TABStack AI](https://tabstack.ai) - Extract, Gene
 
 ## Features
 
-- **Extract**: Convert web pages to Markdown, generate schemas, and extract structured JSON data
+- **Extract**: Convert web pages to Markdown and extract structured JSON data
 - **Generate**: Transform web content using AI with custom instructions
-- **Automate**: Execute complex browser automation tasks with natural language
+- **Agent**: Execute complex browser automation tasks with natural language
 - **Type-Safe**: Full TypeScript support with comprehensive type definitions
 - **Zero Dependencies**: Uses only Node.js standard library
 - **Universal Module Support**: Works with CommonJS, ESM, and all TypeScript configurations
@@ -168,20 +168,6 @@ const result = await tabs.extract.json('https://example.com/products', schema);
 console.log(result.data);
 ```
 
-### Generate Schema
-
-Generate a JSON schema from web content:
-
-```typescript
-const schema = await tabs.extract.schema('https://news.ycombinator.com', {
-  instructions: 'extract top stories with title, points, and author'
-});
-
-// Use the generated schema for extraction
-const result = await tabs.extract.json('https://news.ycombinator.com', schema);
-console.log(result.data);
-```
-
 ### Generate Content
 
 Transform web content using AI:
@@ -220,7 +206,7 @@ console.log(result.data);
 Execute browser automation tasks with streaming updates:
 
 ```typescript
-for await (const event of tabs.automate.execute(
+for await (const event of tabs.agent.automate(
   'Find the top 3 trending repositories and extract their details',
   {
     url: 'https://github.com/trending',
@@ -240,9 +226,7 @@ for await (const event of tabs.automate.execute(
 
 ## Working with JSON Schemas
 
-The SDK uses standard [JSON Schema](https://json-schema.org/) format for defining data structures. You can define schemas manually or generate them automatically:
-
-### Manual Schema Definition
+The SDK uses standard [JSON Schema](https://json-schema.org/) format for defining data structures:
 
 ```typescript
 const schema = {
@@ -278,20 +262,6 @@ const schema = {
   },
   required: ['name', 'age']
 };
-```
-
-### Automatic Schema Generation
-
-Let the AI generate a schema from any webpage:
-
-```typescript
-// Generate schema from content
-const schema = await tabs.extract.schema('https://news.ycombinator.com', {
-  instructions: 'extract stories with title, points, and author'
-});
-
-// Use it immediately
-const data = await tabs.extract.json('https://news.ycombinator.com', schema);
 ```
 
 ## Error Handling

@@ -5,14 +5,14 @@
 import { TABStack } from './client';
 import { Extract } from './extract';
 import { Generate } from './generate';
-import { Automate } from './automate';
+import { Agent } from './agent';
 import { HTTPClient } from './util/http';
 
 // Mock dependencies
 jest.mock('./util/http');
 jest.mock('./extract');
 jest.mock('./generate');
-jest.mock('./automate');
+jest.mock('./agent');
 
 describe('TABStack Client', () => {
   beforeEach(() => {
@@ -75,7 +75,7 @@ describe('TABStack Client', () => {
 
       expect(client.extract).toBeInstanceOf(Extract);
       expect(client.generate).toBeInstanceOf(Generate);
-      expect(client.automate).toBeInstanceOf(Automate);
+      expect(client.agent).toBeInstanceOf(Agent);
     });
 
     it('should pass HTTPClient to all operators', () => {
@@ -83,14 +83,14 @@ describe('TABStack Client', () => {
 
       expect(Extract).toHaveBeenCalledTimes(1);
       expect(Generate).toHaveBeenCalledTimes(1);
-      expect(Automate).toHaveBeenCalledTimes(1);
+      expect(Agent).toHaveBeenCalledTimes(1);
 
       // Verify they were called with the HTTPClient instance
       const httpClientInstance = (HTTPClient as jest.MockedClass<typeof HTTPClient>).mock
         .instances[0];
       expect(Extract).toHaveBeenCalledWith(httpClientInstance);
       expect(Generate).toHaveBeenCalledWith(httpClientInstance);
-      expect(Automate).toHaveBeenCalledWith(httpClientInstance);
+      expect(Agent).toHaveBeenCalledWith(httpClientInstance);
     });
   });
 
@@ -109,11 +109,11 @@ describe('TABStack Client', () => {
       expect(client.generate).toBeInstanceOf(Generate);
     });
 
-    it('should have automate operator', () => {
+    it('should have agent client', () => {
       const client = new TABStack({ apiKey: 'test-api-key' });
 
-      expect(client.automate).toBeDefined();
-      expect(client.automate).toBeInstanceOf(Automate);
+      expect(client.agent).toBeDefined();
+      expect(client.agent).toBeInstanceOf(Agent);
     });
 
     it('should have readonly operators', () => {
@@ -122,7 +122,7 @@ describe('TABStack Client', () => {
       // TypeScript ensures readonly, but we can verify they exist
       expect(Object.getOwnPropertyDescriptor(client, 'extract')).toBeDefined();
       expect(Object.getOwnPropertyDescriptor(client, 'generate')).toBeDefined();
-      expect(Object.getOwnPropertyDescriptor(client, 'automate')).toBeDefined();
+      expect(Object.getOwnPropertyDescriptor(client, 'agent')).toBeDefined();
     });
   });
 
@@ -268,10 +268,9 @@ describe('TABStack Client', () => {
 
       // Verify operators exist and can be accessed
       expect(client.extract.markdown).toBeDefined();
-      expect(client.extract.schema).toBeDefined();
       expect(client.extract.json).toBeDefined();
       expect(client.generate.json).toBeDefined();
-      expect(client.automate.execute).toBeDefined();
+      expect(client.agent.automate).toBeDefined();
     });
 
     it('should maintain separate operator instances per client', () => {
@@ -280,7 +279,7 @@ describe('TABStack Client', () => {
 
       expect(client1.extract).not.toBe(client2.extract);
       expect(client1.generate).not.toBe(client2.generate);
-      expect(client1.automate).not.toBe(client2.automate);
+      expect(client1.agent).not.toBe(client2.agent);
     });
   });
 
