@@ -1,5 +1,5 @@
 /**
- * Internal HTTP client for Tabstack AI SDK
+ * Internal HTTP client for Tabstack SDK
  */
 
 import * as https from 'https';

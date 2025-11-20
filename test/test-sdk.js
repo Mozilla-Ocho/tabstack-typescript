@@ -1,5 +1,5 @@
 /**
- * Test suite for Tabstack AI TypeScript SDK
+ * Test suite for Tabstack TypeScript SDK
  *
  * This file tests the basic functionality of the SDK to ensure it works correctly.
  */

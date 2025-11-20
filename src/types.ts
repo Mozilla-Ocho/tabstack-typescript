@@ -1,5 +1,5 @@
 /**
- * Type definitions and response models for Tabstack AI SDK
+ * Type definitions and response models for Tabstack SDK
  */
 
 /**

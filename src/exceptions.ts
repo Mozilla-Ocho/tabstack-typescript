@@ -1,9 +1,9 @@
 /**
- * Custom exceptions for Tabstack AI SDK
+ * Custom exceptions for Tabstack SDK
  */
 
 /**
- * Base error class for all Tabstack AI errors
+ * Base error class for all Tabstack errors
  */
 export class TabstackError extends Error {
   constructor(

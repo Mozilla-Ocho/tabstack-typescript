@@ -1,7 +1,7 @@
 /**
- * Tabstack AI TypeScript/JavaScript SDK
+ * Tabstack TypeScript/JavaScript SDK
  *
- * This SDK provides a TypeScript/JavaScript interface to the Tabstack AI API for web
+ * This SDK provides a TypeScript/JavaScript interface to the Tabstack API for web
  * content extraction, AI-powered content generation, and browser automation.
  *
  * @example

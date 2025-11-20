@@ -1,5 +1,5 @@
 /**
- * Main client for Tabstack AI SDK
+ * Main client for Tabstack SDK
  */
 
 import { HTTPClient } from './util/http';
@@ -13,9 +13,9 @@ export interface TabstackOptions {
 }
 
 /**
- * Tabstack AI client for web content extraction, generation, and automation
+ * Tabstack client for web content extraction, generation, and automation
  *
- * This is the main entry point for the Tabstack AI SDK. Initialize it with your
+ * This is the main entry point for the Tabstack SDK. Initialize it with your
  * API key to access the extract, generate, and automate operators.
  *
  * @example

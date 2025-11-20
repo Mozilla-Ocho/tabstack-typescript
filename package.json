@@ -1,7 +1,7 @@
 {
   "name": "@tabstack/sdk",
   "version": "0.0.0",
-  "description": "TypeScript/JavaScript SDK for Tabstack AI - Extract, Generate, and Automate web content",
+  "description": "TypeScript/JavaScript SDK for Tabstack - Extract, Generate, and Automate web content",
   "main": "./dist/cjs/index.js",
   "module": "./dist/esm/index.js",
   "types": "./dist/types/index.d.ts",
