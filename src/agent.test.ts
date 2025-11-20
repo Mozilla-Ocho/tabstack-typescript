@@ -1,22 +1,22 @@
 /**
- * Tests for Automate operator
+ * Tests for Agent
  */
 
 // @ts-nocheck
-import { Automate } from './automate';
+import { Agent } from './agent';
 import { HTTPClient } from './util/http';
 import { AutomateEvent } from './types';
 
 // Mock HTTPClient
 jest.mock('./util/http');
 
-describe('Automate', () => {
-  let automate: Automate;
+describe('Agent', () => {
+  let agent: Agent;
   let mockHttpClient: jest.Mocked<HTTPClient>;
 
   beforeEach(() => {
     mockHttpClient = new HTTPClient({ apiKey: 'test-key' }) as jest.Mocked<HTTPClient>;
-    automate = new Automate(mockHttpClient);
+    agent = new Agent(mockHttpClient);
   });
 
   afterEach(() => {
@@ -30,7 +30,7 @@ describe('Automate', () => {
     }
   }
 
-  describe('execute', () => {
+  describe('automate', () => {
     it('should execute task with minimal options', async () => {
       const sseLines = [
         'event: start',
@@ -44,7 +44,7 @@ describe('Automate', () => {
       mockHttpClient.postStream = jest.fn().mockReturnValue(streamLines(sseLines));
 
       const events: AutomateEvent[] = [];
-      for await (const event of automate.execute('Test task')) {
+      for await (const event of agent.automate('Test task')) {
         events.push(event);
       }
 
@@ -64,7 +64,7 @@ describe('Automate', () => {
       mockHttpClient.postStream = jest.fn().mockReturnValue(streamLines(sseLines));
 
       const events: AutomateEvent[] = [];
-      for await (const event of automate.execute('Test task', {
+      for await (const event of agent.automate('Test task', {
         url: 'https://example.com',
       })) {
         events.push(event);
@@ -86,7 +86,7 @@ describe('Automate', () => {
       const data = { name: 'John', email: 'john@example.com' };
 
       const events: AutomateEvent[] = [];
-      for await (const event of automate.execute('Fill form', { data })) {
+      for await (const event of agent.automate('Fill form', { data })) {
         events.push(event);
       }
 
@@ -104,7 +104,7 @@ describe('Automate', () => {
       mockHttpClient.postStream = jest.fn().mockReturnValue(streamLines(sseLines));
 
       const events: AutomateEvent[] = [];
-      for await (const event of automate.execute('Browse site', {
+      for await (const event of agent.automate('Browse site', {
         guardrails: 'read only, no modifications',
       })) {
         events.push(event);
@@ -124,7 +124,7 @@ describe('Automate', () => {
       mockHttpClient.postStream = jest.fn().mockReturnValue(streamLines(sseLines));
 
       const events: AutomateEvent[] = [];
-      for await (const event of automate.execute('Test task', { maxIterations: 100 })) {
+      for await (const event of agent.automate('Test task', { maxIterations: 100 })) {
         events.push(event);
       }
 
@@ -141,7 +141,7 @@ describe('Automate', () => {
       mockHttpClient.postStream = jest.fn().mockReturnValue(streamLines(sseLines));
 
       const events: AutomateEvent[] = [];
-      for await (const event of automate.execute('Test task', { maxValidationAttempts: 5 })) {
+      for await (const event of agent.automate('Test task', { maxValidationAttempts: 5 })) {
         events.push(event);
       }
 
@@ -158,7 +158,7 @@ describe('Automate', () => {
       mockHttpClient.postStream = jest.fn().mockReturnValue(streamLines(sseLines));
 
       const events: AutomateEvent[] = [];
-      for await (const event of automate.execute('Complete task', {
+      for await (const event of agent.automate('Complete task', {
         url: 'https://example.com',
         data: { key: 'value' },
         guardrails: 'safe mode',
@@ -186,7 +186,7 @@ describe('Automate', () => {
       mockHttpClient.postStream = jest.fn().mockReturnValue(streamLines(sseLines));
 
       const events: AutomateEvent[] = [];
-      for await (const event of automate.execute('Task')) {
+      for await (const event of agent.automate('Task')) {
         events.push(event);
       }
 
@@ -211,7 +211,7 @@ describe('Automate', () => {
       mockHttpClient.postStream = jest.fn().mockReturnValue(streamLines(sseLines));
 
       const events: AutomateEvent[] = [];
-      for await (const event of automate.execute('Task')) {
+      for await (const event of agent.automate('Task')) {
         events.push(event);
       }
 
@@ -234,7 +234,7 @@ describe('Automate', () => {
       mockHttpClient.postStream = jest.fn().mockReturnValue(streamLines(sseLines));
 
       const events: AutomateEvent[] = [];
-      for await (const event of automate.execute('Task')) {
+      for await (const event of agent.automate('Task')) {
         events.push(event);
       }
 
@@ -251,7 +251,7 @@ describe('Automate', () => {
       mockHttpClient.postStream = jest.fn().mockReturnValue(streamLines(sseLines));
 
       const events: AutomateEvent[] = [];
-      for await (const event of automate.execute('Task')) {
+      for await (const event of agent.automate('Task')) {
         events.push(event);
       }
 
@@ -266,7 +266,7 @@ describe('Automate', () => {
       mockHttpClient.postStream = jest.fn().mockReturnValue(streamLines(sseLines));
 
       const events: AutomateEvent[] = [];
-      for await (const event of automate.execute('Task')) {
+      for await (const event of agent.automate('Task')) {
         events.push(event);
       }
 
@@ -281,7 +281,7 @@ describe('Automate', () => {
       mockHttpClient.postStream = jest.fn().mockReturnValue(streamLines(sseLines));
 
       const events: AutomateEvent[] = [];
-      for await (const event of automate.execute('Task')) {
+      for await (const event of agent.automate('Task')) {
         events.push(event);
       }
 
@@ -315,7 +315,7 @@ describe('Automate', () => {
       mockHttpClient.postStream = jest.fn().mockReturnValue(streamLines(sseLines));
 
       const events: AutomateEvent[] = [];
-      for await (const event of automate.execute('Task')) {
+      for await (const event of agent.automate('Task')) {
         events.push(event);
       }
 
@@ -337,7 +337,7 @@ describe('Automate', () => {
       mockHttpClient.postStream = jest.fn().mockReturnValue(streamLines(sseLines));
 
       const events: AutomateEvent[] = [];
-      for await (const event of automate.execute('Task')) {
+      for await (const event of agent.automate('Task')) {
         events.push(event);
       }
 
@@ -350,7 +350,7 @@ describe('Automate', () => {
       mockHttpClient.postStream = jest.fn().mockReturnValue(streamLines(sseLines));
 
       const events: AutomateEvent[] = [];
-      for await (const event of automate.execute('Task')) {
+      for await (const event of agent.automate('Task')) {
         events.push(event);
       }
 
@@ -364,7 +364,7 @@ describe('Automate', () => {
       mockHttpClient.postStream = jest.fn().mockReturnValue(streamLines(sseLines));
 
       const events: AutomateEvent[] = [];
-      for await (const event of automate.execute('Task')) {
+      for await (const event of agent.automate('Task')) {
         events.push(event);
       }
 
@@ -388,7 +388,7 @@ describe('Automate', () => {
       mockHttpClient.postStream = jest.fn().mockReturnValue(streamLines(sseLines));
 
       const events: AutomateEvent[] = [];
-      for await (const event of automate.execute('Task')) {
+      for await (const event of agent.automate('Task')) {
         events.push(event);
       }
 
@@ -407,7 +407,7 @@ describe('Automate', () => {
       mockHttpClient.postStream = jest.fn().mockReturnValue(streamLines(sseLines));
 
       const events: AutomateEvent[] = [];
-      for await (const event of automate.execute('Task')) {
+      for await (const event of agent.automate('Task')) {
         events.push(event);
       }
 
@@ -421,7 +421,7 @@ describe('Automate', () => {
       mockHttpClient.postStream = jest.fn().mockReturnValue(streamLines(sseLines));
 
       const events: AutomateEvent[] = [];
-      for await (const event of automate.execute('Task')) {
+      for await (const event of agent.automate('Task')) {
         events.push(event);
       }
 
@@ -439,7 +439,7 @@ describe('Automate', () => {
       mockHttpClient.postStream = jest.fn().mockReturnValue(streamLines(sseLines));
 
       const events: AutomateEvent[] = [];
-      for await (const event of automate.execute('Task')) {
+      for await (const event of agent.automate('Task')) {
         events.push(event);
       }
 
@@ -478,7 +478,7 @@ describe('Automate', () => {
       mockHttpClient.postStream = jest.fn().mockReturnValue(streamLines(sseLines));
 
       const events: AutomateEvent[] = [];
-      for await (const event of automate.execute('Extract data', {
+      for await (const event of agent.automate('Extract data', {
         url: 'https://example.com',
       })) {
         events.push(event);
@@ -503,7 +503,7 @@ describe('Automate', () => {
       mockHttpClient.postStream = jest.fn().mockReturnValue(streamLines(sseLines));
 
       const events: AutomateEvent[] = [];
-      for await (const event of automate.execute('Task')) {
+      for await (const event of agent.automate('Task')) {
         events.push(event);
       }
 
@@ -525,7 +525,7 @@ describe('Automate', () => {
       mockHttpClient.postStream = jest.fn().mockReturnValue(streamLines(sseLines));
 
       const events: AutomateEvent[] = [];
-      for await (const event of automate.execute('Task', { maxIterations: 10 })) {
+      for await (const event of agent.automate('Task', { maxIterations: 10 })) {
         events.push(event);
       }
 
@@ -539,7 +539,7 @@ describe('Automate', () => {
         throw error;
       });
 
-      const generator = automate.execute('Task');
+      const generator = agent.automate('Task');
       await expect(generator.next()).rejects.toThrow('Stream error');
     });
   });
