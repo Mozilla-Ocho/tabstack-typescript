@@ -5,13 +5,13 @@
  * using CommonJS (require/module.exports)
  */
 
-const { TABStack } = require('../dist/cjs/index');
+const { Tabstack } = require('../dist/cjs/index');
 
 console.log('\n=== Testing Pure JavaScript (CommonJS) ===\n');
 
 // Example 1: Client usage (without actually making API calls)
-console.log('\nExample 3: Initialize TABStack client');
-const tabs = new TABStack({
+console.log('\nExample 3: Initialize Tabstack client');
+const tabs = new Tabstack({
   apiKey: process.env.TABSTACK_API_KEY || 'demo-key',
 });
 

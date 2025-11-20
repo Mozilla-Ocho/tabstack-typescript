@@ -1,14 +1,14 @@
 /**
- * TABStack AI TypeScript/JavaScript SDK
+ * Tabstack TypeScript/JavaScript SDK
  *
- * This SDK provides a TypeScript/JavaScript interface to the TABStack AI API for web
+ * This SDK provides a TypeScript/JavaScript interface to the Tabstack API for web
  * content extraction, AI-powered content generation, and browser automation.
  *
  * @example
  * ```typescript
- * import { TABStack } from '@tabstack/sdk';
+ * import { Tabstack } from '@tabstack/sdk';
  *
- * const tabs = new TABStack({
+ * const tabs = new Tabstack({
  *   apiKey: process.env.TABSTACK_API_KEY!
  * });
  *
@@ -42,12 +42,12 @@
  */
 
 // Main client
-export { TABStack, TABStackOptions } from './client';
+export { Tabstack, TabstackOptions } from './client';
 
 // Operators
 export { Extract } from './extract';
 export { Generate } from './generate';
-export { Automate } from './automate';
+export { Agent } from './agent';
 
 // Response types
 export {
@@ -61,7 +61,7 @@ export {
 
 // Exceptions
 export {
-  TABStackError,
+  TabstackError,
   BadRequestError,
   UnauthorizedError,
   InvalidURLError,
@@ -71,6 +71,6 @@ export {
 } from './exceptions';
 
 // Re-export option types for convenience
-export type { ExtractMarkdownOptions, ExtractSchemaOptions, ExtractJsonOptions } from './extract';
+export type { ExtractMarkdownOptions, ExtractJsonOptions } from './extract';
 export type { GenerateJsonOptions } from './generate';
-export type { AutomateExecuteOptions } from './automate';
+export type { AutomateOptions } from './agent';

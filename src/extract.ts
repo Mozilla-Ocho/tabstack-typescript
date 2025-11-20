@@ -1,5 +1,5 @@
 /**
- * Extract operator for TABStack AI SDK
+ * Extract operator for Tabstack SDK
  */
 
 import { HTTPClient } from './util/http';
@@ -7,11 +7,6 @@ import { MarkdownResponse, JsonResponse } from './types';
 
 export interface ExtractMarkdownOptions {
   metadata?: boolean;
-  nocache?: boolean;
-}
-
-export interface ExtractSchemaOptions {
-  instructions?: string;
   nocache?: boolean;
 }
 
@@ -24,7 +19,6 @@ export interface ExtractJsonOptions {
  *
  * This class provides methods for extracting content from URLs in various formats:
  * - Markdown conversion
- * - Schema generation
  * - Structured JSON extraction
  */
 export class Extract {
@@ -90,60 +84,10 @@ export class Extract {
   }
 
   /**
-   * Generate JSON schema from URL content
-   *
-   * Analyzes URL content and generates a JSON schema that describes the structure
-   * of the data. Use this to create schemas for the json() method when you don't
-   * know the structure in advance. The generated schema can then be used to extract
-   * structured data from similar pages.
-   *
-   * @param url - URL to analyze and extract schema from
-   * @param options - Optional schema generation options
-   * @param options.instructions - Optional instructions to guide schema generation (max 1000 characters). Example: "extract only the top stories, for each story include the title, points, author, and comment count"
-   * @param options.nocache - Bypass cache and force fresh data retrieval. Default: false
-   *
-   * @returns The generated JSON schema object
-   *
-   * @throws {BadRequestError} When URL is missing or schema format is invalid
-   * @throws {UnauthorizedError} When API key is invalid or missing
-   * @throws {InvalidURLError} When URL is invalid
-   * @throws {ServerError} When server fails to fetch URL, page is too large, or schema generation fails
-   *
-   * @example
-   * Basic usage:
-   * ```typescript
-   * const schema = await tabs.extract.schema('https://news.ycombinator.com');
-   * console.log(schema); // JSON schema object describing the page structure
-   * ```
-   *
-   * @example
-   * With instructions:
-   * ```typescript
-   * const schema = await tabs.extract.schema('https://news.ycombinator.com', {
-   *   instructions: 'extract only the top stories, for each story include the title, points, author, and comment count'
-   * });
-   * // Use the generated schema to extract data
-   * const data = await tabs.extract.json('https://news.ycombinator.com', schema);
-   * console.log(data.data); // Structured data matching the schema
-   * ```
-   */
-  async schema(url: string, options?: ExtractSchemaOptions): Promise<Record<string, unknown>> {
-    const requestData: Record<string, unknown> = { url };
-    if (options?.instructions) requestData.instructions = options.instructions;
-    if (options?.nocache) requestData.nocache = options.nocache;
-
-    return await this.httpClient.post<Record<string, unknown>>(
-      'v1/extract/json/schema',
-      requestData
-    );
-  }
-
-  /**
    * Extract structured JSON from URL content
    *
    * Fetches a URL and extracts structured data according to a provided JSON schema.
-   * The schema defines what data to extract and its structure. You can define your
-   * schema manually or generate one using the schema() method.
+   * The schema defines what data to extract and its structure.
    *
    * @param url - URL to fetch and extract data from
    * @param schema - JSON schema object defining the structure of data to extract
@@ -207,16 +151,6 @@ export class Extract {
    * console.log(result.data.name);     // "Premium Wireless Headphones"
    * console.log(result.data.price);    // 299.99
    * console.log(result.data.inStock);  // true
-   * ```
-   *
-   * @example
-   * Using generated schema:
-   * ```typescript
-   * const schema = await tabs.extract.schema('https://news.ycombinator.com', {
-   *   instructions: 'extract top stories with title, points, and author'
-   * });
-   * const result = await tabs.extract.json('https://news.ycombinator.com', schema);
-   * console.log(result.data);
    * ```
    *
    * @example

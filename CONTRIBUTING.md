@@ -1,4 +1,4 @@
-# Contributing to TABStack TypeScript SDK
+# Contributing to Tabstack TypeScript SDK
 
 Thank you for your interest in contributing! This document provides guidelines for contributing to the project.
 

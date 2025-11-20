@@ -1,12 +1,15 @@
-# TABStack AI TypeScript SDK
+# Tabstack TypeScript SDK
 
-TypeScript/JavaScript SDK for [TABStack AI](https://tabstack.ai) - Extract, Generate, and Automate web content with AI.
+> [!WARNING]
+> **Early Release**: This SDK is in early development. The API may change in future releases as we refine and improve the library based on user feedback.
+
+TypeScript/JavaScript SDK for [Tabstack](https://tabstack.ai) - Extract, Generate, and Automate web content with AI.
 
 ## Features
 
-- **Extract**: Convert web pages to Markdown, generate schemas, and extract structured JSON data
+- **Extract**: Convert web pages to Markdown and extract structured JSON data
 - **Generate**: Transform web content using AI with custom instructions
-- **Automate**: Execute complex browser automation tasks with natural language
+- **Agent**: Execute complex browser automation tasks with natural language
 - **Type-Safe**: Full TypeScript support with comprehensive type definitions
 - **Zero Dependencies**: Uses only Node.js standard library
 - **Universal Module Support**: Works with CommonJS, ESM, and all TypeScript configurations
@@ -72,9 +75,9 @@ Sign up at [tabstack.ai](https://tabstack.ai) to get your API key.
 
 #### ES Modules (ESM)
 ```typescript
-import { TABStack } from '@tabstack/sdk';
+import { Tabstack } from '@tabstack/sdk';
 
-const tabs = new TABStack({
+const tabs = new Tabstack({
   apiKey: process.env.TABSTACK_API_KEY!
 });
 
@@ -108,9 +111,9 @@ console.log(data.data);
 
 #### CommonJS
 ```javascript
-const { TABStack } = require('@tabstack/sdk');
+const { Tabstack } = require('@tabstack/sdk');
 
-const tabs = new TABStack({
+const tabs = new Tabstack({
   apiKey: process.env.TABSTACK_API_KEY
 });
 
@@ -168,20 +171,6 @@ const result = await tabs.extract.json('https://example.com/products', schema);
 console.log(result.data);
 ```
 
-### Generate Schema
-
-Generate a JSON schema from web content:
-
-```typescript
-const schema = await tabs.extract.schema('https://news.ycombinator.com', {
-  instructions: 'extract top stories with title, points, and author'
-});
-
-// Use the generated schema for extraction
-const result = await tabs.extract.json('https://news.ycombinator.com', schema);
-console.log(result.data);
-```
-
 ### Generate Content
 
 Transform web content using AI:
@@ -220,7 +209,7 @@ console.log(result.data);
 Execute browser automation tasks with streaming updates:
 
 ```typescript
-for await (const event of tabs.automate.execute(
+for await (const event of tabs.agent.automate(
   'Find the top 3 trending repositories and extract their details',
   {
     url: 'https://github.com/trending',
@@ -240,9 +229,7 @@ for await (const event of tabs.automate.execute(
 
 ## Working with JSON Schemas
 
-The SDK uses standard [JSON Schema](https://json-schema.org/) format for defining data structures. You can define schemas manually or generate them automatically:
-
-### Manual Schema Definition
+The SDK uses standard [JSON Schema](https://json-schema.org/) format for defining data structures:
 
 ```typescript
 const schema = {
@@ -280,27 +267,13 @@ const schema = {
 };
 ```
 
-### Automatic Schema Generation
-
-Let the AI generate a schema from any webpage:
-
-```typescript
-// Generate schema from content
-const schema = await tabs.extract.schema('https://news.ycombinator.com', {
-  instructions: 'extract stories with title, points, and author'
-});
-
-// Use it immediately
-const data = await tabs.extract.json('https://news.ycombinator.com', schema);
-```
-
 ## Error Handling
 
 Handle errors with specific error classes:
 
 ```typescript
 import {
-  TABStackError,
+  TabstackError,
   UnauthorizedError,
   InvalidURLError,
   BadRequestError,
@@ -314,7 +287,7 @@ try {
     console.error('Invalid API key');
   } else if (error instanceof InvalidURLError) {
     console.error('Invalid or inaccessible URL');
-  } else if (error instanceof TABStackError) {
+  } else if (error instanceof TabstackError) {
     console.error(`API error: ${error.message}`);
   }
 }
@@ -322,7 +295,7 @@ try {
 
 ### Error Classes
 
-- `TABStackError` - Base error class
+- `TabstackError` - Base error class
 - `BadRequestError` - 400: Malformed request
 - `UnauthorizedError` - 401: Invalid API key
 - `InvalidURLError` - 422: Invalid or inaccessible URL
@@ -333,7 +306,7 @@ try {
 ## Requirements
 
 - Node.js >= 20.0.0
-- TABStack API key ([get one here](https://tabstack.ai))
+- Tabstack API key ([get one here](https://tabstack.ai))
 
 ## Development & Testing
 

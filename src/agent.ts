@@ -1,11 +1,11 @@
 /**
- * Automate operator for TABStack AI SDK
+ * Agent client for Tabstack SDK
  */
 
 import { HTTPClient } from './util/http';
 import { AutomateEvent } from './types';
 
-export interface AutomateExecuteOptions {
+export interface AutomateOptions {
   url?: string;
   data?: Record<string, unknown>;
   guardrails?: string;
@@ -14,13 +14,13 @@ export interface AutomateExecuteOptions {
 }
 
 /**
- * Automate operator for AI-powered web automation
+ * Agent client for AI-powered web automation
  *
  * This class provides methods for executing complex web automation tasks using
  * natural language instructions. The automation runs in a browser and streams
  * real-time progress updates.
  */
-export class Automate {
+export class Agent {
   constructor(private httpClient: HTTPClient) {}
 
   /**
@@ -56,7 +56,7 @@ export class Automate {
    * @example
    * Extract GitHub trending repositories:
    * ```typescript
-   * for await (const event of tabs.automate.execute(
+   * for await (const event of tabs.agent.automate(
    *   'Find the top 3 trending repositories and extract their names, descriptions, and star counts',
    *   {
    *     url: 'https://github.com/trending',
@@ -78,7 +78,7 @@ export class Automate {
    * @example
    * Scrape product information:
    * ```typescript
-   * for await (const event of tabs.automate.execute(
+   * for await (const event of tabs.agent.automate(
    *   'Find the product name, price, and availability status',
    *   {
    *     url: 'https://example-store.com/product/wireless-headphones',
@@ -98,7 +98,7 @@ export class Automate {
    * @example
    * Fill out contact form:
    * ```typescript
-   * for await (const event of tabs.automate.execute(
+   * for await (const event of tabs.agent.automate(
    *   'Submit the contact form with my information',
    *   {
    *     url: 'https://company.com/contact',
@@ -122,7 +122,7 @@ export class Automate {
    * @example
    * Handle all event types:
    * ```typescript
-   * for await (const event of tabs.automate.execute(
+   * for await (const event of tabs.agent.automate(
    *   'Research TypeScript frameworks and compare them',
    *   { url: 'https://www.npmjs.com' }
    * )) {
@@ -150,9 +150,9 @@ export class Automate {
    * }
    * ```
    */
-  async *execute(
+  async *automate(
     task: string,
-    options?: AutomateExecuteOptions
+    options?: AutomateOptions
   ): AsyncGenerator<AutomateEvent, void, undefined> {
     const requestData: Record<string, unknown> = {
       task,

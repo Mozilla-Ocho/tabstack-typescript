@@ -1,23 +1,23 @@
 /**
- * End-to-End tests for TABStack SDK
+ * End-to-End tests for Tabstack SDK
  *
  * These tests verify the complete SDK workflow from client initialization
  * through operator execution, testing the integration between all components.
  */
 
 import nock from 'nock';
-import { TABStack } from '../../src/client';
+import { Tabstack } from '../../src/client';
 import { MarkdownResponse, JsonResponse, AutomateEvent } from '../../src/types';
 import { BadRequestError, UnauthorizedError, InvalidURLError } from '../../src/exceptions';
 
-describe('TABStack SDK E2E Tests', () => {
+describe('Tabstack SDK E2E Tests', () => {
   const apiKey = 'test-api-key';
   const baseURL = 'https://api.tabstack.ai';
-  let client: TABStack;
+  let client: Tabstack;
 
   beforeEach(() => {
     nock.cleanAll();
-    client = new TABStack({ apiKey, baseURL });
+    client = new Tabstack({ apiKey, baseURL });
   });
 
   afterEach(() => {
@@ -49,8 +49,8 @@ describe('TABStack SDK E2E Tests', () => {
       expect(result.metadata?.siteName).toBe('Example');
     });
 
-    it('should generate schema and extract JSON end-to-end', async () => {
-      const mockSchema = {
+    it('should extract JSON with predefined schema end-to-end', async () => {
+      const schema = {
         type: 'object',
         properties: {
           stories: {
@@ -74,21 +74,10 @@ describe('TABStack SDK E2E Tests', () => {
       };
 
       nock(baseURL)
-        .post('/v1/extract/json/schema')
-        .reply(200, mockSchema);
-
-      nock(baseURL)
         .post('/v1/extract/json')
         .reply(200, mockData);
 
-      // First, generate the schema
-      const schema = await client.extract.schema('https://news.example.com', {
-        instructions: 'extract top stories',
-      });
-
-      expect(schema).toEqual(mockSchema);
-
-      // Then use the schema to extract data
+      // Use predefined schema to extract data
       const result = await client.extract.json<{ stories: Array<{ title: string; points: number }> }>(
         'https://news.example.com',
         schema
@@ -158,7 +147,7 @@ describe('TABStack SDK E2E Tests', () => {
         });
 
       const events: AutomateEvent[] = [];
-      for await (const event of client.automate.execute('Extract trending repos', {
+      for await (const event of client.agent.automate('Extract trending repos', {
         url: 'https://github.com/trending',
       })) {
         events.push(event);

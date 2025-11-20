@@ -3,7 +3,7 @@
  */
 
 import {
-  TABStackError,
+  TabstackError,
   BadRequestError,
   UnauthorizedError,
   InvalidURLError,
@@ -13,38 +13,38 @@ import {
 } from './exceptions';
 
 describe('Exception Classes', () => {
-  describe('TABStackError', () => {
+  describe('TabstackError', () => {
     it('should create error with message', () => {
-      const error = new TABStackError('Test error');
+      const error = new TabstackError('Test error');
       expect(error).toBeInstanceOf(Error);
-      expect(error).toBeInstanceOf(TABStackError);
+      expect(error).toBeInstanceOf(TabstackError);
       expect(error.message).toBe('Test error');
-      expect(error.name).toBe('TABStackError');
+      expect(error.name).toBe('TabstackError');
     });
 
     it('should create error with message and status code', () => {
-      const error = new TABStackError('Test error', 418);
+      const error = new TabstackError('Test error', 418);
       expect(error.message).toBe('Test error');
       expect(error.statusCode).toBe(418);
     });
 
     it('should create error without status code', () => {
-      const error = new TABStackError('Test error');
+      const error = new TabstackError('Test error');
       expect(error.message).toBe('Test error');
       expect(error.statusCode).toBeUndefined();
     });
 
     it('should have correct prototype chain', () => {
-      const error = new TABStackError('Test');
-      expect(Object.getPrototypeOf(error)).toBe(TABStackError.prototype);
+      const error = new TabstackError('Test');
+      expect(Object.getPrototypeOf(error)).toBe(TabstackError.prototype);
     });
 
     it('should be catchable as Error', () => {
       try {
-        throw new TABStackError('Test');
+        throw new TabstackError('Test');
       } catch (error) {
         expect(error).toBeInstanceOf(Error);
-        expect(error).toBeInstanceOf(TABStackError);
+        expect(error).toBeInstanceOf(TabstackError);
       }
     });
   });
@@ -53,7 +53,7 @@ describe('Exception Classes', () => {
     it('should create error with message', () => {
       const error = new BadRequestError('Invalid request');
       expect(error).toBeInstanceOf(Error);
-      expect(error).toBeInstanceOf(TABStackError);
+      expect(error).toBeInstanceOf(TabstackError);
       expect(error).toBeInstanceOf(BadRequestError);
       expect(error.message).toBe('Invalid request');
       expect(error.name).toBe('BadRequestError');
@@ -67,14 +67,14 @@ describe('Exception Classes', () => {
     it('should have correct prototype chain', () => {
       const error = new BadRequestError('Test');
       expect(Object.getPrototypeOf(error)).toBe(BadRequestError.prototype);
-      expect(error).toBeInstanceOf(TABStackError);
+      expect(error).toBeInstanceOf(TabstackError);
     });
 
-    it('should be catchable as TABStackError', () => {
+    it('should be catchable as TabstackError', () => {
       try {
         throw new BadRequestError('Test');
       } catch (error) {
-        expect(error).toBeInstanceOf(TABStackError);
+        expect(error).toBeInstanceOf(TabstackError);
         expect(error).toBeInstanceOf(BadRequestError);
       }
     });
@@ -84,7 +84,7 @@ describe('Exception Classes', () => {
     it('should create error with custom message', () => {
       const error = new UnauthorizedError('Custom auth error');
       expect(error).toBeInstanceOf(Error);
-      expect(error).toBeInstanceOf(TABStackError);
+      expect(error).toBeInstanceOf(TabstackError);
       expect(error).toBeInstanceOf(UnauthorizedError);
       expect(error.message).toBe('Custom auth error');
       expect(error.name).toBe('UnauthorizedError');
@@ -103,7 +103,7 @@ describe('Exception Classes', () => {
     it('should have correct prototype chain', () => {
       const error = new UnauthorizedError();
       expect(Object.getPrototypeOf(error)).toBe(UnauthorizedError.prototype);
-      expect(error).toBeInstanceOf(TABStackError);
+      expect(error).toBeInstanceOf(TabstackError);
     });
   });
 
@@ -111,7 +111,7 @@ describe('Exception Classes', () => {
     it('should create error with custom message', () => {
       const error = new InvalidURLError('URL is malformed');
       expect(error).toBeInstanceOf(Error);
-      expect(error).toBeInstanceOf(TABStackError);
+      expect(error).toBeInstanceOf(TabstackError);
       expect(error).toBeInstanceOf(InvalidURLError);
       expect(error.message).toBe('URL is malformed');
       expect(error.name).toBe('InvalidURLError');
@@ -130,7 +130,7 @@ describe('Exception Classes', () => {
     it('should have correct prototype chain', () => {
       const error = new InvalidURLError();
       expect(Object.getPrototypeOf(error)).toBe(InvalidURLError.prototype);
-      expect(error).toBeInstanceOf(TABStackError);
+      expect(error).toBeInstanceOf(TabstackError);
     });
   });
 
@@ -138,7 +138,7 @@ describe('Exception Classes', () => {
     it('should create error with custom message', () => {
       const error = new ServerError('Database connection failed');
       expect(error).toBeInstanceOf(Error);
-      expect(error).toBeInstanceOf(TABStackError);
+      expect(error).toBeInstanceOf(TabstackError);
       expect(error).toBeInstanceOf(ServerError);
       expect(error.message).toBe('Database connection failed');
       expect(error.name).toBe('ServerError');
@@ -157,7 +157,7 @@ describe('Exception Classes', () => {
     it('should have correct prototype chain', () => {
       const error = new ServerError();
       expect(Object.getPrototypeOf(error)).toBe(ServerError.prototype);
-      expect(error).toBeInstanceOf(TABStackError);
+      expect(error).toBeInstanceOf(TabstackError);
     });
   });
 
@@ -165,7 +165,7 @@ describe('Exception Classes', () => {
     it('should create error with custom message', () => {
       const error = new ServiceUnavailableError('Automate service is down');
       expect(error).toBeInstanceOf(Error);
-      expect(error).toBeInstanceOf(TABStackError);
+      expect(error).toBeInstanceOf(TabstackError);
       expect(error).toBeInstanceOf(ServiceUnavailableError);
       expect(error.message).toBe('Automate service is down');
       expect(error.name).toBe('ServiceUnavailableError');
@@ -184,7 +184,7 @@ describe('Exception Classes', () => {
     it('should have correct prototype chain', () => {
       const error = new ServiceUnavailableError();
       expect(Object.getPrototypeOf(error)).toBe(ServiceUnavailableError.prototype);
-      expect(error).toBeInstanceOf(TABStackError);
+      expect(error).toBeInstanceOf(TabstackError);
     });
   });
 
@@ -192,7 +192,7 @@ describe('Exception Classes', () => {
     it('should create error with message and status code', () => {
       const error = new APIError('Rate limit exceeded', 429);
       expect(error).toBeInstanceOf(Error);
-      expect(error).toBeInstanceOf(TABStackError);
+      expect(error).toBeInstanceOf(TabstackError);
       expect(error).toBeInstanceOf(APIError);
       expect(error.message).toBe('Rate limit exceeded');
       expect(error.statusCode).toBe(429);
@@ -207,7 +207,7 @@ describe('Exception Classes', () => {
     it('should have correct prototype chain', () => {
       const error = new APIError('Test', 999);
       expect(Object.getPrototypeOf(error)).toBe(APIError.prototype);
-      expect(error).toBeInstanceOf(TABStackError);
+      expect(error).toBeInstanceOf(TabstackError);
     });
   });
 
@@ -221,9 +221,9 @@ describe('Exception Classes', () => {
       expect(unauthorized).not.toBeInstanceOf(BadRequestError);
       expect(serverError).not.toBeInstanceOf(UnauthorizedError);
 
-      expect(badRequest).toBeInstanceOf(TABStackError);
-      expect(unauthorized).toBeInstanceOf(TABStackError);
-      expect(serverError).toBeInstanceOf(TABStackError);
+      expect(badRequest).toBeInstanceOf(TabstackError);
+      expect(unauthorized).toBeInstanceOf(TabstackError);
+      expect(serverError).toBeInstanceOf(TabstackError);
     });
 
     it('should preserve error properties when caught and rethrown', () => {
@@ -246,7 +246,7 @@ describe('Exception Classes', () => {
           return 'bad-request';
         } else if (error instanceof UnauthorizedError) {
           return 'unauthorized';
-        } else if (error instanceof TABStackError) {
+        } else if (error instanceof TabstackError) {
           return 'tabstack-error';
         }
         return 'unknown';
@@ -261,9 +261,9 @@ describe('Exception Classes', () => {
 
   describe('Error stack traces', () => {
     it('should have stack trace', () => {
-      const error = new TABStackError('Test');
+      const error = new TabstackError('Test');
       expect(error.stack).toBeDefined();
-      expect(error.stack).toContain('TABStackError');
+      expect(error.stack).toContain('TabstackError');
     });
 
     it('should have stack trace for derived errors', () => {

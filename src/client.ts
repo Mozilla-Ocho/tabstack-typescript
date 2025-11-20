@@ -1,28 +1,28 @@
 /**
- * Main client for TABStack AI SDK
+ * Main client for Tabstack SDK
  */
 
 import { HTTPClient } from './util/http';
 import { Extract } from './extract';
 import { Generate } from './generate';
-import { Automate } from './automate';
+import { Agent } from './agent';
 
-export interface TABStackOptions {
+export interface TabstackOptions {
   apiKey: string;
   baseURL?: string;
 }
 
 /**
- * TABStack AI client for web content extraction, generation, and automation
+ * Tabstack client for web content extraction, generation, and automation
  *
- * This is the main entry point for the TABStack AI SDK. Initialize it with your
+ * This is the main entry point for the Tabstack SDK. Initialize it with your
  * API key to access the extract, generate, and automate operators.
  *
  * @example
  * ```typescript
- * import { TABStack } from '@tabstack/sdk';
+ * import { Tabstack } from '@tabstack/sdk';
  *
- * const tabs = new TABStack({
+ * const tabs = new Tabstack({
  *   apiKey: process.env.TABSTACK_API_KEY!
  * });
  *
@@ -30,7 +30,7 @@ export interface TABStackOptions {
  * console.log(result.content);
  * ```
  */
-export class TABStack {
+export class Tabstack {
   private httpClient: HTTPClient;
 
   /**
@@ -44,24 +44,24 @@ export class TABStack {
   public readonly generate: Generate;
 
   /**
-   * Automate operator for browser automation tasks
+   * Agent client for AI-powered browser automation tasks
    */
-  public readonly automate: Automate;
+  public readonly agent: Agent;
 
   /**
-   * Initialize TABStack client
+   * Initialize Tabstack client
    *
    * @param options - Configuration options
    * @throws Error if apiKey is empty or not provided
    *
    * @example
    * ```typescript
-   * const tabs = new TABStack({
+   * const tabs = new Tabstack({
    *   apiKey: 'your-api-key-here'
    * });
    * ```
    */
-  constructor(options: TABStackOptions) {
+  constructor(options: TabstackOptions) {
     if (!options.apiKey || typeof options.apiKey !== 'string') {
       throw new Error('apiKey is required');
     }
@@ -74,6 +74,6 @@ export class TABStack {
     // Initialize operators
     this.extract = new Extract(this.httpClient);
     this.generate = new Generate(this.httpClient);
-    this.automate = new Automate(this.httpClient);
+    this.agent = new Agent(this.httpClient);
   }
 }

@@ -4,7 +4,7 @@
  * This file tests that the SDK works with ESM imports
  */
 
-import { TABStack } from '../dist/esm/index.js';
+import { Tabstack } from '../dist/esm/index.js';
 
 function assert(condition, message) {
   if (!condition) {
@@ -16,12 +16,12 @@ console.log('\n=== Testing ESM Module Import ===\n');
 
 // Test 1: Basic imports work
 console.log('Testing ESM imports...');
-assert(typeof TABStack === 'function', 'TABStack should be a function');
+assert(typeof Tabstack === 'function', 'Tabstack should be a function');
 console.log('✓ ESM imports work correctly');
 
 // Test 2: Client creation
 console.log('Testing client creation with ESM...');
-const client = new TABStack({ apiKey: 'test-key-esm' });
+const client = new Tabstack({ apiKey: 'test-key-esm' });
 assert(client.extract !== undefined, 'Client should have extract operator');
 assert(client.generate !== undefined, 'Client should have generate operator');
 assert(client.automate !== undefined, 'Client should have automate operator');

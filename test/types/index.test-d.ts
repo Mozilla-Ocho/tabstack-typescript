@@ -7,8 +7,8 @@
 
 import { expectType, expectError, expectAssignable, expectNotAssignable } from 'tsd';
 import {
-  TABStack,
-  TABStackOptions,
+  Tabstack,
+  TabstackOptions,
   MarkdownResponse,
   JsonResponse,
   Metadata,
@@ -23,7 +23,7 @@ import {
   ExtractJsonOptions,
   GenerateJsonOptions,
   AutomateExecuteOptions,
-  TABStackError,
+  TabstackError,
   BadRequestError,
   UnauthorizedError,
   InvalidURLError,
@@ -32,19 +32,19 @@ import {
   APIError,
 } from '../../src';
 
-// ===== TABStack Client =====
+// ===== Tabstack Client =====
 
 // Valid client creation
-const client = new TABStack({ apiKey: 'test-key' });
-expectType<TABStack>(client);
+const client = new Tabstack({ apiKey: 'test-key' });
+expectType<Tabstack>(client);
 
 // Client with baseURL
-const clientWithURL = new TABStack({ apiKey: 'test-key', baseURL: 'https://api.example.com' });
-expectType<TABStack>(clientWithURL);
+const clientWithURL = new Tabstack({ apiKey: 'test-key', baseURL: 'https://api.example.com' });
+expectType<Tabstack>(clientWithURL);
 
 // Client requires apiKey
-expectError(new TABStack({}));
-expectError(new TABStack({ baseURL: 'https://api.example.com' }));
+expectError(new Tabstack({}));
+expectError(new Tabstack({ baseURL: 'https://api.example.com' }));
 
 // Operators exist and have correct types
 expectType<Extract>(client.extract);
@@ -200,27 +200,27 @@ expectType<string>(eventString);
 
 // ===== Exception Classes =====
 
-// TABStackError
-const tabstackError = new TABStackError('error');
-expectType<TABStackError>(tabstackError);
+// TabstackError
+const tabstackError = new TabstackError('error');
+expectType<TabstackError>(tabstackError);
 expectType<string>(tabstackError.message);
 expectType<number | undefined>(tabstackError.statusCode);
 expectAssignable<Error>(tabstackError);
 
-const tabstackErrorWithCode = new TABStackError('error', 500);
-expectType<TABStackError>(tabstackErrorWithCode);
+const tabstackErrorWithCode = new TabstackError('error', 500);
+expectType<TabstackError>(tabstackErrorWithCode);
 
 // BadRequestError
 const badRequestError = new BadRequestError('bad request');
 expectType<BadRequestError>(badRequestError);
 expectType<number | undefined>(badRequestError.statusCode);
-expectAssignable<TABStackError>(badRequestError);
+expectAssignable<TabstackError>(badRequestError);
 expectAssignable<Error>(badRequestError);
 
 // UnauthorizedError
 const unauthorizedError = new UnauthorizedError();
 expectType<UnauthorizedError>(unauthorizedError);
-expectAssignable<TABStackError>(unauthorizedError);
+expectAssignable<TabstackError>(unauthorizedError);
 
 const unauthorizedWithMessage = new UnauthorizedError('custom message');
 expectType<UnauthorizedError>(unauthorizedWithMessage);
@@ -228,35 +228,35 @@ expectType<UnauthorizedError>(unauthorizedWithMessage);
 // InvalidURLError
 const invalidURLError = new InvalidURLError();
 expectType<InvalidURLError>(invalidURLError);
-expectAssignable<TABStackError>(invalidURLError);
+expectAssignable<TabstackError>(invalidURLError);
 
 // ServerError
 const serverError = new ServerError();
 expectType<ServerError>(serverError);
-expectAssignable<TABStackError>(serverError);
+expectAssignable<TabstackError>(serverError);
 
 // ServiceUnavailableError
 const serviceError = new ServiceUnavailableError();
 expectType<ServiceUnavailableError>(serviceError);
-expectAssignable<TABStackError>(serviceError);
+expectAssignable<TabstackError>(serviceError);
 
 // APIError
 const apiError = new APIError('error', 418);
 expectType<APIError>(apiError);
 expectType<number | undefined>(apiError.statusCode);
-expectAssignable<TABStackError>(apiError);
+expectAssignable<TabstackError>(apiError);
 
 // APIError requires both message and status code
 expectError(new APIError('error'));
 
 // ===== Options Interfaces =====
 
-// TABStackOptions
-const validOptions: TABStackOptions = { apiKey: 'test' };
-expectType<TABStackOptions>(validOptions);
+// TabstackOptions
+const validOptions: TabstackOptions = { apiKey: 'test' };
+expectType<TabstackOptions>(validOptions);
 
-const optionsWithURL: TABStackOptions = { apiKey: 'test', baseURL: 'https://api.example.com' };
-expectType<TABStackOptions>(optionsWithURL);
+const optionsWithURL: TabstackOptions = { apiKey: 'test', baseURL: 'https://api.example.com' };
+expectType<TabstackOptions>(optionsWithURL);
 
 // ExtractMarkdownOptions
 const markdownOptions: ExtractMarkdownOptions = { metadata: true, nocache: true };
@@ -287,7 +287,7 @@ expectType<AutomateExecuteOptions>(automateOptions);
 // ===== Type Safety Tests =====
 
 // Cannot assign wrong types
-expectNotAssignable<TABStackOptions>({ baseURL: 'https://api.example.com' }); // missing apiKey
+expectNotAssignable<TabstackOptions>({ baseURL: 'https://api.example.com' }); // missing apiKey
 expectNotAssignable<ExtractMarkdownOptions>({ invalid: true });
 expectNotAssignable<AutomateExecuteOptions>({ maxIterations: 'not a number' });
 
@@ -326,15 +326,15 @@ async function testPromiseChains() {
 
 // Error type guards
 function handleError(error: unknown) {
-  if (error instanceof TABStackError) {
-    expectType<TABStackError>(error);
+  if (error instanceof TabstackError) {
+    expectType<TabstackError>(error);
     expectType<string>(error.message);
     expectType<number | undefined>(error.statusCode);
   }
 
   if (error instanceof BadRequestError) {
     expectType<BadRequestError>(error);
-    expectAssignable<TABStackError>(error);
+    expectAssignable<TabstackError>(error);
   }
 
   if (error instanceof UnauthorizedError) {
