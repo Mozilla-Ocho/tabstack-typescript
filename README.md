@@ -1,5 +1,8 @@
 # TABStack AI TypeScript SDK
 
+> [!WARNING]
+> **Early Release**: This SDK is in early development. The API may change in future releases as we refine and improve the library based on user feedback.
+
 TypeScript/JavaScript SDK for [TABStack AI](https://tabstack.ai) - Extract, Generate, and Automate web content with AI.
 
 ## Features
