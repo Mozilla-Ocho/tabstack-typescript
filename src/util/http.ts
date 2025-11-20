@@ -1,12 +1,12 @@
 /**
- * Internal HTTP client for TABStack AI SDK
+ * Internal HTTP client for Tabstack AI SDK
  */
 
 import * as https from 'https';
 import * as http from 'http';
 import { URL } from 'url';
 import {
-  TABStackError,
+  TabstackError,
   BadRequestError,
   UnauthorizedError,
   InvalidURLError,
@@ -114,13 +114,13 @@ export class HTTPClient {
             const parsed = responseBody ? (JSON.parse(responseBody) as T) : ({} as T);
             resolve(parsed);
           } catch {
-            reject(new TABStackError('Failed to parse response JSON'));
+            reject(new TabstackError('Failed to parse response JSON'));
           }
         });
       });
 
       req.on('error', (error) => {
-        reject(new TABStackError(`Request failed: ${error.message}`));
+        reject(new TabstackError(`Request failed: ${error.message}`));
       });
 
       req.write(body);
@@ -172,7 +172,7 @@ export class HTTPClient {
       });
 
       req.on('error', (error) => {
-        reject(new TABStackError(`Request failed: ${error.message}`));
+        reject(new TabstackError(`Request failed: ${error.message}`));
       });
 
       req.write(body);

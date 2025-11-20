@@ -1,8 +1,8 @@
 /**
- * Tests for TABStack Client
+ * Tests for Tabstack Client
  */
 
-import { TABStack } from './client';
+import { Tabstack } from './client';
 import { Extract } from './extract';
 import { Generate } from './generate';
 import { Agent } from './agent';
@@ -14,16 +14,16 @@ jest.mock('./extract');
 jest.mock('./generate');
 jest.mock('./agent');
 
-describe('TABStack Client', () => {
+describe('Tabstack Client', () => {
   beforeEach(() => {
     jest.clearAllMocks();
   });
 
   describe('constructor', () => {
     it('should create client with valid API key', () => {
-      const client = new TABStack({ apiKey: 'test-api-key' });
+      const client = new Tabstack({ apiKey: 'test-api-key' });
 
-      expect(client).toBeInstanceOf(TABStack);
+      expect(client).toBeInstanceOf(Tabstack);
       expect(HTTPClient).toHaveBeenCalledWith({
         apiKey: 'test-api-key',
         baseURL: undefined,
@@ -31,12 +31,12 @@ describe('TABStack Client', () => {
     });
 
     it('should create client with API key and custom baseURL', () => {
-      const client = new TABStack({
+      const client = new Tabstack({
         apiKey: 'test-api-key',
         baseURL: 'https://custom.api.com',
       });
 
-      expect(client).toBeInstanceOf(TABStack);
+      expect(client).toBeInstanceOf(Tabstack);
       expect(HTTPClient).toHaveBeenCalledWith({
         apiKey: 'test-api-key',
         baseURL: 'https://custom.api.com',
@@ -46,32 +46,32 @@ describe('TABStack Client', () => {
     it('should throw error when API key is missing', () => {
       expect(() => {
         // @ts-expect-error Testing missing apiKey
-        new TABStack({});
+        new Tabstack({});
       }).toThrow('apiKey is required');
     });
 
     it('should throw error when API key is empty string', () => {
       expect(() => {
-        new TABStack({ apiKey: '' });
+        new Tabstack({ apiKey: '' });
       }).toThrow('apiKey is required');
     });
 
     it('should throw error when API key is null', () => {
       expect(() => {
         // @ts-expect-error Testing null apiKey
-        new TABStack({ apiKey: null });
+        new Tabstack({ apiKey: null });
       }).toThrow('apiKey is required');
     });
 
     it('should throw error when API key is undefined', () => {
       expect(() => {
         // @ts-expect-error Testing undefined apiKey
-        new TABStack({ apiKey: undefined });
+        new Tabstack({ apiKey: undefined });
       }).toThrow('apiKey is required');
     });
 
     it('should initialize all operators', () => {
-      const client = new TABStack({ apiKey: 'test-api-key' });
+      const client = new Tabstack({ apiKey: 'test-api-key' });
 
       expect(client.extract).toBeInstanceOf(Extract);
       expect(client.generate).toBeInstanceOf(Generate);
@@ -79,7 +79,7 @@ describe('TABStack Client', () => {
     });
 
     it('should pass HTTPClient to all operators', () => {
-      void new TABStack({ apiKey: 'test-api-key' });
+      void new Tabstack({ apiKey: 'test-api-key' });
 
       expect(Extract).toHaveBeenCalledTimes(1);
       expect(Generate).toHaveBeenCalledTimes(1);
@@ -96,28 +96,28 @@ describe('TABStack Client', () => {
 
   describe('operators', () => {
     it('should have extract operator', () => {
-      const client = new TABStack({ apiKey: 'test-api-key' });
+      const client = new Tabstack({ apiKey: 'test-api-key' });
 
       expect(client.extract).toBeDefined();
       expect(client.extract).toBeInstanceOf(Extract);
     });
 
     it('should have generate operator', () => {
-      const client = new TABStack({ apiKey: 'test-api-key' });
+      const client = new Tabstack({ apiKey: 'test-api-key' });
 
       expect(client.generate).toBeDefined();
       expect(client.generate).toBeInstanceOf(Generate);
     });
 
     it('should have agent client', () => {
-      const client = new TABStack({ apiKey: 'test-api-key' });
+      const client = new Tabstack({ apiKey: 'test-api-key' });
 
       expect(client.agent).toBeDefined();
       expect(client.agent).toBeInstanceOf(Agent);
     });
 
     it('should have readonly operators', () => {
-      const client = new TABStack({ apiKey: 'test-api-key' });
+      const client = new Tabstack({ apiKey: 'test-api-key' });
 
       // TypeScript ensures readonly, but we can verify they exist
       expect(Object.getOwnPropertyDescriptor(client, 'extract')).toBeDefined();
@@ -128,8 +128,8 @@ describe('TABStack Client', () => {
 
   describe('multiple instances', () => {
     it('should create independent client instances', () => {
-      const client1 = new TABStack({ apiKey: 'key1' });
-      const client2 = new TABStack({ apiKey: 'key2' });
+      const client1 = new Tabstack({ apiKey: 'key1' });
+      const client2 = new Tabstack({ apiKey: 'key2' });
 
       expect(client1).not.toBe(client2);
       expect(HTTPClient).toHaveBeenCalledTimes(2);
@@ -144,11 +144,11 @@ describe('TABStack Client', () => {
     });
 
     it('should create clients with different baseURLs', () => {
-      void new TABStack({
+      void new Tabstack({
         apiKey: 'key1',
         baseURL: 'https://api1.example.com',
       });
-      void new TABStack({
+      void new Tabstack({
         apiKey: 'key2',
         baseURL: 'https://api2.example.com',
       });
@@ -176,7 +176,7 @@ describe('TABStack Client', () => {
       ];
 
       validKeys.forEach((key) => {
-        expect(() => new TABStack({ apiKey: key })).not.toThrow();
+        expect(() => new Tabstack({ apiKey: key })).not.toThrow();
       });
     });
 
@@ -185,12 +185,12 @@ describe('TABStack Client', () => {
 
       invalidKeys.forEach((key) => {
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
-        expect(() => new TABStack({ apiKey: key as any })).toThrow('apiKey is required');
+        expect(() => new Tabstack({ apiKey: key as any })).toThrow('apiKey is required');
       });
     });
 
     it('should handle whitespace-only API keys', () => {
-      expect(() => new TABStack({ apiKey: '   ' })).not.toThrow();
+      expect(() => new Tabstack({ apiKey: '   ' })).not.toThrow();
       // Note: The client doesn't trim whitespace, so this technically passes
       // The actual validation happens at the API level
     });
@@ -198,7 +198,7 @@ describe('TABStack Client', () => {
 
   describe('configuration', () => {
     it('should handle default configuration', () => {
-      void new TABStack({ apiKey: 'test-key' });
+      void new Tabstack({ apiKey: 'test-key' });
 
       expect(HTTPClient).toHaveBeenCalledWith({
         apiKey: 'test-key',
@@ -207,7 +207,7 @@ describe('TABStack Client', () => {
     });
 
     it('should handle custom baseURL with trailing slash', () => {
-      void new TABStack({
+      void new Tabstack({
         apiKey: 'test-key',
         baseURL: 'https://custom.api.com/',
       });
@@ -219,7 +219,7 @@ describe('TABStack Client', () => {
     });
 
     it('should handle custom baseURL without trailing slash', () => {
-      void new TABStack({
+      void new Tabstack({
         apiKey: 'test-key',
         baseURL: 'https://custom.api.com',
       });
@@ -231,7 +231,7 @@ describe('TABStack Client', () => {
     });
 
     it('should handle localhost baseURL', () => {
-      void new TABStack({
+      void new Tabstack({
         apiKey: 'test-key',
         baseURL: 'http://localhost:8080',
       });
@@ -244,27 +244,27 @@ describe('TABStack Client', () => {
   });
 
   describe('type safety', () => {
-    it('should enforce TABStackOptions interface', () => {
+    it('should enforce TabstackOptions interface', () => {
       // This test ensures TypeScript types are working correctly
       const options = {
         apiKey: 'test-key',
         baseURL: 'https://api.example.com',
       };
 
-      const client = new TABStack(options);
-      expect(client).toBeInstanceOf(TABStack);
+      const client = new Tabstack(options);
+      expect(client).toBeInstanceOf(Tabstack);
     });
 
     it('should allow optional baseURL', () => {
       const options = { apiKey: 'test-key' };
-      const client = new TABStack(options);
-      expect(client).toBeInstanceOf(TABStack);
+      const client = new Tabstack(options);
+      expect(client).toBeInstanceOf(Tabstack);
     });
   });
 
   describe('integration', () => {
     it('should allow chaining operator methods', () => {
-      const client = new TABStack({ apiKey: 'test-key' });
+      const client = new Tabstack({ apiKey: 'test-key' });
 
       // Verify operators exist and can be accessed
       expect(client.extract.markdown).toBeDefined();
@@ -274,8 +274,8 @@ describe('TABStack Client', () => {
     });
 
     it('should maintain separate operator instances per client', () => {
-      const client1 = new TABStack({ apiKey: 'key1' });
-      const client2 = new TABStack({ apiKey: 'key2' });
+      const client1 = new Tabstack({ apiKey: 'key1' });
+      const client2 = new Tabstack({ apiKey: 'key2' });
 
       expect(client1.extract).not.toBe(client2.extract);
       expect(client1.generate).not.toBe(client2.generate);
@@ -287,17 +287,17 @@ describe('TABStack Client', () => {
     it('should throw descriptive error for missing apiKey', () => {
       expect(() => {
         // @ts-expect-error Testing missing apiKey
-        new TABStack({});
+        new Tabstack({});
       }).toThrow('apiKey is required');
     });
 
     it('should throw error immediately on construction, not on first use', () => {
       // @ts-expect-error Testing missing apiKey
-      expect(() => new TABStack({})).toThrow();
+      expect(() => new Tabstack({})).toThrow();
 
       // Should not throw if apiKey is provided
-      const client = new TABStack({ apiKey: 'test-key' });
-      expect(client).toBeInstanceOf(TABStack);
+      const client = new Tabstack({ apiKey: 'test-key' });
+      expect(client).toBeInstanceOf(Tabstack);
     });
   });
 });

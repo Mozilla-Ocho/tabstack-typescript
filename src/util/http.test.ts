@@ -5,7 +5,7 @@
 import nock from 'nock';
 import { HTTPClient } from './http';
 import {
-  TABStackError,
+  TabstackError,
   BadRequestError,
   UnauthorizedError,
   InvalidURLError,
@@ -141,16 +141,16 @@ describe('HTTPClient', () => {
       await expect(client.post('/test')).rejects.toThrow(ServerError);
     });
 
-    it('should throw TABStackError on malformed JSON response', async () => {
+    it('should throw TabstackError on malformed JSON response', async () => {
       nock(baseURL).post('/test').reply(200, 'invalid json{{{');
 
-      await expect(client.post('/test')).rejects.toThrow(TABStackError);
+      await expect(client.post('/test')).rejects.toThrow(TabstackError);
     });
 
-    it('should throw TABStackError on network error', async () => {
+    it('should throw TabstackError on network error', async () => {
       nock(baseURL).post('/test').replyWithError('Network error');
 
-      await expect(client.post('/test')).rejects.toThrow(TABStackError);
+      await expect(client.post('/test')).rejects.toThrow(TabstackError);
     });
 
     it('should handle query parameters in path', async () => {
@@ -269,7 +269,7 @@ describe('HTTPClient', () => {
       await expect(generator.next()).rejects.toThrow(ServerError);
     });
 
-    it('should throw TABStackError on network error during stream', async () => {
+    it('should throw TabstackError on network error during stream', async () => {
       nock(baseURL).post('/stream').replyWithError('Connection failed');
 
       const generator = client.postStream('/stream');

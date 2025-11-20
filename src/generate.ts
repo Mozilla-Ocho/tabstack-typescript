@@ -1,5 +1,5 @@
 /**
- * Generate operator for TABStack AI SDK
+ * Generate operator for Tabstack AI SDK
  */
 
 import { HTTPClient } from './util/http';

@@ -1,10 +1,10 @@
 /**
- * Test suite for TABStack AI TypeScript SDK
+ * Test suite for Tabstack AI TypeScript SDK
  *
  * This file tests the basic functionality of the SDK to ensure it works correctly.
  */
 
-const { TABStack } = require('../dist/cjs/index');
+const { Tabstack } = require('../dist/cjs/index');
 
 function assert(condition, message) {
   if (!condition) {
@@ -13,16 +13,16 @@ function assert(condition, message) {
 }
 
 function testClientCreation() {
-  console.log('Testing TABStack client creation...');
+  console.log('Testing Tabstack client creation...');
 
   try {
-    new TABStack({ apiKey: '' });
+    new Tabstack({ apiKey: '' });
     throw new Error('Should have thrown error for empty API key');
   } catch (error) {
     assert(error.message === 'apiKey is required', 'Should reject empty API key');
   }
 
-  const client = new TABStack({ apiKey: 'test-key' });
+  const client = new Tabstack({ apiKey: 'test-key' });
   assert(client.extract !== undefined, 'Client should have extract operator');
   assert(client.generate !== undefined, 'Client should have generate operator');
   assert(client.automate !== undefined, 'Client should have automate operator');
@@ -44,7 +44,7 @@ function testNoBuiltInConflicts() {
 
 // Run all tests
 async function runTests() {
-  console.log('\n=== Running TABStack TypeScript SDK Tests ===\n');
+  console.log('\n=== Running Tabstack TypeScript SDK Tests ===\n');
 
   try {
     testClientCreation();

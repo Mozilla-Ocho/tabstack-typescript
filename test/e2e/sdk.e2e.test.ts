@@ -1,23 +1,23 @@
 /**
- * End-to-End tests for TABStack SDK
+ * End-to-End tests for Tabstack SDK
  *
  * These tests verify the complete SDK workflow from client initialization
  * through operator execution, testing the integration between all components.
  */
 
 import nock from 'nock';
-import { TABStack } from '../../src/client';
+import { Tabstack } from '../../src/client';
 import { MarkdownResponse, JsonResponse, AutomateEvent } from '../../src/types';
 import { BadRequestError, UnauthorizedError, InvalidURLError } from '../../src/exceptions';
 
-describe('TABStack SDK E2E Tests', () => {
+describe('Tabstack SDK E2E Tests', () => {
   const apiKey = 'test-api-key';
   const baseURL = 'https://api.tabstack.ai';
-  let client: TABStack;
+  let client: Tabstack;
 
   beforeEach(() => {
     nock.cleanAll();
-    client = new TABStack({ apiKey, baseURL });
+    client = new Tabstack({ apiKey, baseURL });
   });
 
   afterEach(() => {

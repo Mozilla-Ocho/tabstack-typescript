@@ -1,14 +1,14 @@
 /**
- * TABStack AI TypeScript/JavaScript SDK
+ * Tabstack AI TypeScript/JavaScript SDK
  *
- * This SDK provides a TypeScript/JavaScript interface to the TABStack AI API for web
+ * This SDK provides a TypeScript/JavaScript interface to the Tabstack AI API for web
  * content extraction, AI-powered content generation, and browser automation.
  *
  * @example
  * ```typescript
- * import { TABStack } from '@tabstack/sdk';
+ * import { Tabstack } from '@tabstack/sdk';
  *
- * const tabs = new TABStack({
+ * const tabs = new Tabstack({
  *   apiKey: process.env.TABSTACK_API_KEY!
  * });
  *
@@ -42,7 +42,7 @@
  */
 
 // Main client
-export { TABStack, TABStackOptions } from './client';
+export { Tabstack, TabstackOptions } from './client';
 
 // Operators
 export { Extract } from './extract';
@@ -61,7 +61,7 @@ export {
 
 // Exceptions
 export {
-  TABStackError,
+  TabstackError,
   BadRequestError,
   UnauthorizedError,
   InvalidURLError,

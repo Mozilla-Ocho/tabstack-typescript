@@ -5,13 +5,13 @@
  * using ESM (import/export)
  */
 
-import { TABStack } from '../dist/esm/index.js';
+import { Tabstack } from '../dist/esm/index.js';
 
 console.log('\n=== Testing Pure JavaScript (ESM) ===\n');
 
 // Example 1: Client usage
-console.log('\nExample 3: Initialize TABStack client');
-const tabs = new TABStack({
+console.log('\nExample 3: Initialize Tabstack client');
+const tabs = new Tabstack({
   apiKey: process.env.TABSTACK_API_KEY || 'demo-key',
 });
 

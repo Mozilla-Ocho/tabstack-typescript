@@ -1,5 +1,5 @@
 /**
- * Agent client for TABStack AI SDK
+ * Agent client for Tabstack AI SDK
  */
 
 import { HTTPClient } from './util/http';
