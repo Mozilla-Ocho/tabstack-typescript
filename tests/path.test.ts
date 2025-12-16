@@ -1,4 +1,4 @@
-import { createPathTagFunction, encodeURIPath } from 'tabstack/internal/utils/path';
+import { createPathTagFunction, encodeURIPath } from '@tabstack/sdk/internal/utils/path';
 import { inspect } from 'node:util';
 import { runInNewContext } from 'node:vm';
 
