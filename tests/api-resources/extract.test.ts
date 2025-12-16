@@ -1,6 +1,6 @@
 // File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
-import Tabstack from 'tabstack';
+import Tabstack from '@tabstack/sdk';
 
 const client = new Tabstack({
   apiKey: 'My API Key',

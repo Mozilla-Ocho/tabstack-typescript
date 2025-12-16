@@ -5,8 +5,8 @@
   "compilerOptions": {
     "rootDir": "./dist/src",
     "paths": {
-      "tabstack/*": ["./dist/src/*"],
-      "tabstack": ["./dist/src/index.ts"]
+      "@tabstack/sdk/*": ["./dist/src/*"],
+      "@tabstack/sdk": ["./dist/src/index.ts"]
     },
     "noEmit": false,
     "declaration": true,

@@ -8,8 +8,8 @@
     "moduleResolution": "node",
     "esModuleInterop": true,
     "paths": {
-      "tabstack/*": ["./src/*"],
-      "tabstack": ["./src/index.ts"]
+      "@tabstack/sdk/*": ["./src/*"],
+      "@tabstack/sdk": ["./src/index.ts"]
     },
     "noEmit": true,
 

@@ -4,31 +4,16 @@ It is generated with [Stainless](https://www.stainless.com/).
 
 ## Installation
 
-### Building
+### Direct invocation
 
-Because it's not published yet, clone the repo and build it:
-
-```sh
-git clone git@github.com:Mozilla-Ocho/tabstack-typescript.git
-cd tabstack-typescript
-./scripts/bootstrap
-./scripts/build
-```
-
-### Running
+You can run the MCP Server directly via `npx`:
 
 ```sh
-# set env vars as needed
 export TABSTACK_API_KEY="My API Key"
-node ./packages/mcp-server/dist/index.js
+npx -y tabstack-mcp@latest
 ```
-
-> [!NOTE]
-> Once this package is [published to npm](https://www.stainless.com/docs/guides/publish), this will become: `npx -y tabstack-mcp`
 
 ### Via MCP Client
-
-[Build the project](#building) as mentioned above.
 
 There is a partial list of existing clients at [modelcontextprotocol.io](https://modelcontextprotocol.io/clients). If you already
 have a client, consult their documentation to install the MCP server.
@@ -38,15 +23,38 @@ For clients with a configuration JSON, it might look something like this:
 ```json
 {
   "mcpServers": {
-    "tabstack_api": {
-      "command": "node",
-      "args": ["/path/to/local/tabstack-typescript/packages/mcp-server", "--client=claude", "--tools=all"],
+    "tabstack_sdk_api": {
+      "command": "npx",
+      "args": ["-y", "tabstack-mcp", "--client=claude", "--tools=all"],
       "env": {
         "TABSTACK_API_KEY": "My API Key"
       }
     }
   }
 }
+```
+
+### Cursor
+
+If you use Cursor, you can install the MCP server by using the button below. You will need to set your environment variables
+in Cursor's `mcp.json`, which can be found in Cursor Settings > Tools & MCP > New MCP Server.
+
+[![Add to Cursor](https://cursor.com/deeplink/mcp-install-dark.svg)](https://cursor.com/en-US/install-mcp?name=tabstack-mcp&config=eyJjb21tYW5kIjoibnB4IiwiYXJncyI6WyIteSIsInRhYnN0YWNrLW1jcCJdLCJlbnYiOnsiVEFCU1RBQ0tfQVBJX0tFWSI6IlNldCB5b3VyIFRBQlNUQUNLX0FQSV9LRVkgaGVyZS4ifX0)
+
+### VS Code
+
+If you use MCP, you can install the MCP server by clicking the link below. You will need to set your environment variables
+in VS Code's `mcp.json`, which can be found via Command Palette > MCP: Open User Configuration.
+
+[Open VS Code](https://vscode.stainless.com/mcp/%7B%22name%22%3A%22tabstack-mcp%22%2C%22command%22%3A%22npx%22%2C%22args%22%3A%5B%22-y%22%2C%22tabstack-mcp%22%5D%2C%22env%22%3A%7B%22TABSTACK_API_KEY%22%3A%22Set%20your%20TABSTACK_API_KEY%20here.%22%7D%7D)
+
+### Claude Code
+
+If you use Claude Code, you can install the MCP server by running the command below in your terminal. You will need to set your
+environment variables in Claude Code's `.claude.json`, which can be found in your home directory.
+
+```
+claude mcp add --transport stdio tabstack_sdk_api --env TABSTACK_API_KEY="Your TABSTACK_API_KEY here." -- npx -y tabstack-mcp
 ```
 
 ## Exposing endpoints to your MCP Client
@@ -170,7 +178,7 @@ A configuration JSON for this server might look like this, assuming the server i
 ```json
 {
   "mcpServers": {
-    "tabstack_api": {
+    "tabstack_sdk_api": {
       "url": "http://localhost:3000",
       "headers": {
         "Authorization": "Bearer <auth value>"
