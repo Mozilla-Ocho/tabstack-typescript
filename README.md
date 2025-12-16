@@ -1,458 +1,396 @@
-# Tabstack TypeScript SDK
+# Tabstack TypeScript API Library
 
-> [!WARNING]
-> **Early Release**: This SDK is in early development. The API may change in future releases as we refine and improve the library based on user feedback.
+[![NPM version](<https://img.shields.io/npm/v/tabstack.svg?label=npm%20(stable)>)](https://npmjs.org/package/tabstack) ![npm bundle size](https://img.shields.io/bundlephobia/minzip/tabstack)
 
-TypeScript/JavaScript SDK for [Tabstack](https://tabstack.ai) - Extract, Generate, and Automate web content with AI.
+This library provides convenient access to the Tabstack REST API from server-side TypeScript or JavaScript.
 
-## Features
+The full API of this library can be found in [api.md](api.md).
 
-- **Extract**: Convert web pages to Markdown and extract structured JSON data
-- **Generate**: Transform web content using AI with custom instructions
-- **Agent**: Execute complex browser automation tasks with natural language
-- **Type-Safe**: Full TypeScript support with comprehensive type definitions
-- **Zero Dependencies**: Uses only Node.js standard library
-- **Universal Module Support**: Works with CommonJS, ESM, and all TypeScript configurations
+It is generated with [Stainless](https://www.stainless.com/).
 
 ## Installation
 
-Install the SDK using your preferred package manager:
-
-### npm
-```bash
-npm install @tabstack/sdk
+```sh
+npm install git+ssh://git@github.com:stainless-sdks/tabstack-typescript.git
 ```
 
-### Yarn
-```bash
-yarn add @tabstack/sdk
-```
+> [!NOTE]
+> Once this package is [published to npm](https://www.stainless.com/docs/guides/publish), this will become: `npm install tabstack`
 
-### pnpm
-```bash
-pnpm add @tabstack/sdk
-```
+## Usage
 
-### Bun
-```bash
-bun add @tabstack/sdk
-```
+The full API of this library can be found in [api.md](api.md).
 
-### From Source
+<!-- prettier-ignore -->
+```js
+import Tabstack from 'tabstack';
 
-Clone and build the SDK locally:
-
-```bash
-git clone https://github.com/tabstack/tabs-typescript.git
-cd tabs-typescript
-npm install
-npm run build
-```
-
-To use the local build in your project:
-
-```bash
-# Link the package globally
-npm link
-
-# In your project directory
-npm link @tabstack/sdk
-```
-
-Or install directly from the local path:
-
-```bash
-npm install /path/to/tabs-typescript
-```
-
-## Quick Start
-
-### Get Your API Key
-
-Sign up at [tabstack.ai](https://tabstack.ai) to get your API key.
-
-### Basic Usage
-
-#### ES Modules (ESM)
-```typescript
-import { Tabstack } from '@tabstack/sdk';
-
-const tabs = new Tabstack({
-  apiKey: process.env.TABSTACK_API_KEY!
+const client = new Tabstack({
+  apiKey: process.env['TABSTACK_API_KEY'], // This is the default and can be omitted
 });
 
-// Extract markdown from a URL
-const markdown = await tabs.extract.markdown('https://example.com');
-console.log(markdown.content);
+const response = await client.automate.execute({
+  task: 'Find the top 3 trending repositories and extract their names, descriptions, and star counts',
+});
+```
 
-// Extract structured data with JSON schema
-const schema = {
-  type: 'object',
-  properties: {
-    stories: {
-      type: 'array',
-      items: {
-        type: 'object',
-        properties: {
-          title: { type: 'string' },
-          points: { type: 'number' },
-          author: { type: 'string' }
-        },
-        required: ['title', 'points', 'author']
-      }
-    }
-  },
-  required: ['stories']
+## Streaming responses
+
+We provide support for streaming responses using Server Sent Events (SSE).
+
+```ts
+import Tabstack from 'tabstack';
+
+const client = new Tabstack();
+
+const stream = await client.automate.execute({
+  task: 'Find the top 3 trending repositories and extract their names, descriptions, and star counts',
+});
+for await (const automateExecuteResponse of stream) {
+  console.log(automateExecuteResponse);
+}
+```
+
+If you need to cancel a stream, you can `break` from the loop
+or call `stream.controller.abort()`.
+
+### Request & Response types
+
+This library includes TypeScript definitions for all request params and response fields. You may import and use them like so:
+
+<!-- prettier-ignore -->
+```ts
+import Tabstack from 'tabstack';
+
+const client = new Tabstack({
+  apiKey: process.env['TABSTACK_API_KEY'], // This is the default and can be omitted
+});
+
+const params: Tabstack.AutomateExecuteParams = {
+  task: 'Find the top 3 trending repositories and extract their names, descriptions, and star counts',
 };
-
-const data = await tabs.extract.json('https://news.ycombinator.com', schema);
-console.log(data.data);
+const response: string = await client.automate.execute(params);
 ```
 
-#### CommonJS
-```javascript
-const { Tabstack } = require('@tabstack/sdk');
+Documentation for each method, request param, and response field are available in docstrings and will appear on hover in most modern editors.
 
-const tabs = new Tabstack({
-  apiKey: process.env.TABSTACK_API_KEY
-});
+## Handling errors
 
-// Extract markdown
-tabs.extract.markdown('https://example.com')
-  .then(result => {
-    console.log(result.content);
+When the library is unable to connect to the API,
+or if the API returns a non-success status code (i.e., 4xx or 5xx response),
+a subclass of `APIError` will be thrown:
+
+<!-- prettier-ignore -->
+```ts
+const response = await client.automate
+  .execute({
+    task: 'Find the top 3 trending repositories and extract their names, descriptions, and star counts',
   })
-  .catch(error => {
-    console.error('Error:', error.message);
+  .catch(async (err) => {
+    if (err instanceof Tabstack.APIError) {
+      console.log(err.status); // 400
+      console.log(err.name); // BadRequestError
+      console.log(err.headers); // {server: 'nginx', ...}
+    } else {
+      throw err;
+    }
   });
 ```
 
-## Core Features
+Error codes are as follows:
 
-### Extract Markdown
+| Status Code | Error Type                 |
+| ----------- | -------------------------- |
+| 400         | `BadRequestError`          |
+| 401         | `AuthenticationError`      |
+| 403         | `PermissionDeniedError`    |
+| 404         | `NotFoundError`            |
+| 422         | `UnprocessableEntityError` |
+| 429         | `RateLimitError`           |
+| >=500       | `InternalServerError`      |
+| N/A         | `APIConnectionError`       |
 
-Convert web pages to clean Markdown format:
+### Retries
 
-```typescript
-const result = await tabs.extract.markdown('https://example.com/blog/article', {
-  metadata: true,  // optional: include page metadata
-  nocache: false   // optional: bypass cache
+Certain errors will be automatically retried 2 times by default, with a short exponential backoff.
+Connection errors (for example, due to a network connectivity problem), 408 Request Timeout, 409 Conflict,
+429 Rate Limit, and >=500 Internal errors will all be retried by default.
+
+You can use the `maxRetries` option to configure or disable this:
+
+<!-- prettier-ignore -->
+```js
+// Configure the default for all requests:
+const client = new Tabstack({
+  maxRetries: 0, // default is 2
 });
 
-console.log(result.content);
-console.log(result.metadata); // if metadata: true
+// Or, configure per-request:
+await client.automate.execute({ task: 'Find the top 3 trending repositories and extract their names, descriptions, and star counts' }, {
+  maxRetries: 5,
+});
 ```
 
-### Extract Structured Data
+### Timeouts
 
-Extract data matching a JSON schema:
+Requests time out after 1 minute by default. You can configure this with a `timeout` option:
 
-```typescript
-const schema = {
-  type: 'object',
-  properties: {
-    products: {
-      type: 'array',
-      items: {
-        type: 'object',
-        properties: {
-          name: { type: 'string' },
-          price: { type: 'number' },
-          inStock: { type: 'boolean' }
-        },
-        required: ['name', 'price', 'inStock']
-      }
-    }
+<!-- prettier-ignore -->
+```ts
+// Configure the default for all requests:
+const client = new Tabstack({
+  timeout: 20 * 1000, // 20 seconds (default is 1 minute)
+});
+
+// Override per-request:
+await client.automate.execute({ task: 'Find the top 3 trending repositories and extract their names, descriptions, and star counts' }, {
+  timeout: 5 * 1000,
+});
+```
+
+On timeout, an `APIConnectionTimeoutError` is thrown.
+
+Note that requests which time out will be [retried twice by default](#retries).
+
+## Advanced Usage
+
+### Accessing raw Response data (e.g., headers)
+
+The "raw" `Response` returned by `fetch()` can be accessed through the `.asResponse()` method on the `APIPromise` type that all methods return.
+This method returns as soon as the headers for a successful response are received and does not consume the response body, so you are free to write custom parsing or streaming logic.
+
+You can also use the `.withResponse()` method to get the raw `Response` along with the parsed data.
+Unlike `.asResponse()` this method consumes the body, returning once it is parsed.
+
+<!-- prettier-ignore -->
+```ts
+const client = new Tabstack();
+
+const response = await client.automate
+  .execute({
+    task: 'Find the top 3 trending repositories and extract their names, descriptions, and star counts',
+  })
+  .asResponse();
+console.log(response.headers.get('X-My-Header'));
+console.log(response.statusText); // access the underlying Response object
+
+const { data: response, response: raw } = await client.automate
+  .execute({
+    task: 'Find the top 3 trending repositories and extract their names, descriptions, and star counts',
+  })
+  .withResponse();
+console.log(raw.headers.get('X-My-Header'));
+console.log(response);
+```
+
+### Logging
+
+> [!IMPORTANT]
+> All log messages are intended for debugging only. The format and content of log messages
+> may change between releases.
+
+#### Log levels
+
+The log level can be configured in two ways:
+
+1. Via the `TABSTACK_LOG` environment variable
+2. Using the `logLevel` client option (overrides the environment variable if set)
+
+```ts
+import Tabstack from 'tabstack';
+
+const client = new Tabstack({
+  logLevel: 'debug', // Show all log messages
+});
+```
+
+Available log levels, from most to least verbose:
+
+- `'debug'` - Show debug messages, info, warnings, and errors
+- `'info'` - Show info messages, warnings, and errors
+- `'warn'` - Show warnings and errors (default)
+- `'error'` - Show only errors
+- `'off'` - Disable all logging
+
+At the `'debug'` level, all HTTP requests and responses are logged, including headers and bodies.
+Some authentication-related headers are redacted, but sensitive data in request and response bodies
+may still be visible.
+
+#### Custom logger
+
+By default, this library logs to `globalThis.console`. You can also provide a custom logger.
+Most logging libraries are supported, including [pino](https://www.npmjs.com/package/pino), [winston](https://www.npmjs.com/package/winston), [bunyan](https://www.npmjs.com/package/bunyan), [consola](https://www.npmjs.com/package/consola), [signale](https://www.npmjs.com/package/signale), and [@std/log](https://jsr.io/@std/log). If your logger doesn't work, please open an issue.
+
+When providing a custom logger, the `logLevel` option still controls which messages are emitted, messages
+below the configured level will not be sent to your logger.
+
+```ts
+import Tabstack from 'tabstack';
+import pino from 'pino';
+
+const logger = pino();
+
+const client = new Tabstack({
+  logger: logger.child({ name: 'Tabstack' }),
+  logLevel: 'debug', // Send all messages to pino, allowing it to filter
+});
+```
+
+### Making custom/undocumented requests
+
+This library is typed for convenient access to the documented API. If you need to access undocumented
+endpoints, params, or response properties, the library can still be used.
+
+#### Undocumented endpoints
+
+To make requests to undocumented endpoints, you can use `client.get`, `client.post`, and other HTTP verbs.
+Options on the client, such as retries, will be respected when making these requests.
+
+```ts
+await client.post('/some/path', {
+  body: { some_prop: 'foo' },
+  query: { some_query_arg: 'bar' },
+});
+```
+
+#### Undocumented request params
+
+To make requests using undocumented parameters, you may use `// @ts-expect-error` on the undocumented
+parameter. This library doesn't validate at runtime that the request matches the type, so any extra values you
+send will be sent as-is.
+
+```ts
+client.automate.execute({
+  // ...
+  // @ts-expect-error baz is not yet public
+  baz: 'undocumented option',
+});
+```
+
+For requests with the `GET` verb, any extra params will be in the query, all other requests will send the
+extra param in the body.
+
+If you want to explicitly send an extra argument, you can do so with the `query`, `body`, and `headers` request
+options.
+
+#### Undocumented response properties
+
+To access undocumented response properties, you may access the response object with `// @ts-expect-error` on
+the response object, or cast the response object to the requisite type. Like the request params, we do not
+validate or strip extra properties from the response from the API.
+
+### Customizing the fetch client
+
+By default, this library expects a global `fetch` function is defined.
+
+If you want to use a different `fetch` function, you can either polyfill the global:
+
+```ts
+import fetch from 'my-fetch';
+
+globalThis.fetch = fetch;
+```
+
+Or pass it to the client:
+
+```ts
+import Tabstack from 'tabstack';
+import fetch from 'my-fetch';
+
+const client = new Tabstack({ fetch });
+```
+
+### Fetch options
+
+If you want to set custom `fetch` options without overriding the `fetch` function, you can provide a `fetchOptions` object when instantiating the client or making a request. (Request-specific options override client options.)
+
+```ts
+import Tabstack from 'tabstack';
+
+const client = new Tabstack({
+  fetchOptions: {
+    // `RequestInit` options
   },
-  required: ['products']
-};
-
-const result = await tabs.extract.json('https://example.com/products', schema);
-console.log(result.data);
+});
 ```
 
-### Generate Content
+#### Configuring proxies
 
-Transform web content using AI:
+To modify proxy behavior, you can provide custom `fetchOptions` that add runtime-specific proxy
+options to requests:
 
-```typescript
-const schema = {
-  type: 'object',
-  properties: {
-    summaries: {
-      type: 'array',
-      items: {
-        type: 'object',
-        properties: {
-          title: { type: 'string' },
-          category: { type: 'string' },
-          summary: { type: 'string' }
-        },
-        required: ['title', 'category', 'summary']
-      }
-    }
+<img src="https://raw.githubusercontent.com/stainless-api/sdk-assets/refs/heads/main/node.svg" align="top" width="18" height="21"> **Node** <sup>[[docs](https://github.com/nodejs/undici/blob/main/docs/docs/api/ProxyAgent.md#example---proxyagent-with-fetch)]</sup>
+
+```ts
+import Tabstack from 'tabstack';
+import * as undici from 'undici';
+
+const proxyAgent = new undici.ProxyAgent('http://localhost:8888');
+const client = new Tabstack({
+  fetchOptions: {
+    dispatcher: proxyAgent,
   },
-  required: ['summaries']
-};
-
-const result = await tabs.generate.json(
-  'https://news.ycombinator.com',
-  schema,
-  'Categorize each story and write a one-sentence summary'
-);
-
-console.log(result.data);
+});
 ```
 
-### Automate Tasks
+<img src="https://raw.githubusercontent.com/stainless-api/sdk-assets/refs/heads/main/bun.svg" align="top" width="18" height="21"> **Bun** <sup>[[docs](https://bun.sh/guides/http/proxy)]</sup>
 
-Execute browser automation tasks with streaming updates:
+```ts
+import Tabstack from 'tabstack';
 
-```typescript
-for await (const event of tabs.agent.automate(
-  'Find the top 3 trending repositories and extract their details',
-  {
-    url: 'https://github.com/trending',
-    guardrails: 'browse and extract only',
-    maxIterations: 50
-  }
-)) {
-  console.log(`Event: ${event.type}`);
-
-  if (event.type === 'task:completed') {
-    console.log('Result:', event.data.get('finalAnswer'));
-  } else if (event.type === 'agent:extracted') {
-    console.log('Extracted:', event.data.get('extractedData'));
-  }
-}
-```
-
-## Working with JSON Schemas
-
-The SDK uses standard [JSON Schema](https://json-schema.org/) format for defining data structures:
-
-```typescript
-const schema = {
-  type: 'object',
-  properties: {
-    name: { type: 'string', description: 'Person name' },
-    age: { type: 'number', description: 'Person age' },
-    isActive: { type: 'boolean', description: 'Active status' },
-    tags: {
-      type: 'array',
-      items: { type: 'string' }
-    },
-    addresses: {
-      type: 'array',
-      items: {
-        type: 'object',
-        properties: {
-          street: { type: 'string' },
-          city: { type: 'string' },
-          zipCode: { type: 'number' }
-        },
-        required: ['street', 'city', 'zipCode']
-      }
-    },
-    metadata: {
-      type: 'object',
-      properties: {
-        createdAt: { type: 'string' },
-        updatedAt: { type: 'string' }
-      },
-      required: ['createdAt', 'updatedAt']
-    }
+const client = new Tabstack({
+  fetchOptions: {
+    proxy: 'http://localhost:8888',
   },
-  required: ['name', 'age']
-};
+});
 ```
 
-## Error Handling
+<img src="https://raw.githubusercontent.com/stainless-api/sdk-assets/refs/heads/main/deno.svg" align="top" width="18" height="21"> **Deno** <sup>[[docs](https://docs.deno.com/api/deno/~/Deno.createHttpClient)]</sup>
 
-Handle errors with specific error classes:
+```ts
+import Tabstack from 'npm:tabstack';
 
-```typescript
-import {
-  TabstackError,
-  UnauthorizedError,
-  InvalidURLError,
-  BadRequestError,
-  ServerError
-} from '@tabstack/sdk';
-
-try {
-  const result = await tabs.extract.markdown('https://example.com');
-} catch (error) {
-  if (error instanceof UnauthorizedError) {
-    console.error('Invalid API key');
-  } else if (error instanceof InvalidURLError) {
-    console.error('Invalid or inaccessible URL');
-  } else if (error instanceof TabstackError) {
-    console.error(`API error: ${error.message}`);
-  }
-}
+const httpClient = Deno.createHttpClient({ proxy: { url: 'http://localhost:8888' } });
+const client = new Tabstack({
+  fetchOptions: {
+    client: httpClient,
+  },
+});
 ```
 
-### Error Classes
+## Frequently Asked Questions
 
-- `TabstackError` - Base error class
-- `BadRequestError` - 400: Malformed request
-- `UnauthorizedError` - 401: Invalid API key
-- `InvalidURLError` - 422: Invalid or inaccessible URL
-- `ServerError` - 500: Internal server error
-- `ServiceUnavailableError` - 503: Service unavailable
-- `APIError` - Generic API error with status code
+## Semantic versioning
+
+This package generally follows [SemVer](https://semver.org/spec/v2.0.0.html) conventions, though certain backwards-incompatible changes may be released as minor versions:
+
+1. Changes that only affect static types, without breaking runtime behavior.
+2. Changes to library internals which are technically public but not intended or documented for external use. _(Please open a GitHub issue to let us know if you are relying on such internals.)_
+3. Changes that we do not expect to impact the vast majority of users in practice.
+
+We take backwards-compatibility seriously and work hard to ensure you can rely on a smooth upgrade experience.
+
+We are keen for your feedback; please open an [issue](https://www.github.com/stainless-sdks/tabstack-typescript/issues) with questions, bugs, or suggestions.
 
 ## Requirements
 
-- Node.js >= 20.0.0
-- Tabstack API key ([get one here](https://tabstack.ai))
+TypeScript >= 4.9 is supported.
 
-## Development & Testing
+The following runtimes are supported:
 
-This SDK includes a comprehensive testing suite with excellent code coverage and type safety.
+- Web browsers (Up-to-date Chrome, Firefox, Safari, Edge, and more)
+- Node.js 20 LTS or later ([non-EOL](https://endoflife.date/nodejs)) versions.
+- Deno v1.28.0 or higher.
+- Bun 1.0 or later.
+- Cloudflare Workers.
+- Vercel Edge Runtime.
+- Jest 28 or greater with the `"node"` environment (`"jsdom"` is not supported at this time).
+- Nitro v2.6 or greater.
 
-### Running Tests
+Note that React Native is not supported at this time.
 
-```bash
-# Run all tests
-npm test
-
-# Run unit tests only
-npm run test:unit
-
-# Run E2E tests only
-npm run test:e2e
-
-# Run tests in watch mode
-npm run test:watch
-
-# Run tests with coverage report
-npm run test:coverage
-
-# Run TypeScript type tests
-npm run test:types
-```
-
-### Test Structure
-
-The SDK includes multiple types of tests:
-
-**Unit Tests** (`src/**/*.test.ts`)
-- HTTPClient tests - HTTP request/response handling, error scenarios
-- Exception classes tests - Error creation and inheritance
-- Type classes tests - Serialization, deserialization, data access
-- Extract operator tests - Markdown, schema, and JSON extraction
-- Generate operator tests - AI-powered content generation
-- Automate operator tests - SSE streaming and event parsing
-- Client tests - Main client initialization and configuration
-
-**E2E Tests** (`test/e2e/`)
-- Complete workflows from client to operators
-- Real-world use case scenarios
-- Error handling and edge cases
-- Multi-operation workflows
-
-**Type Tests** (`test/types/`)
-- TypeScript type safety validation using `tsd`
-- Generic type inference
-- Type guard verification
-- Compile-time type checking
-
-### Test Coverage
-
-The SDK maintains high test coverage across all modules:
-
-- **172+ test cases** covering all major functionality
-- **~70%+ code coverage** across branches, functions, lines, and statements
-- **Mocked HTTP requests** using `nock` for fast, reliable tests
-- **Type-safe tests** with full TypeScript support
-
-### Test Technologies
-
-- **Jest** - Test runner and assertion library
-- **ts-jest** - TypeScript support for Jest
-- **nock** - HTTP request mocking
-- **tsd** - TypeScript type definition testing
-
-### Writing Tests
-
-When contributing to the SDK, please:
-
-1. Write tests for all new features and bug fixes
-2. Maintain or improve code coverage
-3. Use descriptive test names that explain the behavior being tested
-4. Mock external HTTP requests using `nock`
-5. Test both success and error scenarios
-6. Add type tests for new public APIs
-
-Example test structure:
-
-```typescript
-describe('Feature', () => {
-  describe('method', () => {
-    it('should handle success case', async () => {
-      // Arrange
-      const mockData = { result: 'success' };
-      nock('https://api.tabstack.ai')
-        .post('/endpoint')
-        .reply(200, mockData);
-
-      // Act
-      const result = await client.feature.method();
-
-      // Assert
-      expect(result).toEqual(mockData);
-    });
-
-    it('should handle error case', async () => {
-      nock('https://api.tabstack.ai')
-        .post('/endpoint')
-        .reply(400, { error: 'Bad request' });
-
-      await expect(client.feature.method()).rejects.toThrow(BadRequestError);
-    });
-  });
-});
-```
+If you are interested in other runtime environments, please open or upvote an issue on GitHub.
 
 ## Contributing
 
-We welcome contributions! Please see [CONTRIBUTING.md](CONTRIBUTING.md) for guidelines.
-
-### Quick Start for Contributors
-
-```bash
-# Fork and clone the repository
-git clone https://github.com/YOUR_USERNAME/tabs-typescript.git
-cd tabs-typescript
-
-# Install dependencies
-npm install
-
-# Run checks locally before submitting PR
-npm run lint        # Check for linting errors
-npm run format:check # Check formatting
-npm test            # Run all tests
-npm run build       # Verify builds work
-```
-
-### Pull Request Requirements
-
-All PRs must pass these checks before merging:
-
-- ✅ **Lint** - Code style and formatting (ESLint + Prettier)
-- ✅ **Node 20, 22, 24** - Tests and builds on all supported Node versions
-- ✅ **Code Review** - Approval from maintainers
-
-See [CONTRIBUTING.md](CONTRIBUTING.md) for detailed guidelines.
-
-## License
-
-Apache
-
-## Support
-
-- Documentation: [https://docs.tabstack.ai](https://docs.tabstack.ai)
-- GitHub Issues: [https://github.com/tabstack/tabs-typescript/issues](https://github.com/tabstack/tabs-typescript/issues)
-- Website: [https://tabstack.ai](https://tabstack.ai)
+See [the contributing documentation](./CONTRIBUTING.md).
