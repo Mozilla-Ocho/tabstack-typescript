@@ -4,7 +4,7 @@ import { isJqError, maybeFilter } from 'tabstack-mcp/filtering';
 import { Metadata, asErrorResult, asTextContentResult } from 'tabstack-mcp/tools/types';
 
 import { Tool } from '@modelcontextprotocol/sdk/types.js';
-import Tabstack from 'tabstack';
+import Tabstack from '@tabstack/sdk';
 
 export const metadata: Metadata = {
   resource: 'extract',
