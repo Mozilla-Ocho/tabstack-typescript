@@ -1,6 +1,6 @@
 {
   "name": "tabstack",
-  "version": "0.0.1",
+  "version": "1.0.5",
   "description": "The official TypeScript library for the Tabstack API",
   "author": "Tabstack <>",
   "types": "dist/index.d.ts",
