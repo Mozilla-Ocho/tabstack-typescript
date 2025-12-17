@@ -80,9 +80,6 @@ importers:
       '@modelcontextprotocol/sdk':
         specifier: ^1.24.0
         version: 1.24.2(zod@3.25.76)
-      '@tabstack/sdk':
-        specifier: workspace:*
-        version: link:../..
       '@valtown/deno-http-worker':
         specifier: ^0.0.21
         version: 0.0.21
@@ -101,6 +98,9 @@ importers:
       qs:
         specifier: ^6.14.0
         version: 6.14.0
+      tabstack:
+        specifier: workspace:*
+        version: link:../..
       typescript:
         specifier: 5.8.3
         version: 5.8.3

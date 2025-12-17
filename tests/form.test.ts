@@ -1,5 +1,5 @@
-import { multipartFormRequestOptions, createForm } from '@tabstack/sdk/internal/uploads';
-import { toFile } from '@tabstack/sdk/core/uploads';
+import { multipartFormRequestOptions, createForm } from 'tabstack/internal/uploads';
+import { toFile } from 'tabstack/core/uploads';
 
 describe('form data validation', () => {
   test('valid values do not error', async () => {

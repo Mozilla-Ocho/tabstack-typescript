@@ -4,10 +4,10 @@ import { Metadata, Endpoint, HandlerFunction } from './types';
 
 export { Metadata, Endpoint, HandlerFunction };
 
-import execute_automate from './automate/execute-automate';
-import create_json_extract from './extract/create-json-extract';
-import create_markdown_extract from './extract/create-markdown-extract';
-import create_json_generate from './generate/create-json-generate';
+import automate_agent from './agent/automate-agent';
+import json_extract from './extract/json-extract';
+import markdown_extract from './extract/markdown-extract';
+import json_generate from './generate/json-generate';
 
 export const endpoints: Endpoint[] = [];
 
@@ -15,10 +15,10 @@ function addEndpoint(endpoint: Endpoint) {
   endpoints.push(endpoint);
 }
 
-addEndpoint(execute_automate);
-addEndpoint(create_json_extract);
-addEndpoint(create_markdown_extract);
-addEndpoint(create_json_generate);
+addEndpoint(automate_agent);
+addEndpoint(json_extract);
+addEndpoint(markdown_extract);
+addEndpoint(json_generate);
 
 export type Filter = {
   type: 'resource' | 'operation' | 'tag' | 'tool';

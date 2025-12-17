@@ -16,15 +16,15 @@ import * as Errors from './core/error';
 import * as Uploads from './core/uploads';
 import * as API from './resources/index';
 import { APIPromise } from './core/api-promise';
-import { Automate, AutomateExecuteParams, AutomateExecuteResponse } from './resources/automate';
+import { Agent, AgentAutomateParams, AgentAutomateResponse } from './resources/agent';
 import {
   Extract,
-  ExtractCreateJsonParams,
-  ExtractCreateJsonResponse,
-  ExtractCreateMarkdownParams,
-  ExtractCreateMarkdownResponse,
+  ExtractJsonParams,
+  ExtractJsonResponse,
+  ExtractMarkdownParams,
+  ExtractMarkdownResponse,
 } from './resources/extract';
-import { Generate, GenerateCreateJsonParams, GenerateCreateJsonResponse } from './resources/generate';
+import { Generate, GenerateJsonParams, GenerateJsonResponse } from './resources/generate';
 import { type Fetch } from './internal/builtin-types';
 import { HeadersLike, NullableHeaders, buildHeaders } from './internal/headers';
 import { FinalRequestOptions, RequestOptions } from './internal/request-options';
@@ -722,12 +722,12 @@ export class Tabstack {
 
   static toFile = Uploads.toFile;
 
-  automate: API.Automate = new API.Automate(this);
+  agent: API.Agent = new API.Agent(this);
   extract: API.Extract = new API.Extract(this);
   generate: API.Generate = new API.Generate(this);
 }
 
-Tabstack.Automate = Automate;
+Tabstack.Agent = Agent;
 Tabstack.Extract = Extract;
 Tabstack.Generate = Generate;
 
@@ -735,22 +735,22 @@ export declare namespace Tabstack {
   export type RequestOptions = Opts.RequestOptions;
 
   export {
-    Automate as Automate,
-    type AutomateExecuteResponse as AutomateExecuteResponse,
-    type AutomateExecuteParams as AutomateExecuteParams,
+    Agent as Agent,
+    type AgentAutomateResponse as AgentAutomateResponse,
+    type AgentAutomateParams as AgentAutomateParams,
   };
 
   export {
     Extract as Extract,
-    type ExtractCreateJsonResponse as ExtractCreateJsonResponse,
-    type ExtractCreateMarkdownResponse as ExtractCreateMarkdownResponse,
-    type ExtractCreateJsonParams as ExtractCreateJsonParams,
-    type ExtractCreateMarkdownParams as ExtractCreateMarkdownParams,
+    type ExtractJsonResponse as ExtractJsonResponse,
+    type ExtractMarkdownResponse as ExtractMarkdownResponse,
+    type ExtractJsonParams as ExtractJsonParams,
+    type ExtractMarkdownParams as ExtractMarkdownParams,
   };
 
   export {
     Generate as Generate,
-    type GenerateCreateJsonResponse as GenerateCreateJsonResponse,
-    type GenerateCreateJsonParams as GenerateCreateJsonParams,
+    type GenerateJsonResponse as GenerateJsonResponse,
+    type GenerateJsonParams as GenerateJsonParams,
   };
 }
