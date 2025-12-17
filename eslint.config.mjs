@@ -25,7 +25,7 @@ export default tseslint.config(
         {
           patterns: [
             {
-              regex: '^@tabstack/sdk(/.*)?',
+              regex: '^tabstack(/.*)?',
               message: 'Use a relative import, not a package import.',
             },
           ],

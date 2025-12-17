@@ -4,16 +4,31 @@ It is generated with [Stainless](https://www.stainless.com/).
 
 ## Installation
 
-### Direct invocation
+### Building
 
-You can run the MCP Server directly via `npx`:
+Because it's not published yet, clone the repo and build it:
 
 ```sh
-export TABSTACK_API_KEY="My API Key"
-npx -y tabstack-mcp@latest
+git clone git@github.com:stainless-sdks/tabstack-typescript.git
+cd tabstack-typescript
+./scripts/bootstrap
+./scripts/build
 ```
 
+### Running
+
+```sh
+# set env vars as needed
+export TABSTACK_API_KEY="My API Key"
+node ./packages/mcp-server/dist/index.js
+```
+
+> [!NOTE]
+> Once this package is [published to npm](https://www.stainless.com/docs/guides/publish), this will become: `npx -y tabstack-mcp`
+
 ### Via MCP Client
+
+[Build the project](#building) as mentioned above.
 
 There is a partial list of existing clients at [modelcontextprotocol.io](https://modelcontextprotocol.io/clients). If you already
 have a client, consult their documentation to install the MCP server.
@@ -23,38 +38,15 @@ For clients with a configuration JSON, it might look something like this:
 ```json
 {
   "mcpServers": {
-    "tabstack_sdk_api": {
-      "command": "npx",
-      "args": ["-y", "tabstack-mcp", "--client=claude", "--tools=all"],
+    "tabstack_api": {
+      "command": "node",
+      "args": ["/path/to/local/tabstack-typescript/packages/mcp-server", "--client=claude", "--tools=all"],
       "env": {
         "TABSTACK_API_KEY": "My API Key"
       }
     }
   }
 }
-```
-
-### Cursor
-
-If you use Cursor, you can install the MCP server by using the button below. You will need to set your environment variables
-in Cursor's `mcp.json`, which can be found in Cursor Settings > Tools & MCP > New MCP Server.
-
-[![Add to Cursor](https://cursor.com/deeplink/mcp-install-dark.svg)](https://cursor.com/en-US/install-mcp?name=tabstack-mcp&config=eyJjb21tYW5kIjoibnB4IiwiYXJncyI6WyIteSIsInRhYnN0YWNrLW1jcCJdLCJlbnYiOnsiVEFCU1RBQ0tfQVBJX0tFWSI6IlNldCB5b3VyIFRBQlNUQUNLX0FQSV9LRVkgaGVyZS4ifX0)
-
-### VS Code
-
-If you use MCP, you can install the MCP server by clicking the link below. You will need to set your environment variables
-in VS Code's `mcp.json`, which can be found via Command Palette > MCP: Open User Configuration.
-
-[Open VS Code](https://vscode.stainless.com/mcp/%7B%22name%22%3A%22tabstack-mcp%22%2C%22command%22%3A%22npx%22%2C%22args%22%3A%5B%22-y%22%2C%22tabstack-mcp%22%5D%2C%22env%22%3A%7B%22TABSTACK_API_KEY%22%3A%22Set%20your%20TABSTACK_API_KEY%20here.%22%7D%7D)
-
-### Claude Code
-
-If you use Claude Code, you can install the MCP server by running the command below in your terminal. You will need to set your
-environment variables in Claude Code's `.claude.json`, which can be found in your home directory.
-
-```
-claude mcp add --transport stdio tabstack_sdk_api --env TABSTACK_API_KEY="Your TABSTACK_API_KEY here." -- npx -y tabstack-mcp
 ```
 
 ## Exposing endpoints to your MCP Client
@@ -178,7 +170,7 @@ A configuration JSON for this server might look like this, assuming the server i
 ```json
 {
   "mcpServers": {
-    "tabstack_sdk_api": {
+    "tabstack_api": {
       "url": "http://localhost:3000",
       "headers": {
         "Authorization": "Bearer <auth value>"
@@ -208,7 +200,7 @@ http://localhost:3000?client=cursor&capability=tool-name-length%3D40
 import { server, endpoints, init } from "tabstack-mcp/server";
 
 // import a specific tool
-import executeAutomate from "tabstack-mcp/tools/automate/execute-automate";
+import automateAgent from "tabstack-mcp/tools/agent/automate-agent";
 
 // initialize the server and all endpoints
 init({ server, endpoints });
@@ -233,16 +225,16 @@ const myCustomEndpoint = {
 };
 
 // initialize the server with your custom endpoints
-init({ server: myServer, endpoints: [executeAutomate, myCustomEndpoint] });
+init({ server: myServer, endpoints: [automateAgent, myCustomEndpoint] });
 ```
 
 ## Available Tools
 
 The following tools are available in this MCP server.
 
-### Resource `automate`:
+### Resource `agent`:
 
-- `execute_automate` (`write`): Execute AI-powered browser automation tasks using natural language. This endpoint **always streams** responses using Server-Sent Events (SSE).
+- `automate_agent` (`write`): Execute AI-powered browser automation tasks using natural language. This endpoint **always streams** responses using Server-Sent Events (SSE).
 
   **Streaming Response:**
 
@@ -259,9 +251,9 @@ The following tools are available in this MCP server.
 
 ### Resource `extract`:
 
-- `create_json_extract` (`write`): Fetches a URL and extracts structured data according to a provided JSON schema
-- `create_markdown_extract` (`write`): Fetches a URL and converts its HTML content to clean Markdown format with optional metadata extraction
+- `json_extract` (`write`): Fetches a URL and extracts structured data according to a provided JSON schema
+- `markdown_extract` (`write`): Fetches a URL and converts its HTML content to clean Markdown format with optional metadata extraction
 
 ### Resource `generate`:
 
-- `create_json_generate` (`write`): Fetches URL content, extracts data, and transforms it using AI based on custom instructions. Use this to generate new content, summaries, or restructured data.
+- `json_generate` (`write`): Fetches URL content, extracts data, and transforms it using AI based on custom instructions. Use this to generate new content, summaries, or restructured data.

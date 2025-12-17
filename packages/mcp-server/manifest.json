@@ -8,9 +8,9 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/Mozilla-Ocho/tabstack-typescript.git"
+    "url": "git+https://github.com/stainless-sdks/tabstack-typescript.git"
   },
-  "homepage": "https://github.com/Mozilla-Ocho/tabstack-typescript/tree/main/packages/mcp-server#readme",
+  "homepage": "https://github.com/stainless-sdks/tabstack-typescript/tree/main/packages/mcp-server#readme",
   "server": {
     "type": "node",
     "entry_point": "index.js",

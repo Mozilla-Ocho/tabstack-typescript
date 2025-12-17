@@ -11,46 +11,22 @@ export class Generate extends APIResource {
    *
    * @example
    * ```ts
-   * const response = await client.generate.createJson({
+   * const response = await client.generate.json({
    *   instructions:
    *     "For each story, categorize it (tech/business/science/other) and write a one-sentence summary explaining what it's about in simple terms.",
-   *   json_schema: {
-   *     type: 'object',
-   *     properties: {
-   *       summaries: {
-   *         type: 'array',
-   *         items: {
-   *           type: 'object',
-   *           properties: {
-   *             title: { type: 'string', description: 'Story title' },
-   *             category: {
-   *               type: 'string',
-   *               description: 'Story category (tech/business/science/etc)',
-   *             },
-   *             summary: { type: 'string', description: 'One-sentence summary of the story' },
-   *           },
-   *         },
-   *       },
-   *     },
-   *   },
+   *   json_schema: {},
    *   url: 'https://news.ycombinator.com',
    * });
    * ```
    */
-  createJson(
-    body: GenerateCreateJsonParams,
-    options?: RequestOptions,
-  ): APIPromise<GenerateCreateJsonResponse> {
+  json(body: GenerateJsonParams, options?: RequestOptions): APIPromise<GenerateJsonResponse> {
     return this._client.post('/generate/json', { body, ...options });
   }
 }
 
-/**
- * The transformed data matching the provided schema
- */
-export type GenerateCreateJsonResponse = { [key: string]: unknown };
+export type GenerateJsonResponse = { [key: string]: unknown };
 
-export interface GenerateCreateJsonParams {
+export interface GenerateJsonParams {
   /**
    * Instructions describing how to transform the data
    */
@@ -73,8 +49,5 @@ export interface GenerateCreateJsonParams {
 }
 
 export declare namespace Generate {
-  export {
-    type GenerateCreateJsonResponse as GenerateCreateJsonResponse,
-    type GenerateCreateJsonParams as GenerateCreateJsonParams,
-  };
+  export { type GenerateJsonResponse as GenerateJsonResponse, type GenerateJsonParams as GenerateJsonParams };
 }

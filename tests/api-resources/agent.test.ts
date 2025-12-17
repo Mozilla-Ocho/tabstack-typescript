@@ -1,16 +1,16 @@
 // File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
-import Tabstack from '@tabstack/sdk';
+import Tabstack from 'tabstack';
 
 const client = new Tabstack({
   apiKey: 'My API Key',
   baseURL: process.env['TEST_API_BASE_URL'] ?? 'http://127.0.0.1:4010',
 });
 
-describe('resource automate', () => {
+describe('resource agent', () => {
   // Prism doesn't support text/event-stream responses
-  test.skip('execute: only required params', async () => {
-    const responsePromise = client.automate.execute({
+  test.skip('automate: only required params', async () => {
+    const responsePromise = client.agent.automate({
       task: 'Find the top 3 trending repositories and extract their names, descriptions, and star counts',
     });
     const rawResponse = await responsePromise.asResponse();
@@ -23,10 +23,10 @@ describe('resource automate', () => {
   });
 
   // Prism doesn't support text/event-stream responses
-  test.skip('execute: required and optional params', async () => {
-    const response = await client.automate.execute({
+  test.skip('automate: required and optional params', async () => {
+    const response = await client.agent.automate({
       task: 'Find the top 3 trending repositories and extract their names, descriptions, and star counts',
-      data: { language: 'Python', timeRange: 'today' },
+      data: {},
       guardrails: "browse and extract only, don't interact with repositories",
       maxIterations: 50,
       maxValidationAttempts: 3,

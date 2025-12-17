@@ -1,6 +1,6 @@
 // File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
-import Tabstack from '@tabstack/sdk';
+import Tabstack from 'tabstack';
 
 const client = new Tabstack({
   apiKey: 'My API Key',
@@ -9,26 +9,11 @@ const client = new Tabstack({
 
 describe('resource generate', () => {
   // Prism tests are disabled
-  test.skip('createJson: only required params', async () => {
-    const responsePromise = client.generate.createJson({
+  test.skip('json: only required params', async () => {
+    const responsePromise = client.generate.json({
       instructions:
         "For each story, categorize it (tech/business/science/other) and write a one-sentence summary explaining what it's about in simple terms.",
-      json_schema: {
-        type: 'object',
-        properties: {
-          summaries: {
-            type: 'array',
-            items: {
-              type: 'object',
-              properties: {
-                title: { type: 'string', description: 'Story title' },
-                category: { type: 'string', description: 'Story category (tech/business/science/etc)' },
-                summary: { type: 'string', description: 'One-sentence summary of the story' },
-              },
-            },
-          },
-        },
-      },
+      json_schema: {},
       url: 'https://news.ycombinator.com',
     });
     const rawResponse = await responsePromise.asResponse();
@@ -41,26 +26,11 @@ describe('resource generate', () => {
   });
 
   // Prism tests are disabled
-  test.skip('createJson: required and optional params', async () => {
-    const response = await client.generate.createJson({
+  test.skip('json: required and optional params', async () => {
+    const response = await client.generate.json({
       instructions:
         "For each story, categorize it (tech/business/science/other) and write a one-sentence summary explaining what it's about in simple terms.",
-      json_schema: {
-        type: 'object',
-        properties: {
-          summaries: {
-            type: 'array',
-            items: {
-              type: 'object',
-              properties: {
-                title: { type: 'string', description: 'Story title' },
-                category: { type: 'string', description: 'Story category (tech/business/science/etc)' },
-                summary: { type: 'string', description: 'One-sentence summary of the story' },
-              },
-            },
-          },
-        },
-      },
+      json_schema: {},
       url: 'https://news.ycombinator.com',
       nocache: false,
     });
