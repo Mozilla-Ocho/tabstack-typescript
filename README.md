@@ -1,6 +1,6 @@
 # Tabstack TypeScript API Library
 
-[![NPM version](<https://img.shields.io/npm/v/@tabstack/sdk.svg?label=npm%20(stable)>)](https://npmjs.org/package/@tabstack/sdk) ![npm bundle size](https://img.shields.io/bundlephobia/minzip/@tabstack/sdk)
+[![NPM version](<https://img.shields.io/npm/v/tabstack.svg?label=npm%20(stable)>)](https://npmjs.org/package/tabstack) ![npm bundle size](https://img.shields.io/bundlephobia/minzip/tabstack)
 
 This library provides convenient access to the Tabstack REST API from server-side TypeScript or JavaScript.
 
@@ -11,8 +11,11 @@ It is generated with [Stainless](https://www.stainless.com/).
 ## Installation
 
 ```sh
-npm install @tabstack/sdk
+npm install git+ssh://git@github.com:stainless-sdks/tabstack-typescript.git
 ```
+
+> [!NOTE]
+> Once this package is [published to npm](https://www.stainless.com/docs/guides/publish), this will become: `npm install tabstack`
 
 ## Usage
 
@@ -20,13 +23,13 @@ The full API of this library can be found in [api.md](api.md).
 
 <!-- prettier-ignore -->
 ```js
-import Tabstack from '@tabstack/sdk';
+import Tabstack from 'tabstack';
 
 const client = new Tabstack({
   apiKey: process.env['TABSTACK_API_KEY'], // This is the default and can be omitted
 });
 
-const response = await client.automate.execute({
+const response = await client.agent.automate({
   task: 'Find the top 3 trending repositories and extract their names, descriptions, and star counts',
 });
 ```
@@ -36,15 +39,15 @@ const response = await client.automate.execute({
 We provide support for streaming responses using Server Sent Events (SSE).
 
 ```ts
-import Tabstack from '@tabstack/sdk';
+import Tabstack from 'tabstack';
 
 const client = new Tabstack();
 
-const stream = await client.automate.execute({
+const stream = await client.agent.automate({
   task: 'Find the top 3 trending repositories and extract their names, descriptions, and star counts',
 });
-for await (const automateExecuteResponse of stream) {
-  console.log(automateExecuteResponse);
+for await (const agentAutomateResponse of stream) {
+  console.log(agentAutomateResponse);
 }
 ```
 
@@ -57,16 +60,16 @@ This library includes TypeScript definitions for all request params and response
 
 <!-- prettier-ignore -->
 ```ts
-import Tabstack from '@tabstack/sdk';
+import Tabstack from 'tabstack';
 
 const client = new Tabstack({
   apiKey: process.env['TABSTACK_API_KEY'], // This is the default and can be omitted
 });
 
-const params: Tabstack.AutomateExecuteParams = {
+const params: Tabstack.AgentAutomateParams = {
   task: 'Find the top 3 trending repositories and extract their names, descriptions, and star counts',
 };
-const response: string = await client.automate.execute(params);
+const response: string = await client.agent.automate(params);
 ```
 
 Documentation for each method, request param, and response field are available in docstrings and will appear on hover in most modern editors.
@@ -79,8 +82,8 @@ a subclass of `APIError` will be thrown:
 
 <!-- prettier-ignore -->
 ```ts
-const response = await client.automate
-  .execute({
+const response = await client.agent
+  .automate({
     task: 'Find the top 3 trending repositories and extract their names, descriptions, and star counts',
   })
   .catch(async (err) => {
@@ -123,7 +126,7 @@ const client = new Tabstack({
 });
 
 // Or, configure per-request:
-await client.automate.execute({ task: 'Find the top 3 trending repositories and extract their names, descriptions, and star counts' }, {
+await client.agent.automate({ task: 'Find the top 3 trending repositories and extract their names, descriptions, and star counts' }, {
   maxRetries: 5,
 });
 ```
@@ -140,7 +143,7 @@ const client = new Tabstack({
 });
 
 // Override per-request:
-await client.automate.execute({ task: 'Find the top 3 trending repositories and extract their names, descriptions, and star counts' }, {
+await client.agent.automate({ task: 'Find the top 3 trending repositories and extract their names, descriptions, and star counts' }, {
   timeout: 5 * 1000,
 });
 ```
@@ -163,16 +166,16 @@ Unlike `.asResponse()` this method consumes the body, returning once it is parse
 ```ts
 const client = new Tabstack();
 
-const response = await client.automate
-  .execute({
+const response = await client.agent
+  .automate({
     task: 'Find the top 3 trending repositories and extract their names, descriptions, and star counts',
   })
   .asResponse();
 console.log(response.headers.get('X-My-Header'));
 console.log(response.statusText); // access the underlying Response object
 
-const { data: response, response: raw } = await client.automate
-  .execute({
+const { data: response, response: raw } = await client.agent
+  .automate({
     task: 'Find the top 3 trending repositories and extract their names, descriptions, and star counts',
   })
   .withResponse();
@@ -194,7 +197,7 @@ The log level can be configured in two ways:
 2. Using the `logLevel` client option (overrides the environment variable if set)
 
 ```ts
-import Tabstack from '@tabstack/sdk';
+import Tabstack from 'tabstack';
 
 const client = new Tabstack({
   logLevel: 'debug', // Show all log messages
@@ -222,7 +225,7 @@ When providing a custom logger, the `logLevel` option still controls which messa
 below the configured level will not be sent to your logger.
 
 ```ts
-import Tabstack from '@tabstack/sdk';
+import Tabstack from 'tabstack';
 import pino from 'pino';
 
 const logger = pino();
@@ -257,7 +260,7 @@ parameter. This library doesn't validate at runtime that the request matches the
 send will be sent as-is.
 
 ```ts
-client.automate.execute({
+client.agent.automate({
   // ...
   // @ts-expect-error baz is not yet public
   baz: 'undocumented option',
@@ -291,7 +294,7 @@ globalThis.fetch = fetch;
 Or pass it to the client:
 
 ```ts
-import Tabstack from '@tabstack/sdk';
+import Tabstack from 'tabstack';
 import fetch from 'my-fetch';
 
 const client = new Tabstack({ fetch });
@@ -302,7 +305,7 @@ const client = new Tabstack({ fetch });
 If you want to set custom `fetch` options without overriding the `fetch` function, you can provide a `fetchOptions` object when instantiating the client or making a request. (Request-specific options override client options.)
 
 ```ts
-import Tabstack from '@tabstack/sdk';
+import Tabstack from 'tabstack';
 
 const client = new Tabstack({
   fetchOptions: {
@@ -319,7 +322,7 @@ options to requests:
 <img src="https://raw.githubusercontent.com/stainless-api/sdk-assets/refs/heads/main/node.svg" align="top" width="18" height="21"> **Node** <sup>[[docs](https://github.com/nodejs/undici/blob/main/docs/docs/api/ProxyAgent.md#example---proxyagent-with-fetch)]</sup>
 
 ```ts
-import Tabstack from '@tabstack/sdk';
+import Tabstack from 'tabstack';
 import * as undici from 'undici';
 
 const proxyAgent = new undici.ProxyAgent('http://localhost:8888');
@@ -333,7 +336,7 @@ const client = new Tabstack({
 <img src="https://raw.githubusercontent.com/stainless-api/sdk-assets/refs/heads/main/bun.svg" align="top" width="18" height="21"> **Bun** <sup>[[docs](https://bun.sh/guides/http/proxy)]</sup>
 
 ```ts
-import Tabstack from '@tabstack/sdk';
+import Tabstack from 'tabstack';
 
 const client = new Tabstack({
   fetchOptions: {
@@ -345,7 +348,7 @@ const client = new Tabstack({
 <img src="https://raw.githubusercontent.com/stainless-api/sdk-assets/refs/heads/main/deno.svg" align="top" width="18" height="21"> **Deno** <sup>[[docs](https://docs.deno.com/api/deno/~/Deno.createHttpClient)]</sup>
 
 ```ts
-import Tabstack from 'npm:@tabstack/sdk';
+import Tabstack from 'npm:tabstack';
 
 const httpClient = Deno.createHttpClient({ proxy: { url: 'http://localhost:8888' } });
 const client = new Tabstack({
@@ -367,7 +370,7 @@ This package generally follows [SemVer](https://semver.org/spec/v2.0.0.html) con
 
 We take backwards-compatibility seriously and work hard to ensure you can rely on a smooth upgrade experience.
 
-We are keen for your feedback; please open an [issue](https://www.github.com/Mozilla-Ocho/tabstack-typescript/issues) with questions, bugs, or suggestions.
+We are keen for your feedback; please open an [issue](https://www.github.com/stainless-sdks/tabstack-typescript/issues) with questions, bugs, or suggestions.
 
 ## Requirements
 

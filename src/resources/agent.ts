@@ -6,7 +6,7 @@ import { Stream } from '../core/streaming';
 import { buildHeaders } from '../internal/headers';
 import { RequestOptions } from '../internal/request-options';
 
-export class Automate extends APIResource {
+export class Agent extends APIResource {
   /**
    * Execute AI-powered browser automation tasks using natural language. This
    * endpoint **always streams** responses using Server-Sent Events (SSE).
@@ -26,7 +26,7 @@ export class Automate extends APIResource {
    *
    * @example
    * ```ts
-   * const response = await client.automate.execute({
+   * const response = await client.agent.automate({
    *   task: 'Find the top 3 trending repositories and extract their names, descriptions, and star counts',
    *   guardrails:
    *     "browse and extract only, don't interact with repositories",
@@ -34,22 +34,19 @@ export class Automate extends APIResource {
    * });
    * ```
    */
-  execute(
-    body: AutomateExecuteParams,
-    options?: RequestOptions,
-  ): APIPromise<Stream<AutomateExecuteResponse>> {
+  automate(body: AgentAutomateParams, options?: RequestOptions): APIPromise<Stream<AgentAutomateResponse>> {
     return this._client.post('/automate', {
       body,
       ...options,
       headers: buildHeaders([{ Accept: 'text/event-stream' }, options?.headers]),
       stream: true,
-    }) as APIPromise<Stream<AutomateExecuteResponse>>;
+    }) as APIPromise<Stream<AgentAutomateResponse>>;
   }
 }
 
-export type AutomateExecuteResponse = string;
+export type AgentAutomateResponse = string;
 
-export interface AutomateExecuteParams {
+export interface AgentAutomateParams {
   /**
    * The task description in natural language
    */
@@ -81,9 +78,9 @@ export interface AutomateExecuteParams {
   url?: string;
 }
 
-export declare namespace Automate {
+export declare namespace Agent {
   export {
-    type AutomateExecuteResponse as AutomateExecuteResponse,
-    type AutomateExecuteParams as AutomateExecuteParams,
+    type AgentAutomateResponse as AgentAutomateResponse,
+    type AgentAutomateParams as AgentAutomateParams,
   };
 }

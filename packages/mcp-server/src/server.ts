@@ -10,8 +10,8 @@ import {
   Implementation,
   Tool,
 } from '@modelcontextprotocol/sdk/types.js';
-import { ClientOptions } from '@tabstack/sdk';
-import Tabstack from '@tabstack/sdk';
+import { ClientOptions } from 'tabstack';
+import Tabstack from 'tabstack';
 import {
   applyCompatibilityTransformations,
   ClientCapabilities,
@@ -27,13 +27,13 @@ import { McpOptions } from './options';
 export { McpOptions } from './options';
 export { ClientType } from './compat';
 export { Filter } from './tools';
-export { ClientOptions } from '@tabstack/sdk';
+export { ClientOptions } from 'tabstack';
 export { endpoints } from './tools';
 
 export const newMcpServer = () =>
   new McpServer(
     {
-      name: 'tabstack_sdk_api',
+      name: 'tabstack_api',
       version: '0.0.1',
     },
     { capabilities: { tools: {}, logging: {} } },

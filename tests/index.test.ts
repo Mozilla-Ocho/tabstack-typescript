@@ -1,10 +1,10 @@
 // File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
-import { APIPromise } from '@tabstack/sdk/core/api-promise';
+import { APIPromise } from 'tabstack/core/api-promise';
 
 import util from 'node:util';
-import Tabstack from '@tabstack/sdk';
-import { APIUserAbortError } from '@tabstack/sdk';
+import Tabstack from 'tabstack';
+import { APIUserAbortError } from 'tabstack';
 const defaultFetch = fetch;
 
 describe('instantiate client', () => {

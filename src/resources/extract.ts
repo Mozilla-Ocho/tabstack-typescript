@@ -10,37 +10,13 @@ export class Extract extends APIResource {
    *
    * @example
    * ```ts
-   * const response = await client.extract.createJson({
-   *   json_schema: {
-   *     type: 'object',
-   *     properties: {
-   *       stories: {
-   *         type: 'array',
-   *         items: {
-   *           type: 'object',
-   *           properties: {
-   *             title: {
-   *               type: 'string',
-   *               description: 'Story title',
-   *             },
-   *             points: {
-   *               type: 'number',
-   *               description: 'Story points',
-   *             },
-   *             author: {
-   *               type: 'string',
-   *               description: 'Author username',
-   *             },
-   *           },
-   *         },
-   *       },
-   *     },
-   *   },
+   * const response = await client.extract.json({
+   *   json_schema: {},
    *   url: 'https://news.ycombinator.com',
    * });
    * ```
    */
-  createJson(body: ExtractCreateJsonParams, options?: RequestOptions): APIPromise<ExtractCreateJsonResponse> {
+  json(body: ExtractJsonParams, options?: RequestOptions): APIPromise<ExtractJsonResponse> {
     return this._client.post('/extract/json', { body, ...options });
   }
 
@@ -50,25 +26,19 @@ export class Extract extends APIResource {
    *
    * @example
    * ```ts
-   * const response = await client.extract.createMarkdown({
+   * const response = await client.extract.markdown({
    *   url: 'https://example.com/blog/article',
    * });
    * ```
    */
-  createMarkdown(
-    body: ExtractCreateMarkdownParams,
-    options?: RequestOptions,
-  ): APIPromise<ExtractCreateMarkdownResponse> {
+  markdown(body: ExtractMarkdownParams, options?: RequestOptions): APIPromise<ExtractMarkdownResponse> {
     return this._client.post('/extract/markdown', { body, ...options });
   }
 }
 
-/**
- * The extracted data matching the provided schema
- */
-export type ExtractCreateJsonResponse = { [key: string]: unknown };
+export type ExtractJsonResponse = { [key: string]: unknown };
 
-export interface ExtractCreateMarkdownResponse {
+export interface ExtractMarkdownResponse {
   /**
    * The markdown content (includes metadata as YAML frontmatter by default)
    */
@@ -82,10 +52,10 @@ export interface ExtractCreateMarkdownResponse {
   /**
    * Extracted metadata from the page (only included when metadata parameter is true)
    */
-  metadata?: ExtractCreateMarkdownResponse.Metadata;
+  metadata?: ExtractMarkdownResponse.Metadata;
 }
 
-export namespace ExtractCreateMarkdownResponse {
+export namespace ExtractMarkdownResponse {
   /**
    * Extracted metadata from the page (only included when metadata parameter is true)
    */
@@ -132,7 +102,7 @@ export namespace ExtractCreateMarkdownResponse {
   }
 }
 
-export interface ExtractCreateJsonParams {
+export interface ExtractJsonParams {
   /**
    * JSON schema definition that describes the structure of data to extract.
    */
@@ -149,7 +119,7 @@ export interface ExtractCreateJsonParams {
   nocache?: boolean;
 }
 
-export interface ExtractCreateMarkdownParams {
+export interface ExtractMarkdownParams {
   /**
    * URL to fetch and convert to markdown
    */
@@ -169,9 +139,9 @@ export interface ExtractCreateMarkdownParams {
 
 export declare namespace Extract {
   export {
-    type ExtractCreateJsonResponse as ExtractCreateJsonResponse,
-    type ExtractCreateMarkdownResponse as ExtractCreateMarkdownResponse,
-    type ExtractCreateJsonParams as ExtractCreateJsonParams,
-    type ExtractCreateMarkdownParams as ExtractCreateMarkdownParams,
+    type ExtractJsonResponse as ExtractJsonResponse,
+    type ExtractMarkdownResponse as ExtractMarkdownResponse,
+    type ExtractJsonParams as ExtractJsonParams,
+    type ExtractMarkdownParams as ExtractMarkdownParams,
   };
 }

@@ -1,6 +1,6 @@
 // File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
-import Tabstack from '@tabstack/sdk';
+import Tabstack from 'tabstack';
 
 const client = new Tabstack({
   apiKey: 'My API Key',
@@ -9,26 +9,8 @@ const client = new Tabstack({
 
 describe('resource extract', () => {
   // Prism tests are disabled
-  test.skip('createJson: only required params', async () => {
-    const responsePromise = client.extract.createJson({
-      json_schema: {
-        type: 'object',
-        properties: {
-          stories: {
-            type: 'array',
-            items: {
-              type: 'object',
-              properties: {
-                title: { type: 'string', description: 'Story title' },
-                points: { type: 'number', description: 'Story points' },
-                author: { type: 'string', description: 'Author username' },
-              },
-            },
-          },
-        },
-      },
-      url: 'https://news.ycombinator.com',
-    });
+  test.skip('json: only required params', async () => {
+    const responsePromise = client.extract.json({ json_schema: {}, url: 'https://news.ycombinator.com' });
     const rawResponse = await responsePromise.asResponse();
     expect(rawResponse).toBeInstanceOf(Response);
     const response = await responsePromise;
@@ -39,32 +21,17 @@ describe('resource extract', () => {
   });
 
   // Prism tests are disabled
-  test.skip('createJson: required and optional params', async () => {
-    const response = await client.extract.createJson({
-      json_schema: {
-        type: 'object',
-        properties: {
-          stories: {
-            type: 'array',
-            items: {
-              type: 'object',
-              properties: {
-                title: { type: 'string', description: 'Story title' },
-                points: { type: 'number', description: 'Story points' },
-                author: { type: 'string', description: 'Author username' },
-              },
-            },
-          },
-        },
-      },
+  test.skip('json: required and optional params', async () => {
+    const response = await client.extract.json({
+      json_schema: {},
       url: 'https://news.ycombinator.com',
       nocache: false,
     });
   });
 
   // Prism tests are disabled
-  test.skip('createMarkdown: only required params', async () => {
-    const responsePromise = client.extract.createMarkdown({ url: 'https://example.com/blog/article' });
+  test.skip('markdown: only required params', async () => {
+    const responsePromise = client.extract.markdown({ url: 'https://example.com/blog/article' });
     const rawResponse = await responsePromise.asResponse();
     expect(rawResponse).toBeInstanceOf(Response);
     const response = await responsePromise;
@@ -75,8 +42,8 @@ describe('resource extract', () => {
   });
 
   // Prism tests are disabled
-  test.skip('createMarkdown: required and optional params', async () => {
-    const response = await client.extract.createMarkdown({
+  test.skip('markdown: required and optional params', async () => {
+    const response = await client.extract.markdown({
       url: 'https://example.com/blog/article',
       metadata: true,
       nocache: false,

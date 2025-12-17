@@ -1,6 +1,6 @@
 // File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
-import { Tabstack } from '@tabstack/sdk';
+import { Tabstack } from 'tabstack';
 
 const { stringifyQuery } = Tabstack.prototype as any;
 

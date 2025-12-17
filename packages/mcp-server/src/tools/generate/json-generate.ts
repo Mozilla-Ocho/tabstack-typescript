@@ -4,7 +4,7 @@ import { isJqError, maybeFilter } from 'tabstack-mcp/filtering';
 import { Metadata, asErrorResult, asTextContentResult } from 'tabstack-mcp/tools/types';
 
 import { Tool } from '@modelcontextprotocol/sdk/types.js';
-import Tabstack from '@tabstack/sdk';
+import Tabstack from 'tabstack';
 
 export const metadata: Metadata = {
   resource: 'generate',
@@ -16,9 +16,9 @@ export const metadata: Metadata = {
 };
 
 export const tool: Tool = {
-  name: 'create_json_generate',
+  name: 'json_generate',
   description:
-    "When using this tool, always use the `jq_filter` parameter to reduce the response size and improve performance.\n\nOnly omit if you're sure you don't need the data.\n\nFetches URL content, extracts data, and transforms it using AI based on custom instructions. Use this to generate new content, summaries, or restructured data.\n\n# Response Schema\n```json\n{\n  $ref: '#/$defs/generate_create_json_response',\n  $defs: {\n    generate_create_json_response: {\n      type: 'object',\n      description: 'The transformed data matching the provided schema',\n      additionalProperties: true\n    }\n  }\n}\n```",
+    "When using this tool, always use the `jq_filter` parameter to reduce the response size and improve performance.\n\nOnly omit if you're sure you don't need the data.\n\nFetches URL content, extracts data, and transforms it using AI based on custom instructions. Use this to generate new content, summaries, or restructured data.\n\n# Response Schema\n```json\n{\n  $ref: '#/$defs/generate_json_response',\n  $defs: {\n    generate_json_response: {\n      type: 'object',\n      additionalProperties: true\n    }\n  }\n}\n```",
   inputSchema: {
     type: 'object',
     properties: {
@@ -54,7 +54,7 @@ export const tool: Tool = {
 export const handler = async (client: Tabstack, args: Record<string, unknown> | undefined) => {
   const { jq_filter, ...body } = args as any;
   try {
-    return asTextContentResult(await maybeFilter(jq_filter, await client.generate.createJson(body)));
+    return asTextContentResult(await maybeFilter(jq_filter, await client.generate.json(body)));
   } catch (error) {
     if (error instanceof Tabstack.APIError || isJqError(error)) {
       return asErrorResult(error.message);
