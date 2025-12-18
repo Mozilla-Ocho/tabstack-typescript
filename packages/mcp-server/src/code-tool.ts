@@ -35,7 +35,10 @@ export async function codeTool() {
       headers: {
         ...(stainlessAPIKey && { Authorization: stainlessAPIKey }),
         'Content-Type': 'application/json',
-        client_envs: JSON.stringify({ TABSTACK_API_KEY: readEnv('TABSTACK_API_KEY') }),
+        client_envs: JSON.stringify({
+          TABSTACK_API_KEY: readEnv('TABSTACK_API_KEY'),
+          TABSTACK_BASE_URL: readEnv('TABSTACK_BASE_URL'),
+        }),
       },
       body: JSON.stringify({
         project_name: 'tabstack',
