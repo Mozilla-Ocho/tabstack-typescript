@@ -32,6 +32,8 @@ const client = new Tabstack({
 const response = await client.agent.automate({
   task: 'Find the top 3 trending repositories and extract their names, descriptions, and star counts',
 });
+
+console.log(response.data);
 ```
 
 ## Streaming responses
@@ -47,7 +49,7 @@ const stream = await client.agent.automate({
   task: 'Find the top 3 trending repositories and extract their names, descriptions, and star counts',
 });
 for await (const agentAutomateResponse of stream) {
-  console.log(agentAutomateResponse);
+  console.log(agentAutomateResponse.data);
 }
 ```
 
@@ -69,7 +71,7 @@ const client = new Tabstack({
 const params: Tabstack.AgentAutomateParams = {
   task: 'Find the top 3 trending repositories and extract their names, descriptions, and star counts',
 };
-const response: string = await client.agent.automate(params);
+const response: Tabstack.AgentAutomateResponse = await client.agent.automate(params);
 ```
 
 Documentation for each method, request param, and response field are available in docstrings and will appear on hover in most modern editors.
@@ -180,7 +182,7 @@ const { data: response, response: raw } = await client.agent
   })
   .withResponse();
 console.log(raw.headers.get('X-My-Header'));
-console.log(response);
+console.log(response.data);
 ```
 
 ### Logging

@@ -44,7 +44,17 @@ export class Agent extends APIResource {
   }
 }
 
-export type AgentAutomateResponse = string;
+export interface AgentAutomateResponse {
+  /**
+   * Event payload data
+   */
+  data?: unknown;
+
+  /**
+   * The event type (e.g., start, agent:processing, complete)
+   */
+  event?: string;
+}
 
 export interface AgentAutomateParams {
   /**

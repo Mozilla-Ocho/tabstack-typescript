@@ -6,7 +6,7 @@ Types:
 
 Methods:
 
-- <code title="post /automate">client.agent.<a href="./src/resources/agent.ts">automate</a>({ ...params }) -> string</code>
+- <code title="post /automate">client.agent.<a href="./src/resources/agent.ts">automate</a>({ ...params }) -> AgentAutomateResponse</code>
 
 # Extract
 
