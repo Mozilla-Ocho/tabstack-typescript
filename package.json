@@ -1,90 +1,69 @@
 {
-  "name": "@tabstack/sdk",
-  "version": "0.0.0",
-  "description": "TypeScript/JavaScript SDK for Tabstack - Extract, Generate, and Automate web content",
-  "main": "./dist/cjs/index.js",
-  "module": "./dist/esm/index.js",
-  "types": "./dist/types/index.d.ts",
+  "name": "tabstack",
+  "version": "0.1.0",
+  "description": "The official TypeScript library for the Tabstack API",
+  "author": "Tabstack <>",
+  "types": "dist/index.d.ts",
+  "main": "dist/index.js",
+  "type": "commonjs",
+  "repository": "github:Mozilla-Ocho/tabstack-typescript",
+  "license": "Apache-2.0",
+  "packageManager": "pnpm@10.24.0",
+  "files": [
+    "**/*"
+  ],
+  "private": false,
+  "publishConfig": {
+    "access": "public"
+  },
+  "scripts": {
+    "test": "./scripts/test",
+    "build": "./scripts/build",
+    "prepublishOnly": "echo 'to publish, run pnpm build && (cd dist; pnpm publish)' && exit 1",
+    "format": "./scripts/format",
+    "prepare": "if ./scripts/utils/check-is-in-git-install.sh; then ./scripts/build && ./scripts/utils/git-swap.sh; fi",
+    "tsn": "ts-node -r tsconfig-paths/register",
+    "lint": "./scripts/lint",
+    "fix": "./scripts/format"
+  },
+  "dependencies": {},
+  "devDependencies": {
+    "@arethetypeswrong/cli": "^0.17.0",
+    "@swc/core": "^1.3.102",
+    "@swc/jest": "^0.2.29",
+    "@types/jest": "^29.4.0",
+    "@types/node": "^20.17.6",
+    "@typescript-eslint/eslint-plugin": "8.31.1",
+    "@typescript-eslint/parser": "8.31.1",
+    "eslint": "^9.39.1",
+    "eslint-plugin-prettier": "^5.4.1",
+    "eslint-plugin-unused-imports": "^4.1.4",
+    "iconv-lite": "^0.6.3",
+    "jest": "^29.4.0",
+    "prettier": "^3.0.0",
+    "publint": "^0.2.12",
+    "ts-jest": "^29.1.0",
+    "ts-node": "^10.5.0",
+    "tsc-multi": "https://github.com/stainless-api/tsc-multi/releases/download/v1.1.9/tsc-multi.tgz",
+    "tsconfig-paths": "^4.0.0",
+    "tslib": "^2.8.1",
+    "typescript": "5.8.3",
+    "typescript-eslint": "8.31.1"
+  },
   "exports": {
     ".": {
-      "types": "./dist/types/index.d.ts",
-      "import": "./dist/esm/index.js",
-      "require": "./dist/cjs/index.js",
-      "default": "./dist/cjs/index.js"
+      "import": "./dist/index.mjs",
+      "require": "./dist/index.js"
+    },
+    "./*.mjs": {
+      "default": "./dist/*.mjs"
+    },
+    "./*.js": {
+      "default": "./dist/*.js"
+    },
+    "./*": {
+      "import": "./dist/*.mjs",
+      "require": "./dist/*.js"
     }
-  },
-  "files": [
-    "dist",
-    "README.md",
-    "LICENSE"
-  ],
-  "scripts": {
-    "build": "npm run build:cjs && npm run build:esm && npm run build:types",
-    "build:cjs": "tsc -p tsconfig.cjs.json",
-    "build:esm": "tsc -p tsconfig.esm.json && npm run fix:esm",
-    "build:types": "tsc -p tsconfig.cjs.json --declaration --emitDeclarationOnly --outDir dist/types",
-    "fix:esm": "node scripts/fix-esm.js",
-    "build:clean": "npm run clean && npm run build",
-    "clean": "rm -rf dist",
-    "lint": "eslint 'src/**/*.ts'",
-    "lint:fix": "eslint 'src/**/*.ts' --fix",
-    "format": "prettier --write 'src/**/*.ts'",
-    "format:check": "prettier --check 'src/**/*.ts'",
-    "test": "jest",
-    "test:unit": "jest --testPathIgnorePatterns=e2e",
-    "test:e2e": "jest --testPathPattern=e2e",
-    "test:watch": "jest --watch",
-    "test:coverage": "jest --coverage",
-    "test:types": "tsd",
-    "test:legacy": "npm run test:legacy:cjs && npm run test:legacy:esm",
-    "test:legacy:cjs": "node test/test-sdk.js && node test/test-javascript-cjs.js",
-    "test:legacy:esm": "node test/test-esm.mjs && node test/test-javascript-esm.mjs",
-    "test:all": "npm run test:build",
-    "test:build": "npm run build && npm test",
-    "prepublishOnly": "npm run build",
-    "prepare": "npm run build",
-    "watch": "tsc --watch"
-  },
-  "keywords": [
-    "tabstack",
-    "web-scraping",
-    "ai",
-    "automation",
-    "data-extraction",
-    "web-automation",
-    "typescript",
-    "javascript"
-  ],
-  "author": "Tabstack",
-  "license": "Apache-2.0",
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/Mozilla-Ocho/tabstack-typescript.git"
-  },
-  "bugs": {
-    "url": "https://github.com/Mozilla-Ocho/tabstack-typescript/issues"
-  },
-  "homepage": "https://tabstack.ai",
-  "engines": {
-    "node": ">=20.0.0"
-  },
-  "publishConfig": {
-    "access": "public",
-    "registry": "https://registry.npmjs.org/"
-  },
-  "devDependencies": {
-    "@types/jest": "^30.0.0",
-    "@types/node": "^20.19.24",
-    "@typescript-eslint/eslint-plugin": "^8.46.3",
-    "@typescript-eslint/parser": "^8.46.3",
-    "eslint": "^9.39.1",
-    "eslint-config-prettier": "^10.1.8",
-    "eslint-plugin-prettier": "^5.5.4",
-    "jest": "^30.2.0",
-    "nock": "^14.0.10",
-    "prettier": "^3.6.2",
-    "ts-jest": "^29.4.5",
-    "tsd": "^0.33.0",
-    "typescript": "^5.0.0"
   }
 }
