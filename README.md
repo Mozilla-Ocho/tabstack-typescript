@@ -36,26 +36,6 @@ const response = await client.agent.automate({
 console.log(response.data);
 ```
 
-## Streaming responses
-
-We provide support for streaming responses using Server Sent Events (SSE).
-
-```ts
-import Tabstack from 'tabstack';
-
-const client = new Tabstack();
-
-const stream = await client.agent.automate({
-  task: 'Find the top 3 trending repositories and extract their names, descriptions, and star counts',
-});
-for await (const agentAutomateResponse of stream) {
-  console.log(agentAutomateResponse.data);
-}
-```
-
-If you need to cancel a stream, you can `break` from the loop
-or call `stream.controller.abort()`.
-
 ### Request & Response types
 
 This library includes TypeScript definitions for all request params and response fields. You may import and use them like so:
