@@ -2,11 +2,11 @@
 
 Types:
 
-- <code><a href="./src/resources/agent.ts">AgentAutomateResponse</a></code>
+- <code><a href="./src/resources/agent.ts">AutomateEvent</a></code>
 
 Methods:
 
-- <code title="post /automate">client.agent.<a href="./src/resources/agent.ts">automate</a>({ ...params }) -> AgentAutomateResponse</code>
+- <code title="post /automate">client.agent.<a href="./src/resources/agent.ts">automate</a>({ ...params }) -> AutomateEvent</code>
 
 # Extract
 
