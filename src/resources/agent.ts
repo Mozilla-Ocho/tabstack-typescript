@@ -34,13 +34,13 @@ export class Agent extends APIResource {
    * });
    * ```
    */
-  automate(body: AgentAutomateParams, options?: RequestOptions): APIPromise<Stream<AgentAutomateResponse>> {
+  automate(body: AgentAutomateParams, options?: RequestOptions): APIPromise<Stream<unknown>> {
     return this._client.post('/automate', {
       body,
       ...options,
       headers: buildHeaders([{ Accept: 'text/event-stream' }, options?.headers]),
       stream: true,
-    }) as APIPromise<Stream<AgentAutomateResponse>>;
+    }) as APIPromise<Stream<unknown>>;
   }
 }
 
