@@ -26,7 +26,7 @@ export class Agent extends APIResource {
    *
    * @example
    * ```ts
-   * const response = await client.agent.automate({
+   * const automateEvent = await client.agent.automate({
    *   task: 'Find the top 3 trending repositories and extract their names, descriptions, and star counts',
    *   guardrails:
    *     "browse and extract only, don't interact with repositories",
@@ -34,17 +34,17 @@ export class Agent extends APIResource {
    * });
    * ```
    */
-  automate(body: AgentAutomateParams, options?: RequestOptions): APIPromise<Stream<unknown>> {
+  automate(body: AgentAutomateParams, options?: RequestOptions): APIPromise<Stream<AutomateEvent>> {
     return this._client.post('/automate', {
       body,
       ...options,
       headers: buildHeaders([{ Accept: 'text/event-stream' }, options?.headers]),
       stream: true,
-    }) as APIPromise<Stream<unknown>>;
+    }) as APIPromise<Stream<AutomateEvent>>;
   }
 }
 
-export interface AgentAutomateResponse {
+export interface AutomateEvent {
   /**
    * Event payload data
    */
@@ -89,8 +89,5 @@ export interface AgentAutomateParams {
 }
 
 export declare namespace Agent {
-  export {
-    type AgentAutomateResponse as AgentAutomateResponse,
-    type AgentAutomateParams as AgentAutomateParams,
-  };
+  export { type AutomateEvent as AutomateEvent, type AgentAutomateParams as AgentAutomateParams };
 }

@@ -29,11 +29,11 @@ const client = new Tabstack({
   apiKey: process.env['TABSTACK_API_KEY'], // This is the default and can be omitted
 });
 
-const response = await client.agent.automate({
+const automateEvent = await client.agent.automate({
   task: 'Find the top 3 trending repositories and extract their names, descriptions, and star counts',
 });
 
-console.log(response.data);
+console.log(automateEvent.data);
 ```
 
 ### Request & Response types
@@ -51,7 +51,7 @@ const client = new Tabstack({
 const params: Tabstack.AgentAutomateParams = {
   task: 'Find the top 3 trending repositories and extract their names, descriptions, and star counts',
 };
-const response: Tabstack.AgentAutomateResponse = await client.agent.automate(params);
+const automateEvent: Tabstack.AutomateEvent = await client.agent.automate(params);
 ```
 
 Documentation for each method, request param, and response field are available in docstrings and will appear on hover in most modern editors.
@@ -64,7 +64,7 @@ a subclass of `APIError` will be thrown:
 
 <!-- prettier-ignore -->
 ```ts
-const response = await client.agent
+const automateEvent = await client.agent
   .automate({
     task: 'Find the top 3 trending repositories and extract their names, descriptions, and star counts',
   })
@@ -156,13 +156,13 @@ const response = await client.agent
 console.log(response.headers.get('X-My-Header'));
 console.log(response.statusText); // access the underlying Response object
 
-const { data: response, response: raw } = await client.agent
+const { data: automateEvent, response: raw } = await client.agent
   .automate({
     task: 'Find the top 3 trending repositories and extract their names, descriptions, and star counts',
   })
   .withResponse();
 console.log(raw.headers.get('X-My-Header'));
-console.log(response.data);
+console.log(automateEvent.data);
 ```
 
 ### Logging
