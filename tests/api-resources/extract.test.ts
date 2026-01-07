@@ -10,7 +10,10 @@ const client = new Tabstack({
 describe('resource extract', () => {
   // Prism tests are disabled
   test.skip('json: only required params', async () => {
-    const responsePromise = client.extract.json({ json_schema: {}, url: 'https://news.ycombinator.com' });
+    const responsePromise = client.extract.json({
+      json_schema: {},
+      url: 'https://news.ycombinator.com',
+    });
     const rawResponse = await responsePromise.asResponse();
     expect(rawResponse).toBeInstanceOf(Response);
     const response = await responsePromise;
