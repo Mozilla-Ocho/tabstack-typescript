@@ -1,6 +1,6 @@
 import assert from 'assert';
-import { _iterSSEMessages } from 'tabstack/core/streaming';
-import { ReadableStreamFrom } from 'tabstack/internal/shims';
+import { _iterSSEMessages } from '@tabstack/sdk/core/streaming';
+import { ReadableStreamFrom } from '@tabstack/sdk/internal/shims';
 
 describe('streaming decoding', () => {
   test('basic', async () => {

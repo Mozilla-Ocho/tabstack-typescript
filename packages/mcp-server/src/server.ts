@@ -7,20 +7,20 @@ import {
   ListToolsRequestSchema,
   SetLevelRequestSchema,
 } from '@modelcontextprotocol/sdk/types.js';
-import { ClientOptions } from 'tabstack';
-import Tabstack from 'tabstack';
+import { ClientOptions } from '@tabstack/sdk';
+import Tabstack from '@tabstack/sdk';
 import { codeTool } from './code-tool';
 import docsSearchTool from './docs-search-tool';
 import { McpOptions } from './options';
 import { HandlerFunction, McpTool } from './types';
 
 export { McpOptions } from './options';
-export { ClientOptions } from 'tabstack';
+export { ClientOptions } from '@tabstack/sdk';
 
 export const newMcpServer = () =>
   new McpServer(
     {
-      name: 'tabstack_api',
+      name: 'tabstack_sdk_api',
       version: '0.0.1',
     },
     { capabilities: { tools: {}, logging: {} } },
