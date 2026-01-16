@@ -55,12 +55,12 @@ $ cd tabstack-typescript
 # With yarn
 $ yarn link
 $ cd ../my-package
-$ yarn link tabstack
+$ yarn link @tabstack/sdk
 
 # With pnpm
 $ pnpm link --global
 $ cd ../my-package
-$ pnpm link -—global tabstack
+$ pnpm link -—global @tabstack/sdk
 ```
 
 ## Running tests
