@@ -114,9 +114,27 @@ export interface ExtractJsonParams {
   url: string;
 
   /**
+   * Optional geotargeting parameters for proxy requests
+   */
+  geotarget?: ExtractJsonParams.Geotarget;
+
+  /**
    * Bypass cache and force fresh data retrieval
    */
   nocache?: boolean;
+}
+
+export namespace ExtractJsonParams {
+  /**
+   * Optional geotargeting parameters for proxy requests
+   */
+  export interface Geotarget {
+    /**
+     * Country code using ISO 3166-1 alpha-2 standard (2 letters, e.g., "US", "GB",
+     * "JP"). See: https://en.wikipedia.org/wiki/ISO_3166-1_alpha-2
+     */
+    country?: string;
+  }
 }
 
 export interface ExtractMarkdownParams {
@@ -124,6 +142,11 @@ export interface ExtractMarkdownParams {
    * URL to fetch and convert to markdown
    */
   url: string;
+
+  /**
+   * Optional geotargeting parameters for proxy requests
+   */
+  geotarget?: ExtractMarkdownParams.Geotarget;
 
   /**
    * Include extracted metadata (Open Graph and HTML metadata) as a separate field in
@@ -135,6 +158,19 @@ export interface ExtractMarkdownParams {
    * Bypass cache and force fresh data retrieval
    */
   nocache?: boolean;
+}
+
+export namespace ExtractMarkdownParams {
+  /**
+   * Optional geotargeting parameters for proxy requests
+   */
+  export interface Geotarget {
+    /**
+     * Country code using ISO 3166-1 alpha-2 standard (2 letters, e.g., "US", "GB",
+     * "JP"). See: https://en.wikipedia.org/wiki/ISO_3166-1_alpha-2
+     */
+    country?: string;
+  }
 }
 
 export declare namespace Extract {
