@@ -116,7 +116,7 @@ export interface ExtractJsonParams {
   /**
    * Optional geotargeting parameters for proxy requests
    */
-  geotarget?: ExtractJsonParams.Geotarget;
+  geo_target?: ExtractJsonParams.GeoTarget;
 
   /**
    * Bypass cache and force fresh data retrieval
@@ -128,7 +128,7 @@ export namespace ExtractJsonParams {
   /**
    * Optional geotargeting parameters for proxy requests
    */
-  export interface Geotarget {
+  export interface GeoTarget {
     /**
      * Country code using ISO 3166-1 alpha-2 standard (2 letters, e.g., "US", "GB",
      * "JP"). See: https://en.wikipedia.org/wiki/ISO_3166-1_alpha-2
@@ -146,7 +146,7 @@ export interface ExtractMarkdownParams {
   /**
    * Optional geotargeting parameters for proxy requests
    */
-  geotarget?: ExtractMarkdownParams.Geotarget;
+  geo_target?: ExtractMarkdownParams.GeoTarget;
 
   /**
    * Include extracted metadata (Open Graph and HTML metadata) as a separate field in
@@ -164,7 +164,7 @@ export namespace ExtractMarkdownParams {
   /**
    * Optional geotargeting parameters for proxy requests
    */
-  export interface Geotarget {
+  export interface GeoTarget {
     /**
      * Country code using ISO 3166-1 alpha-2 standard (2 letters, e.g., "US", "GB",
      * "JP"). See: https://en.wikipedia.org/wiki/ISO_3166-1_alpha-2

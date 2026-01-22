@@ -45,7 +45,7 @@ export interface GenerateJsonParams {
   /**
    * Optional geotargeting parameters for proxy requests
    */
-  geotarget?: GenerateJsonParams.Geotarget;
+  geo_target?: GenerateJsonParams.GeoTarget;
 
   /**
    * Bypass cache and force fresh data retrieval
@@ -57,7 +57,7 @@ export namespace GenerateJsonParams {
   /**
    * Optional geotargeting parameters for proxy requests
    */
-  export interface Geotarget {
+  export interface GeoTarget {
     /**
      * Country code using ISO 3166-1 alpha-2 standard (2 letters, e.g., "US", "GB",
      * "JP"). See: https://en.wikipedia.org/wiki/ISO_3166-1_alpha-2
