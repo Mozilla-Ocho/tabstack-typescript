@@ -28,7 +28,7 @@ describe('resource extract', () => {
     const response = await client.extract.json({
       json_schema: {},
       url: 'https://news.ycombinator.com',
-      geotarget: { country: 'US' },
+      geo_target: { country: 'US' },
       nocache: false,
     });
   });
@@ -49,7 +49,7 @@ describe('resource extract', () => {
   test.skip('markdown: required and optional params', async () => {
     const response = await client.extract.markdown({
       url: 'https://example.com/blog/article',
-      geotarget: { country: 'US' },
+      geo_target: { country: 'US' },
       metadata: true,
       nocache: false,
     });

@@ -27,7 +27,7 @@ describe('resource agent', () => {
     const response = await client.agent.automate({
       task: 'Find the top 3 trending repositories and extract their names, descriptions, and star counts',
       data: {},
-      geotarget: { country: 'US' },
+      geo_target: { country: 'US' },
       guardrails: "browse and extract only, don't interact with repositories",
       maxIterations: 50,
       maxValidationAttempts: 3,
