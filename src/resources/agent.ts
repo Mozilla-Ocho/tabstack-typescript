@@ -8,13 +8,18 @@ import { RequestOptions } from '../internal/request-options';
 
 export class Agent extends APIResource {
   /**
-   * Execute AI-powered browser automation tasks using natural language. This
-   * endpoint **always streams** responses using Server-Sent Events (SSE).
+   * Execute AI-powered browser automation tasks using natural language with optional
+   * geotargeting. This endpoint **always streams** responses using Server-Sent
+   * Events (SSE).
    *
    * **Streaming Response:**
    *
    * - All responses are streamed using Server-Sent Events (`text/event-stream`)
    * - Real-time progress updates and results as they're generated
+   *
+   * **Geotargeting:**
+   *
+   * - Optionally specify a country code for geotargeted browsing
    *
    * **Use Cases:**
    *
@@ -68,6 +73,11 @@ export interface AgentAutomateParams {
   data?: unknown;
 
   /**
+   * Optional geotargeting parameters for proxy requests
+   */
+  geotarget?: AgentAutomateParams.Geotarget;
+
+  /**
    * Safety constraints for execution
    */
   guardrails?: string;
@@ -86,6 +96,19 @@ export interface AgentAutomateParams {
    * Starting URL for the task
    */
   url?: string;
+}
+
+export namespace AgentAutomateParams {
+  /**
+   * Optional geotargeting parameters for proxy requests
+   */
+  export interface Geotarget {
+    /**
+     * Country code using ISO 3166-1 alpha-2 standard (2 letters, e.g., "US", "GB",
+     * "JP"). See: https://en.wikipedia.org/wiki/ISO_3166-1_alpha-2
+     */
+    country?: string;
+  }
 }
 
 export declare namespace Agent {

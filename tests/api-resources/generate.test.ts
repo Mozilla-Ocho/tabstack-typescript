@@ -32,6 +32,7 @@ describe('resource generate', () => {
         "For each story, categorize it (tech/business/science/other) and write a one-sentence summary explaining what it's about in simple terms.",
       json_schema: {},
       url: 'https://news.ycombinator.com',
+      geotarget: { country: 'US' },
       nocache: false,
     });
   });
