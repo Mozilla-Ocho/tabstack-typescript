@@ -13,7 +13,22 @@ describe('resource generate', () => {
     const responsePromise = client.generate.json({
       instructions:
         "For each story, categorize it (tech/business/science/other) and write a one-sentence summary explaining what it's about in simple terms.",
-      json_schema: {},
+      json_schema: {
+        properties: {
+          summaries: {
+            items: {
+              properties: {
+                category: { description: 'Story category (tech/business/science/etc)', type: 'string' },
+                summary: { description: 'One-sentence summary of the story', type: 'string' },
+                title: { description: 'Story title', type: 'string' },
+              },
+              type: 'object',
+            },
+            type: 'array',
+          },
+        },
+        type: 'object',
+      },
       url: 'https://news.ycombinator.com',
     });
     const rawResponse = await responsePromise.asResponse();
@@ -30,7 +45,22 @@ describe('resource generate', () => {
     const response = await client.generate.json({
       instructions:
         "For each story, categorize it (tech/business/science/other) and write a one-sentence summary explaining what it's about in simple terms.",
-      json_schema: {},
+      json_schema: {
+        properties: {
+          summaries: {
+            items: {
+              properties: {
+                category: { description: 'Story category (tech/business/science/etc)', type: 'string' },
+                summary: { description: 'One-sentence summary of the story', type: 'string' },
+                title: { description: 'Story title', type: 'string' },
+              },
+              type: 'object',
+            },
+            type: 'array',
+          },
+        },
+        type: 'object',
+      },
       url: 'https://news.ycombinator.com',
       geo_target: { country: 'US' },
       nocache: false,

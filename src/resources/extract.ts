@@ -11,7 +11,31 @@ export class Extract extends APIResource {
    * @example
    * ```ts
    * const response = await client.extract.json({
-   *   json_schema: {},
+   *   json_schema: {
+   *     properties: {
+   *       stories: {
+   *         items: {
+   *           properties: {
+   *             author: {
+   *               description: 'Author username',
+   *               type: 'string',
+   *             },
+   *             points: {
+   *               description: 'Story points',
+   *               type: 'number',
+   *             },
+   *             title: {
+   *               description: 'Story title',
+   *               type: 'string',
+   *             },
+   *           },
+   *           type: 'object',
+   *         },
+   *         type: 'array',
+   *       },
+   *     },
+   *     type: 'object',
+   *   },
    *   url: 'https://news.ycombinator.com',
    * });
    * ```
