@@ -21,7 +21,7 @@ export const newMcpServer = () =>
   new McpServer(
     {
       name: 'tabstack_sdk_api',
-      version: '2.0.0',
+      version: '2.1.0',
     },
     { capabilities: { tools: {}, logging: {} } },
   );

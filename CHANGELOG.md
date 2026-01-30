@@ -1,5 +1,32 @@
 # Changelog
 
+## 2.1.0 (2026-01-30)
+
+Full Changelog: [v2.0.0...v2.1.0](https://github.com/Mozilla-Ocho/tabstack-typescript/compare/v2.0.0...v2.1.0)
+
+### Features
+
+* **api:** add research ([5873cfe](https://github.com/Mozilla-Ocho/tabstack-typescript/commit/5873cfe55c4ed6e068176adb94831e557e0bb5a8))
+* **api:** api update ([a04f995](https://github.com/Mozilla-Ocho/tabstack-typescript/commit/a04f995a9709f897a8fb2e365de7f208dbc300e8))
+* **api:** api update ([d31ed03](https://github.com/Mozilla-Ocho/tabstack-typescript/commit/d31ed03ac69e83151ef1ecee8333b5c1107a7174))
+* **api:** api update ([513ef13](https://github.com/Mozilla-Ocho/tabstack-typescript/commit/513ef13b0078078a682487ce2988e960ce4e82fd))
+* **api:** api update ([9d55ae9](https://github.com/Mozilla-Ocho/tabstack-typescript/commit/9d55ae9d896cd30f1c676ff8842e08507a2fca57))
+
+
+### Bug Fixes
+
+* **docs:** fix mcp installation instructions for remote servers ([7883a07](https://github.com/Mozilla-Ocho/tabstack-typescript/commit/7883a07ff822b5e5d2da911b86c2bf4b2e841f6a))
+* **mcp:** allow falling back for required env variables ([b7c0610](https://github.com/Mozilla-Ocho/tabstack-typescript/commit/b7c06105d5fd10e1d86a7c30b41fd83637eac418))
+
+
+### Chores
+
+* **ci:** upgrade `actions/github-script` ([f28ba6c](https://github.com/Mozilla-Ocho/tabstack-typescript/commit/f28ba6ca3e6c87afdcc772c2472cad63e4daec07))
+* **internal:** codegen related update ([098880e](https://github.com/Mozilla-Ocho/tabstack-typescript/commit/098880edef54eb2f94fb7513e9f2dec00ecc24af))
+* **internal:** codegen related update ([267c301](https://github.com/Mozilla-Ocho/tabstack-typescript/commit/267c301617478b6cba0e5026271607be105f6832))
+* **internal:** update `actions/checkout` version ([ed7bede](https://github.com/Mozilla-Ocho/tabstack-typescript/commit/ed7bede4754176ac8df84fe8ce4ed05844e290d6))
+* **mcp:** up tsconfig lib version to es2022 ([4cdb14d](https://github.com/Mozilla-Ocho/tabstack-typescript/commit/4cdb14db691dc757dc4b714caf997f1a7825bdcf))
+
 ## 2.0.0 (2026-01-16)
 
 Full Changelog: [v0.0.1...v2.0.0](https://github.com/Mozilla-Ocho/tabstack-typescript/compare/v0.0.1...v2.0.0)
