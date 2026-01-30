@@ -16,7 +16,13 @@ import * as Errors from './core/error';
 import * as Uploads from './core/uploads';
 import * as API from './resources/index';
 import { APIPromise } from './core/api-promise';
-import { Agent, AgentAutomateParams, AutomateEvent } from './resources/agent';
+import {
+  Agent,
+  AgentAutomateParams,
+  AgentResearchParams,
+  AutomateEvent,
+  ResearchEvent,
+} from './resources/agent';
 import {
   Extract,
   ExtractJsonParams,
@@ -737,7 +743,9 @@ export declare namespace Tabstack {
   export {
     Agent as Agent,
     type AutomateEvent as AutomateEvent,
+    type ResearchEvent as ResearchEvent,
     type AgentAutomateParams as AgentAutomateParams,
+    type AgentResearchParams as AgentResearchParams,
   };
 
   export {
