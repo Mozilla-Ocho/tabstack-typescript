@@ -8,8 +8,8 @@
     "moduleResolution": "node",
     "esModuleInterop": true,
     "paths": {
-      "tabstack-mcp/*": ["./src/*"],
-      "tabstack-mcp": ["./src/index.ts"]
+      "@tabstack/mcp/*": ["./src/*"],
+      "@tabstack/mcp": ["./src/index.ts"]
     },
     "noEmit": true,
 

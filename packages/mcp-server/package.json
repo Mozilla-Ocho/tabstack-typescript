@@ -1,5 +1,5 @@
 {
-  "name": "tabstack-mcp",
+  "name": "@tabstack/mcp",
   "version": "2.1.0",
   "description": "The official MCP Server for the Tabstack API",
   "author": "Tabstack <>",
@@ -73,8 +73,8 @@
     "tsconfig-paths": "^4.0.0"
   },
   "imports": {
-    "tabstack-mcp": ".",
-    "tabstack-mcp/*": "./src/*"
+    "@tabstack/mcp": ".",
+    "@tabstack/mcp/*": "./src/*"
   },
   "exports": {
     ".": {

@@ -10,7 +10,7 @@ You can run the MCP Server directly via `npx`:
 
 ```sh
 export TABSTACK_API_KEY="My API Key"
-npx -y tabstack-mcp@latest
+npx -y @tabstack/mcp@latest
 ```
 
 ### Via MCP Client
@@ -25,7 +25,7 @@ For clients with a configuration JSON, it might look something like this:
   "mcpServers": {
     "tabstack_sdk_api": {
       "command": "npx",
-      "args": ["-y", "tabstack-mcp"],
+      "args": ["-y", "@tabstack/mcp"],
       "env": {
         "TABSTACK_API_KEY": "My API Key"
       }
@@ -39,14 +39,14 @@ For clients with a configuration JSON, it might look something like this:
 If you use Cursor, you can install the MCP server by using the button below. You will need to set your environment variables
 in Cursor's `mcp.json`, which can be found in Cursor Settings > Tools & MCP > New MCP Server.
 
-[![Add to Cursor](https://cursor.com/deeplink/mcp-install-dark.svg)](https://cursor.com/en-US/install-mcp?name=tabstack-mcp&config=eyJuYW1lIjoidGFic3RhY2stbWNwIiwidHJhbnNwb3J0IjoiaHR0cCIsInVybCI6Imh0dHBzOi8vdGFic3RhY2suc3RsbWNwLmNvbSIsImhlYWRlcnMiOnsieC10YWJzdGFjay1hcGkta2V5IjoiTXkgQVBJIEtleSJ9fQ)
+[![Add to Cursor](https://cursor.com/deeplink/mcp-install-dark.svg)](https://cursor.com/en-US/install-mcp?name=%40tabstack%2Fmcp&config=eyJuYW1lIjoiQHRhYnN0YWNrL21jcCIsInRyYW5zcG9ydCI6Imh0dHAiLCJ1cmwiOiJodHRwczovL3RhYnN0YWNrLnN0bG1jcC5jb20iLCJoZWFkZXJzIjp7IngtdGFic3RhY2stYXBpLWtleSI6Ik15IEFQSSBLZXkifX0)
 
 ### VS Code
 
 If you use MCP, you can install the MCP server by clicking the link below. You will need to set your environment variables
 in VS Code's `mcp.json`, which can be found via Command Palette > MCP: Open User Configuration.
 
-[Open VS Code](https://vscode.stainless.com/mcp/%7B%22name%22%3A%22tabstack-mcp%22%2C%22type%22%3A%22http%22%2C%22url%22%3A%22https%3A%2F%2Ftabstack.stlmcp.com%22%2C%22headers%22%3A%7B%22x-tabstack-api-key%22%3A%22My%20API%20Key%22%7D%7D)
+[Open VS Code](https://vscode.stainless.com/mcp/%7B%22name%22%3A%22%40tabstack%2Fmcp%22%2C%22type%22%3A%22http%22%2C%22url%22%3A%22https%3A%2F%2Ftabstack.stlmcp.com%22%2C%22headers%22%3A%7B%22x-tabstack-api-key%22%3A%22My%20API%20Key%22%7D%7D)
 
 ### Claude Code
 
