@@ -1,5 +1,33 @@
 # Changelog
 
+## 2.2.0 (2026-02-11)
+
+Full Changelog: [v2.1.0...v2.2.0](https://github.com/Mozilla-Ocho/tabstack-typescript/compare/v2.1.0...v2.2.0)
+
+### Features
+
+* **api:** rename mcp package ([8f751c1](https://github.com/Mozilla-Ocho/tabstack-typescript/commit/8f751c172a3fc083c960dcf65a58b5d956b242b8))
+* **mcp:** add initial server instructions ([76df25d](https://github.com/Mozilla-Ocho/tabstack-typescript/commit/76df25dcfeb028c72827de673a5a7bd19016922f))
+
+
+### Bug Fixes
+
+* **client:** avoid memory leak with abort signals ([3787e65](https://github.com/Mozilla-Ocho/tabstack-typescript/commit/3787e6510eca7abbab31bef59c8eb40bfe9d5cd3))
+* **client:** avoid removing abort listener too early ([01fbcb7](https://github.com/Mozilla-Ocho/tabstack-typescript/commit/01fbcb7279e4548e97443c630d317bd9be0e33c8))
+
+
+### Chores
+
+* **client:** do not parse responses with empty content-length ([d8f362e](https://github.com/Mozilla-Ocho/tabstack-typescript/commit/d8f362e1e982f360415dcf58527f61a43083dd23))
+* **client:** restructure abort controller binding ([b24c62d](https://github.com/Mozilla-Ocho/tabstack-typescript/commit/b24c62de83fdab4fb2629e804e4b198ccf7bf70c))
+* **internal:** add health check to MCP server when running in HTTP mode ([6da8c3d](https://github.com/Mozilla-Ocho/tabstack-typescript/commit/6da8c3d39b6fe36314e35d3e965bc78f330cd82d))
+* **internal:** allow basic filtering of methods allowed for MCP code mode ([bbd13e8](https://github.com/Mozilla-Ocho/tabstack-typescript/commit/bbd13e8c064dd5b1ad04a2679b4bd2f58e8b1325))
+* **internal:** always generate MCP server dockerfiles and upgrade associated dependencies ([e4af05e](https://github.com/Mozilla-Ocho/tabstack-typescript/commit/e4af05e4b5fdaa80c2b31f198bb945af8a180336))
+* **internal:** avoid type checking errors with ts-reset ([06b5dd5](https://github.com/Mozilla-Ocho/tabstack-typescript/commit/06b5dd5e033b6013936aa8aefcbb76a13dd1426d))
+* **internal:** refactor flag parsing for MCP servers and add debug flag ([724abd9](https://github.com/Mozilla-Ocho/tabstack-typescript/commit/724abd9e2a006ebbc0953c7435523a0449ce26c2))
+* **internal:** support oauth authorization code flow for MCP servers ([56ee267](https://github.com/Mozilla-Ocho/tabstack-typescript/commit/56ee267e71361ec6e9c894e3392a2ff6125fa493))
+* **internal:** upgrade pnpm ([9d104e8](https://github.com/Mozilla-Ocho/tabstack-typescript/commit/9d104e8e37f7596e2f2e0173b791de0a1355a37f))
+
 ## 2.1.0 (2026-01-30)
 
 Full Changelog: [v2.0.0...v2.1.0](https://github.com/Mozilla-Ocho/tabstack-typescript/compare/v2.0.0...v2.1.0)
