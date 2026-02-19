@@ -8,7 +8,7 @@ const client = new Tabstack({
 });
 
 describe('resource extract', () => {
-  // Prism tests are disabled
+  // Mock server tests are disabled
   test.skip('json: only required params', async () => {
     const responsePromise = client.extract.json({
       json_schema: {
@@ -38,7 +38,7 @@ describe('resource extract', () => {
     expect(dataAndResponse.response).toBe(rawResponse);
   });
 
-  // Prism tests are disabled
+  // Mock server tests are disabled
   test.skip('json: required and optional params', async () => {
     const response = await client.extract.json({
       json_schema: {
@@ -63,7 +63,7 @@ describe('resource extract', () => {
     });
   });
 
-  // Prism tests are disabled
+  // Mock server tests are disabled
   test.skip('markdown: only required params', async () => {
     const responsePromise = client.extract.markdown({ url: 'https://example.com/blog/article' });
     const rawResponse = await responsePromise.asResponse();
@@ -75,7 +75,7 @@ describe('resource extract', () => {
     expect(dataAndResponse.response).toBe(rawResponse);
   });
 
-  // Prism tests are disabled
+  // Mock server tests are disabled
   test.skip('markdown: required and optional params', async () => {
     const response = await client.extract.markdown({
       url: 'https://example.com/blog/article',

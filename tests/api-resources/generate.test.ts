@@ -8,7 +8,7 @@ const client = new Tabstack({
 });
 
 describe('resource generate', () => {
-  // Prism tests are disabled
+  // Mock server tests are disabled
   test.skip('json: only required params', async () => {
     const responsePromise = client.generate.json({
       instructions:
@@ -40,7 +40,7 @@ describe('resource generate', () => {
     expect(dataAndResponse.response).toBe(rawResponse);
   });
 
-  // Prism tests are disabled
+  // Mock server tests are disabled
   test.skip('json: required and optional params', async () => {
     const response = await client.generate.json({
       instructions:
