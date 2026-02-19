@@ -8,7 +8,7 @@ const client = new Tabstack({
 });
 
 describe('resource agent', () => {
-  // Mock server doesn't support text/event-stream responses
+  // Mock server tests are disabled
   test.skip('automate: only required params', async () => {
     const responsePromise = client.agent.automate({
       task: 'Find the top 3 trending repositories and extract their names, descriptions, and star counts',
@@ -22,7 +22,7 @@ describe('resource agent', () => {
     expect(dataAndResponse.response).toBe(rawResponse);
   });
 
-  // Mock server doesn't support text/event-stream responses
+  // Mock server tests are disabled
   test.skip('automate: required and optional params', async () => {
     const response = await client.agent.automate({
       task: 'Find the top 3 trending repositories and extract their names, descriptions, and star counts',
@@ -35,7 +35,7 @@ describe('resource agent', () => {
     });
   });
 
-  // Mock server doesn't support text/event-stream responses
+  // Mock server tests are disabled
   test.skip('research: only required params', async () => {
     const responsePromise = client.agent.research({
       query: 'What are the latest developments in quantum computing?',
@@ -49,7 +49,7 @@ describe('resource agent', () => {
     expect(dataAndResponse.response).toBe(rawResponse);
   });
 
-  // Mock server doesn't support text/event-stream responses
+  // Mock server tests are disabled
   test.skip('research: required and optional params', async () => {
     const response = await client.agent.research({
       query: 'What are the latest developments in quantum computing?',
