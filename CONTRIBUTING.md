@@ -60,7 +60,7 @@ $ yarn link @tabstack/sdk
 # With pnpm
 $ pnpm link --global
 $ cd ../my-package
-$ pnpm link -—global @tabstack/sdk
+$ pnpm link --global @tabstack/sdk
 ```
 
 ## Running tests
