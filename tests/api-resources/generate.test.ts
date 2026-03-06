@@ -62,6 +62,7 @@ describe('resource generate', () => {
         type: 'object',
       },
       url: 'https://news.ycombinator.com',
+      effort: 'standard',
       geo_target: { country: 'US' },
       nocache: false,
     });

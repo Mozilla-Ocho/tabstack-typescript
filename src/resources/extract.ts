@@ -179,6 +179,13 @@ export interface ExtractJsonParams {
   url: string;
 
   /**
+   * Fetch effort level controlling speed vs. capability tradeoff. "min": fastest, no
+   * fallback (~1-5s). "standard": balanced with enhanced reliability (default,
+   * ~3-15s). "max": full browser rendering for JS-heavy sites (~15-60s).
+   */
+  effort?: 'min' | 'standard' | 'max';
+
+  /**
    * Optional geotargeting parameters for proxy requests
    */
   geo_target?: ExtractJsonParams.GeoTarget;
@@ -207,6 +214,13 @@ export interface ExtractMarkdownParams {
    * URL to fetch and convert to markdown
    */
   url: string;
+
+  /**
+   * Fetch effort level controlling speed vs. capability tradeoff. "min": fastest, no
+   * fallback (~1-5s). "standard": balanced with enhanced reliability (default,
+   * ~3-15s). "max": full browser rendering for JS-heavy sites (~15-60s).
+   */
+  effort?: 'min' | 'standard' | 'max';
 
   /**
    * Optional geotargeting parameters for proxy requests
