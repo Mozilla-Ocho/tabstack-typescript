@@ -1,5 +1,61 @@
 # Changelog
 
+## 2.3.0 (2026-03-12)
+
+Full Changelog: [v2.2.0...v2.3.0](https://github.com/Mozilla-Ocho/tabstack-typescript/compare/v2.2.0...v2.3.0)
+
+### Features
+
+* **api:** api update ([a317a25](https://github.com/Mozilla-Ocho/tabstack-typescript/commit/a317a25bf389eac00d89eb6319b9c655633f93b0))
+* **api:** api update ([68dedea](https://github.com/Mozilla-Ocho/tabstack-typescript/commit/68dedea3f63a130a4ec4f003ffe2c0a7094a67e9))
+* **mcp:** add an option to disable code tool ([e035fab](https://github.com/Mozilla-Ocho/tabstack-typescript/commit/e035fab3d7958615a2494e7f2af76efd11a3d372))
+
+
+### Bug Fixes
+
+* **client:** preserve URL params already embedded in path ([23a779a](https://github.com/Mozilla-Ocho/tabstack-typescript/commit/23a779ab3ada87312a16d97f765394e307696de3))
+* **docs/contributing:** correct pnpm link command ([bce077a](https://github.com/Mozilla-Ocho/tabstack-typescript/commit/bce077a36e0564b58893a64d8caa122e33837145))
+* fix request delays for retrying to be more respectful of high requested delays ([db0f369](https://github.com/Mozilla-Ocho/tabstack-typescript/commit/db0f369ed237fabc9679a6d2ddd53f75cd1e182f))
+* **mcp:** initialize SDK lazily to avoid failing the connection on init errors ([72b9188](https://github.com/Mozilla-Ocho/tabstack-typescript/commit/72b918846ca3f09176cf22c3d0153ab55f2b579a))
+* **mcp:** update prompt ([a2b5846](https://github.com/Mozilla-Ocho/tabstack-typescript/commit/a2b5846ba90bea6bb25fcc4aa388c2fb6d14248b))
+
+
+### Chores
+
+* **ci:** skip uploading artifacts on stainless-internal branches ([4ac3cec](https://github.com/Mozilla-Ocho/tabstack-typescript/commit/4ac3cec643e664963afc983863726a600859d15c))
+* **internal/client:** fix form-urlencoded requests ([5a04f93](https://github.com/Mozilla-Ocho/tabstack-typescript/commit/5a04f93853a1ba336071a338f5cc869b284f933b))
+* **internal:** allow setting x-stainless-api-key header on mcp server requests ([6ad1894](https://github.com/Mozilla-Ocho/tabstack-typescript/commit/6ad189492609ec54e65f5bc47c50ff6ed1eb4fd0))
+* **internal:** cache fetch instruction calls in MCP server ([954937b](https://github.com/Mozilla-Ocho/tabstack-typescript/commit/954937b7602d99d7274e3b0cce65f5be6120accb))
+* **internal:** codegen related update ([1d4da95](https://github.com/Mozilla-Ocho/tabstack-typescript/commit/1d4da955188aea8cdf0bc4bb41822c56209ca83d))
+* **internal:** codegen related update ([35e1593](https://github.com/Mozilla-Ocho/tabstack-typescript/commit/35e1593d93b880da34f7c3f8cd05823eff2713ff))
+* **internal:** codegen related update ([586b6db](https://github.com/Mozilla-Ocho/tabstack-typescript/commit/586b6dbd3342099ff7b03a8f0e5e829c5a8130dd))
+* **internal:** codegen related update ([53ce0f2](https://github.com/Mozilla-Ocho/tabstack-typescript/commit/53ce0f2ab49aa2ea8a603cb44c29e9551cd6eb20))
+* **internal:** codegen related update ([ee5f3ac](https://github.com/Mozilla-Ocho/tabstack-typescript/commit/ee5f3ac5c8be9b00b2bdc93d7db39e96994150ad))
+* **internal:** codegen related update ([bd495f2](https://github.com/Mozilla-Ocho/tabstack-typescript/commit/bd495f25497128ca0ae005e56db389a435444d5b))
+* **internal:** codegen related update ([fc8be59](https://github.com/Mozilla-Ocho/tabstack-typescript/commit/fc8be59536c75aa08640564a7f321efb90ca54d0))
+* **internal:** codegen related update ([a52cc2d](https://github.com/Mozilla-Ocho/tabstack-typescript/commit/a52cc2d9372aefad6b44a90081d3f839a21931e7))
+* **internal:** codegen related update ([292480f](https://github.com/Mozilla-Ocho/tabstack-typescript/commit/292480fe3a2c1cca11a8c8c2cf43dfaafdf6092f))
+* **internal:** codegen related update ([9e14588](https://github.com/Mozilla-Ocho/tabstack-typescript/commit/9e14588d99576d8ae1309aef2d34c5198d4bd2f2))
+* **internal:** fix MCP Dockerfiles so they can be built without buildkit ([1169354](https://github.com/Mozilla-Ocho/tabstack-typescript/commit/1169354a4b0050e94f5d6aa0cbe7ecb270e1f3a1))
+* **internal:** fix MCP Dockerfiles so they can be built without buildkit ([ae04196](https://github.com/Mozilla-Ocho/tabstack-typescript/commit/ae041969fbe290d2b1780ebfa6038b3f5a2d8152))
+* **internal:** improve layout of generated MCP server files ([c58a68b](https://github.com/Mozilla-Ocho/tabstack-typescript/commit/c58a68b63e99a912145bb8f500d62b75a71206b4))
+* **internal:** improve reliability of MCP servers when using local code mode execution ([91b8834](https://github.com/Mozilla-Ocho/tabstack-typescript/commit/91b88344fdda8ea65d72656b8506fc18121d90cf))
+* **internal:** make MCP code execution location configurable via a flag ([82cb709](https://github.com/Mozilla-Ocho/tabstack-typescript/commit/82cb7093f430bded4f0b766eb59e5ce835165d0a))
+* **internal:** move stringifyQuery implementation to internal function ([d1d7fd6](https://github.com/Mozilla-Ocho/tabstack-typescript/commit/d1d7fd6fecb6d1ba751fafa62ee85e6a13854f90))
+* **internal:** remove mock server code ([e3031c1](https://github.com/Mozilla-Ocho/tabstack-typescript/commit/e3031c1d4ff2df58e705265020b8022bb8093c65))
+* **internal:** switch MCP servers to use pino for logging ([de3ccaa](https://github.com/Mozilla-Ocho/tabstack-typescript/commit/de3ccaa64facf2d6b94d876dd3f61131182933ed))
+* **internal:** update dependencies to address dependabot vulnerabilities ([188fc1d](https://github.com/Mozilla-Ocho/tabstack-typescript/commit/188fc1d86ecdb5e9542dfc53de8913f99bbb564c))
+* **internal:** update lock file ([53ee472](https://github.com/Mozilla-Ocho/tabstack-typescript/commit/53ee472017b775b4d5e00c51708be93946db46e6))
+* **internal:** upgrade @modelcontextprotocol/sdk and hono ([d551a75](https://github.com/Mozilla-Ocho/tabstack-typescript/commit/d551a75163ffcb1b980a078ba71c73c0b0d56028))
+* **internal:** upgrade pnpm version ([8930f4d](https://github.com/Mozilla-Ocho/tabstack-typescript/commit/8930f4df10524deabe853d4e3ad4bc6cfcac7978))
+* **internal:** use x-stainless-mcp-client-envs header for MCP remote code tool calls ([fedb62d](https://github.com/Mozilla-Ocho/tabstack-typescript/commit/fedb62d92b73485bf42f556367cd9da76294fadb))
+* **mcp-server:** improve instructions ([b289817](https://github.com/Mozilla-Ocho/tabstack-typescript/commit/b289817e9db31895f028d4516342f665d298b89b))
+* **mcp-server:** return access instructions for 404 without API key ([a2dd9ad](https://github.com/Mozilla-Ocho/tabstack-typescript/commit/a2dd9ad5860e24f02c4c41f6506a0b63879a195a))
+* **mcp:** correctly update version in sync with sdk ([c4aa274](https://github.com/Mozilla-Ocho/tabstack-typescript/commit/c4aa27422d75b0e99483b33da0c639d84f96b21b))
+* **mcp:** forward STAINLESS_API_KEY to docs search endpoint ([431193b](https://github.com/Mozilla-Ocho/tabstack-typescript/commit/431193bc79ae1b08b078abd7a597b865ce7d1f3b))
+* **test:** update skip reason message ([09749f8](https://github.com/Mozilla-Ocho/tabstack-typescript/commit/09749f8208467f9045640f0404dd6b16400477b8))
+* update mock server docs ([1246f16](https://github.com/Mozilla-Ocho/tabstack-typescript/commit/1246f1603afe6369a50b93cc3cfdb8497c600b06))
+
 ## 2.2.0 (2026-02-11)
 
 Full Changelog: [v2.1.0...v2.2.0](https://github.com/Mozilla-Ocho/tabstack-typescript/compare/v2.1.0...v2.2.0)
