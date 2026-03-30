@@ -46,7 +46,7 @@ export type GenerateJsonResponse = { [key: string]: unknown };
 
 export interface GenerateJsonParams {
   /**
-   * Instructions describing how to transform the data
+   * Instructions describing how to transform the data. Maximum 20,000 characters.
    */
   instructions: string;
 
