@@ -46,6 +46,7 @@ export class Agent extends APIResource {
       ...options,
       headers: buildHeaders([{ Accept: 'text/event-stream' }, options?.headers]),
       stream: true,
+      __synthesizeEventData: true,
     }) as APIPromise<Stream<AutomateEvent>>;
   }
 
@@ -114,6 +115,7 @@ export class Agent extends APIResource {
       ...options,
       headers: buildHeaders([{ Accept: 'text/event-stream' }, options?.headers]),
       stream: true,
+      __synthesizeEventData: true,
     }) as APIPromise<Stream<ResearchEvent>>;
   }
 }
