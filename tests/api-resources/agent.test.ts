@@ -29,6 +29,7 @@ describe('resource agent', () => {
       data: {},
       geo_target: { country: 'US' },
       guardrails: "browse and extract only, don't interact with repositories",
+      interactive: false,
       maxIterations: 50,
       maxValidationAttempts: 3,
       url: 'https://github.com/trending',
