@@ -17,6 +17,12 @@ export const sdkMethods: SdkMethod[] = [
     httpPath: '/automate',
   },
   {
+    clientCallName: 'client.agent.automateInput',
+    fullyQualifiedName: 'agent.automateInput',
+    httpMethod: 'post',
+    httpPath: '/automate/{requestID}/input',
+  },
+  {
     clientCallName: 'client.agent.research',
     fullyQualifiedName: 'agent.research',
     httpMethod: 'post',

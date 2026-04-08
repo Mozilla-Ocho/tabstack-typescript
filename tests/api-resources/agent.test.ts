@@ -37,6 +37,18 @@ describe('resource agent', () => {
   });
 
   // Mock server tests are disabled
+  test.skip('automateInput', async () => {
+    const responsePromise = client.agent.automateInput('requestID', {});
+    const rawResponse = await responsePromise.asResponse();
+    expect(rawResponse).toBeInstanceOf(Response);
+    const response = await responsePromise;
+    expect(response).not.toBeInstanceOf(Response);
+    const dataAndResponse = await responsePromise.withResponse();
+    expect(dataAndResponse.data).toBe(response);
+    expect(dataAndResponse.response).toBe(rawResponse);
+  });
+
+  // Mock server tests are disabled
   test.skip('research: only required params', async () => {
     const responsePromise = client.agent.research({
       query: 'What are the latest developments in quantum computing?',

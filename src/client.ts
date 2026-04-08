@@ -19,6 +19,8 @@ import * as API from './resources/index';
 import { APIPromise } from './core/api-promise';
 import {
   Agent,
+  AgentAutomateInputParams,
+  AgentAutomateInputResponse,
   AgentAutomateParams,
   AgentResearchParams,
   AutomateEvent,
@@ -748,7 +750,9 @@ export declare namespace Tabstack {
     Agent as Agent,
     type AutomateEvent as AutomateEvent,
     type ResearchEvent as ResearchEvent,
+    type AgentAutomateInputResponse as AgentAutomateInputResponse,
     type AgentAutomateParams as AgentAutomateParams,
+    type AgentAutomateInputParams as AgentAutomateInputParams,
     type AgentResearchParams as AgentResearchParams,
   };
 

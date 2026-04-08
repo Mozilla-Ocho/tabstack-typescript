@@ -95,6 +95,41 @@ const EMBEDDED_METHODS: MethodEntry[] = [
     },
   },
   {
+    name: 'automate_input',
+    endpoint: '/automate/{requestID}/input',
+    httpMethod: 'post',
+    summary: 'Submit Input Response',
+    description:
+      "Submit a response to an interactive form data request from an in-progress automation task. When the AI agent encounters a form requiring user data, it emits an `interactive:form_data:request` or `interactive:form_data:error` SSE event containing a `requestId`. Use this endpoint to provide the requested data or cancel the request.\n\n**Lifecycle:**\n- Input requests expire after 2 minutes by default\n- Expired or already-answered requests return `410 Gone`\n- Successful submissions return `202 Accepted` (fire-and-forget from caller's perspective)",
+    stainlessPath: '(resource) agent > (method) automate_input',
+    qualified: 'client.agent.automateInput',
+    params: ['requestID: string;', 'cancelled?: boolean;', 'fields?: { ref?: string; value?: string; }[];'],
+    response: '{ status?: string; }',
+    markdown:
+      "## automate_input\n\n`client.agent.automateInput(requestID: string, cancelled?: boolean, fields?: { ref?: string; value?: string; }[]): { status?: string; }`\n\n**post** `/automate/{requestID}/input`\n\nSubmit a response to an interactive form data request from an in-progress automation task. When the AI agent encounters a form requiring user data, it emits an `interactive:form_data:request` or `interactive:form_data:error` SSE event containing a `requestId`. Use this endpoint to provide the requested data or cancel the request.\n\n**Lifecycle:**\n- Input requests expire after 2 minutes by default\n- Expired or already-answered requests return `410 Gone`\n- Successful submissions return `202 Accepted` (fire-and-forget from caller's perspective)\n\n### Parameters\n\n- `requestID: string`\n\n- `cancelled?: boolean`\n  Set to true to cancel/decline the request\n\n- `fields?: { ref?: string; value?: string; }[]`\n  Field values as array of {ref, value} pairs (required when not cancelled)\n\n### Returns\n\n- `{ status?: string; }`\n\n  - `status?: string`\n\n### Example\n\n```typescript\nimport Tabstack from '@tabstack/sdk';\n\nconst client = new Tabstack();\n\nconst response = await client.agent.automateInput('requestID');\n\nconsole.log(response);\n```",
+    perLanguage: {
+      go: {
+        method: 'client.Agent.AutomateInput',
+        example:
+          'package main\n\nimport (\n\t"context"\n\t"fmt"\n\n\t"github.com/stainless-sdks/tabstack-go"\n\t"github.com/stainless-sdks/tabstack-go/option"\n)\n\nfunc main() {\n\tclient := tabstack.NewClient(\n\t\toption.WithAPIKey("My API Key"),\n\t)\n\tresponse, err := client.Agent.AutomateInput(\n\t\tcontext.TODO(),\n\t\t"requestID",\n\t\ttabstack.AgentAutomateInputParams{},\n\t)\n\tif err != nil {\n\t\tpanic(err.Error())\n\t}\n\tfmt.Printf("%+v\\n", response.Status)\n}\n',
+      },
+      http: {
+        example:
+          "curl https://api.tabstack.ai/v1/automate/$REQUEST_ID/input \\\n    -H 'Content-Type: application/json' \\\n    -H \"Authorization: Bearer $TABSTACK_API_KEY\" \\\n    -d '{}'",
+      },
+      python: {
+        method: 'agent.automate_input',
+        example:
+          'import os\nfrom tabstack import Tabstack\n\nclient = Tabstack(\n    api_key=os.environ.get("TABSTACK_API_KEY"),  # This is the default and can be omitted\n)\nresponse = client.agent.automate_input(\n    request_id="requestID",\n)\nprint(response.status)',
+      },
+      typescript: {
+        method: 'client.agent.automateInput',
+        example:
+          "import Tabstack from '@tabstack/sdk';\n\nconst client = new Tabstack({\n  apiKey: process.env['TABSTACK_API_KEY'], // This is the default and can be omitted\n});\n\nconst response = await client.agent.automateInput('requestID');\n\nconsole.log(response.status);",
+      },
+    },
+  },
+  {
     name: 'research',
     endpoint: '/research',
     httpMethod: 'post',
