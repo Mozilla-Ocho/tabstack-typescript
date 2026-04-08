@@ -134,6 +134,11 @@ export interface AgentAutomateParams {
   guardrails?: string;
 
   /**
+   * Enable interactive mode to allow human-in-the-loop input during task execution
+   */
+  interactive?: boolean;
+
+  /**
    * Maximum task iterations
    */
   maxIterations?: number;
