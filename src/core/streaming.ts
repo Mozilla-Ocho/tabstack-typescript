@@ -33,6 +33,7 @@ export class Stream<Item> implements AsyncIterable<Item> {
     response: Response,
     controller: AbortController,
     client?: Tabstack,
+    synthesizeEventData?: boolean,
   ): Stream<Item> {
     let consumed = false;
     const logger = client ? loggerFor(client) : console;
@@ -46,7 +47,8 @@ export class Stream<Item> implements AsyncIterable<Item> {
       try {
         for await (const sse of _iterSSEMessages(response, controller)) {
           try {
-            yield JSON.parse(sse.data) as Item;
+            const data = JSON.parse(sse.data);
+            yield (synthesizeEventData ? { event: sse.event, data } : data) as Item;
           } catch (e) {
             logger.error(`Could not parse message into JSON:`, sse.data);
             logger.error(`From chunk:`, sse.raw);
