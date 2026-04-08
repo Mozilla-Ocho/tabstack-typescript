@@ -4,10 +4,12 @@ Types:
 
 - <code><a href="./src/resources/agent.ts">AutomateEvent</a></code>
 - <code><a href="./src/resources/agent.ts">ResearchEvent</a></code>
+- <code><a href="./src/resources/agent.ts">AgentAutomateInputResponse</a></code>
 
 Methods:
 
 - <code title="post /automate">client.agent.<a href="./src/resources/agent.ts">automate</a>({ ...params }) -> AutomateEvent</code>
+- <code title="post /automate/{requestID}/input">client.agent.<a href="./src/resources/agent.ts">automateInput</a>(requestID, { ...params }) -> AgentAutomateInputResponse</code>
 - <code title="post /research">client.agent.<a href="./src/resources/agent.ts">research</a>({ ...params }) -> ResearchEvent</code>
 
 # Extract

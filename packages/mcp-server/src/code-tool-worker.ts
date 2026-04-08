@@ -109,6 +109,7 @@ function getTSDiagnostics(code: string): string[] {
 const fuse = new Fuse(
   [
     'client.agent.automate',
+    'client.agent.automateInput',
     'client.agent.research',
     'client.extract.json',
     'client.extract.markdown',

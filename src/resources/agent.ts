@@ -5,6 +5,7 @@ import { APIPromise } from '../core/api-promise';
 import { Stream } from '../core/streaming';
 import { buildHeaders } from '../internal/headers';
 import { RequestOptions } from '../internal/request-options';
+import { path } from '../internal/utils/path';
 
 export class Agent extends APIResource {
   /**
@@ -46,6 +47,35 @@ export class Agent extends APIResource {
       headers: buildHeaders([{ Accept: 'text/event-stream' }, options?.headers]),
       stream: true,
     }) as APIPromise<Stream<AutomateEvent>>;
+  }
+
+  /**
+   * Submit a response to an interactive form data request from an in-progress
+   * automation task. When the AI agent encounters a form requiring user data, it
+   * emits an `interactive:form_data:request` or `interactive:form_data:error` SSE
+   * event containing a `requestId`. Use this endpoint to provide the requested data
+   * or cancel the request.
+   *
+   * **Lifecycle:**
+   *
+   * - Input requests expire after 2 minutes by default
+   * - Expired or already-answered requests return `410 Gone`
+   * - Successful submissions return `202 Accepted` (fire-and-forget from caller's
+   *   perspective)
+   *
+   * @example
+   * ```ts
+   * const response = await client.agent.automateInput(
+   *   'requestID',
+   * );
+   * ```
+   */
+  automateInput(
+    requestID: string,
+    body: AgentAutomateInputParams,
+    options?: RequestOptions,
+  ): APIPromise<AgentAutomateInputResponse> {
+    return this._client.post(path`/automate/${requestID}/input`, { body, ...options });
   }
 
   /**
@@ -112,6 +142,10 @@ export interface ResearchEvent {
   event?: 'phase' | 'progress' | 'complete' | 'error';
 }
 
+export interface AgentAutomateInputResponse {
+  status?: string;
+}
+
 export interface AgentAutomateParams {
   /**
    * The task description in natural language
@@ -167,6 +201,26 @@ export namespace AgentAutomateParams {
   }
 }
 
+export interface AgentAutomateInputParams {
+  /**
+   * Set to true to cancel/decline the request
+   */
+  cancelled?: boolean;
+
+  /**
+   * Field values as array of {ref, value} pairs (required when not cancelled)
+   */
+  fields?: Array<AgentAutomateInputParams.Field>;
+}
+
+export namespace AgentAutomateInputParams {
+  export interface Field {
+    ref?: string;
+
+    value?: string;
+  }
+}
+
 export interface AgentResearchParams {
   /**
    * The research query or question to answer
@@ -193,7 +247,9 @@ export declare namespace Agent {
   export {
     type AutomateEvent as AutomateEvent,
     type ResearchEvent as ResearchEvent,
+    type AgentAutomateInputResponse as AgentAutomateInputResponse,
     type AgentAutomateParams as AgentAutomateParams,
+    type AgentAutomateInputParams as AgentAutomateInputParams,
     type AgentResearchParams as AgentResearchParams,
   };
 }

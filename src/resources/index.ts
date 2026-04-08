@@ -4,7 +4,9 @@ export {
   Agent,
   type AutomateEvent,
   type ResearchEvent,
+  type AgentAutomateInputResponse,
   type AgentAutomateParams,
+  type AgentAutomateInputParams,
   type AgentResearchParams,
 } from './agent';
 export {
