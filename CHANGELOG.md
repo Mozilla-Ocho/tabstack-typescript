@@ -1,5 +1,46 @@
 # Changelog
 
+## 2.4.0 (2026-04-09)
+
+Full Changelog: [v2.3.0...v2.4.0](https://github.com/Mozilla-Ocho/tabstack-typescript/compare/v2.3.0...v2.4.0)
+
+### Features
+
+* **api:** add input endpoint ([0dd1d54](https://github.com/Mozilla-Ocho/tabstack-typescript/commit/0dd1d543a21bbc5895ebbb15dce8d9a74750f417))
+* **api:** api update ([49e2089](https://github.com/Mozilla-Ocho/tabstack-typescript/commit/49e20893285a132e4c7d30deb0854784bb03d870))
+* **api:** api update ([e80bcd1](https://github.com/Mozilla-Ocho/tabstack-typescript/commit/e80bcd176eba011e108a8ee7faec4dda89042fdb))
+* **api:** better handling of SSE events ([d3a2f86](https://github.com/Mozilla-Ocho/tabstack-typescript/commit/d3a2f86224eb86714757098595aa01fcbcb09b83))
+
+
+### Bug Fixes
+
+* **internal:** gitignore generated `oidc` dir ([67f4b90](https://github.com/Mozilla-Ocho/tabstack-typescript/commit/67f4b908ec72ed6743c230097c385b282cde1513))
+
+
+### Chores
+
+* **ci:** escape input path in publish-npm workflow ([b54ca13](https://github.com/Mozilla-Ocho/tabstack-typescript/commit/b54ca13e9e7e5e1440dac40eba80df491dd554e6))
+* **ci:** skip lint on metadata-only changes ([8045090](https://github.com/Mozilla-Ocho/tabstack-typescript/commit/80450904c6fc0c372a5640c66486a53d907004f6))
+* configure new SDK language ([460c12d](https://github.com/Mozilla-Ocho/tabstack-typescript/commit/460c12d23c3823c332d0e82992692e9e76ab40bc))
+* **internal:** codegen related update ([a5ffb49](https://github.com/Mozilla-Ocho/tabstack-typescript/commit/a5ffb494a8e02757c296abb0c78b9a61a19babf9))
+* **internal:** fix MCP server import ordering ([1356d84](https://github.com/Mozilla-Ocho/tabstack-typescript/commit/1356d8419ef32c3574cb577db317eec9154ab248))
+* **internal:** fix MCP server TS errors that occur with required client options ([dc101e6](https://github.com/Mozilla-Ocho/tabstack-typescript/commit/dc101e680b98de3015b6961ce4422e1916c4dd35))
+* **internal:** improve local docs search for MCP servers ([3cc5b5d](https://github.com/Mozilla-Ocho/tabstack-typescript/commit/3cc5b5d56dbc3d97449adce247540fa69e2d2abc))
+* **internal:** improve local docs search for MCP servers ([cc53f03](https://github.com/Mozilla-Ocho/tabstack-typescript/commit/cc53f03108626fd3499f1b261d2c8937a19e5176))
+* **internal:** make generated MCP servers compatible with Cloudflare worker environments ([0b40f23](https://github.com/Mozilla-Ocho/tabstack-typescript/commit/0b40f2348a21ab9c46de5aee88c127f84abdb574))
+* **internal:** show error causes in MCP servers when running in local mode ([c99e370](https://github.com/Mozilla-Ocho/tabstack-typescript/commit/c99e370949cd7096e95ca5fc2c38dd6148874ec0))
+* **internal:** support custom-instructions-path flag in MCP servers ([d7a4831](https://github.com/Mozilla-Ocho/tabstack-typescript/commit/d7a483115a333a931d79b85426cfa134568622a4))
+* **internal:** support local docs search in MCP servers ([e39e4f1](https://github.com/Mozilla-Ocho/tabstack-typescript/commit/e39e4f1b4706882c3df568ee09ba65a7d89e306a))
+* **internal:** support type annotations when running MCP in local execution mode ([3df46aa](https://github.com/Mozilla-Ocho/tabstack-typescript/commit/3df46aacd5d3d75f0b85e9383c0aa15123355e88))
+* **internal:** support x-stainless-mcp-client-envs header in MCP servers ([abc70ae](https://github.com/Mozilla-Ocho/tabstack-typescript/commit/abc70ae644aa155d9aec1cdae30b66a0058e3089))
+* **internal:** support x-stainless-mcp-client-permissions headers in MCP servers ([75771cc](https://github.com/Mozilla-Ocho/tabstack-typescript/commit/75771ccf2387de035bb5245ae88c01cad42599e5))
+* **internal:** tweak CI branches ([2f9d806](https://github.com/Mozilla-Ocho/tabstack-typescript/commit/2f9d80699ca3017d3aece72fd910bede6f55dd83))
+* **internal:** update gitignore ([c189c03](https://github.com/Mozilla-Ocho/tabstack-typescript/commit/c189c03dec1dcd2464582e0de38edd38633c0f7d))
+* **internal:** update lockfile ([e015573](https://github.com/Mozilla-Ocho/tabstack-typescript/commit/e0155732b83051aa81583e4093b6d7f50628d0c3))
+* **mcp-server:** add support for session id, forward client info ([ffbe6ff](https://github.com/Mozilla-Ocho/tabstack-typescript/commit/ffbe6ffb9caee39450a6e5fd11b81eebe623b836))
+* **mcp-server:** increase local docs search result count from 5 to 10 ([b80ae81](https://github.com/Mozilla-Ocho/tabstack-typescript/commit/b80ae815e3e3d3c43f17b0e118e43151a7eadc5a))
+* **mcp-server:** log client info ([356ec4e](https://github.com/Mozilla-Ocho/tabstack-typescript/commit/356ec4e5e8d04ab49fab836c1cfe42294a65bab1))
+
 ## 2.3.0 (2026-03-12)
 
 Full Changelog: [v2.2.0...v2.3.0](https://github.com/Mozilla-Ocho/tabstack-typescript/compare/v2.2.0...v2.3.0)
