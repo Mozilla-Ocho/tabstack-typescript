@@ -139,9 +139,9 @@ export interface ResearchEvent {
   data?: unknown;
 
   /**
-   * The event type: phase, progress, complete, or error
+   * The event type (e.g., start, planning:start, searching:end, complete)
    */
-  event?: 'phase' | 'progress' | 'complete' | 'error';
+  event?: string;
 }
 
 export interface AgentAutomateInputResponse {
