@@ -1,4 +1,4 @@
 configured_endpoints: 6
-openapi_spec_url: https://storage.googleapis.com/stainless-sdk-openapi-specs/mozilla%2Ftabstack-1b09003fafca4003c4c2d56f1e0a1d61ac1379a4fff78f6219dfdb4b874b99d9.yml
-openapi_spec_hash: 0457975aae0fddf48ec4e9fd1e3aa639
+openapi_spec_url: https://storage.googleapis.com/stainless-sdk-openapi-specs/mozilla%2Ftabstack-60737542cc888d71b7b9ec5851c19660478cf60021cb352ff9e15c2611aa82e3.yml
+openapi_spec_hash: 5e9219da9b8e23219d1d1e372df29648
 config_hash: 57c64e5e8fe99c1bd7af536d82af4ad9
