@@ -405,12 +405,11 @@ export namespace AutomateEvent {
         providerOptions?: {
           [key: string]: {
             [key: string]:
-              | unknown
               | string
               | number
               | boolean
-              | { [key: string]: unknown | string | number | boolean | unknown | Array<unknown> | unknown }
-              | Array<unknown | string | number | boolean | Array<unknown>>
+              | { [key: string]: string | number | boolean | unknown | Array<unknown> | unknown }
+              | Array<string | number | boolean | unknown | Array<unknown> | null>
               | unknown;
           };
         };
@@ -438,12 +437,11 @@ export namespace AutomateEvent {
         providerOptions?: {
           [key: string]: {
             [key: string]:
-              | unknown
               | string
               | number
               | boolean
-              | { [key: string]: unknown | string | number | boolean | unknown | Array<unknown> | unknown }
-              | Array<unknown | string | number | boolean | Array<unknown>>
+              | { [key: string]: string | number | boolean | unknown | Array<unknown> | unknown }
+              | Array<string | number | boolean | unknown | Array<unknown> | null>
               | unknown;
           };
         };
@@ -469,12 +467,11 @@ export namespace AutomateEvent {
           providerOptions?: {
             [key: string]: {
               [key: string]:
-                | unknown
                 | string
                 | number
                 | boolean
-                | { [key: string]: unknown | string | number | boolean | unknown | Array<unknown> | unknown }
-                | Array<unknown | string | number | boolean | Array<unknown>>
+                | { [key: string]: string | number | boolean | unknown | Array<unknown> | unknown }
+                | Array<string | number | boolean | unknown | Array<unknown> | null>
                 | unknown;
             };
           };
@@ -507,12 +504,11 @@ export namespace AutomateEvent {
           providerOptions?: {
             [key: string]: {
               [key: string]:
-                | unknown
                 | string
                 | number
                 | boolean
-                | { [key: string]: unknown | string | number | boolean | unknown | Array<unknown> | unknown }
-                | Array<unknown | string | number | boolean | Array<unknown>>
+                | { [key: string]: string | number | boolean | unknown | Array<unknown> | unknown }
+                | Array<string | number | boolean | unknown | Array<unknown> | null>
                 | unknown;
             };
           };
@@ -596,12 +592,11 @@ export namespace AutomateEvent {
           providerOptions?: {
             [key: string]: {
               [key: string]:
-                | unknown
                 | string
                 | number
                 | boolean
-                | { [key: string]: unknown | string | number | boolean | unknown | Array<unknown> | unknown }
-                | Array<unknown | string | number | boolean | Array<unknown>>
+                | { [key: string]: string | number | boolean | unknown | Array<unknown> | unknown }
+                | Array<string | number | boolean | unknown | Array<unknown> | null>
                 | unknown;
             };
           };
@@ -684,12 +679,11 @@ export namespace AutomateEvent {
         providerOptions?: {
           [key: string]: {
             [key: string]:
-              | unknown
               | string
               | number
               | boolean
-              | { [key: string]: unknown | string | number | boolean | unknown | Array<unknown> | unknown }
-              | Array<unknown | string | number | boolean | Array<unknown>>
+              | { [key: string]: string | number | boolean | unknown | Array<unknown> | unknown }
+              | Array<string | number | boolean | unknown | Array<unknown> | null>
               | unknown;
           };
         };
@@ -715,12 +709,11 @@ export namespace AutomateEvent {
           providerOptions?: {
             [key: string]: {
               [key: string]:
-                | unknown
                 | string
                 | number
                 | boolean
-                | { [key: string]: unknown | string | number | boolean | unknown | Array<unknown> | unknown }
-                | Array<unknown | string | number | boolean | Array<unknown>>
+                | { [key: string]: string | number | boolean | unknown | Array<unknown> | unknown }
+                | Array<string | number | boolean | unknown | Array<unknown> | null>
                 | unknown;
             };
           };
@@ -758,12 +751,11 @@ export namespace AutomateEvent {
           providerOptions?: {
             [key: string]: {
               [key: string]:
-                | unknown
                 | string
                 | number
                 | boolean
-                | { [key: string]: unknown | string | number | boolean | unknown | Array<unknown> | unknown }
-                | Array<unknown | string | number | boolean | Array<unknown>>
+                | { [key: string]: string | number | boolean | unknown | Array<unknown> | unknown }
+                | Array<string | number | boolean | unknown | Array<unknown> | null>
                 | unknown;
             };
           };
@@ -834,12 +826,11 @@ export namespace AutomateEvent {
           providerOptions?: {
             [key: string]: {
               [key: string]:
-                | unknown
                 | string
                 | number
                 | boolean
-                | { [key: string]: unknown | string | number | boolean | unknown | Array<unknown> | unknown }
-                | Array<unknown | string | number | boolean | Array<unknown>>
+                | { [key: string]: string | number | boolean | unknown | Array<unknown> | unknown }
+                | Array<string | number | boolean | unknown | Array<unknown> | null>
                 | unknown;
             };
           };
@@ -882,12 +873,11 @@ export namespace AutomateEvent {
           providerOptions?: {
             [key: string]: {
               [key: string]:
-                | unknown
                 | string
                 | number
                 | boolean
-                | { [key: string]: unknown | string | number | boolean | unknown | Array<unknown> | unknown }
-                | Array<unknown | string | number | boolean | Array<unknown>>
+                | { [key: string]: string | number | boolean | unknown | Array<unknown> | unknown }
+                | Array<string | number | boolean | unknown | Array<unknown> | null>
                 | unknown;
             };
           };
@@ -929,12 +919,11 @@ export namespace AutomateEvent {
           providerOptions?: {
             [key: string]: {
               [key: string]:
-                | unknown
                 | string
                 | number
                 | boolean
-                | { [key: string]: unknown | string | number | boolean | unknown | Array<unknown> | unknown }
-                | Array<unknown | string | number | boolean | Array<unknown>>
+                | { [key: string]: string | number | boolean | unknown | Array<unknown> | unknown }
+                | Array<string | number | boolean | unknown | Array<unknown> | null>
                 | unknown;
             };
           };
@@ -955,14 +944,11 @@ export namespace AutomateEvent {
             providerOptions?: {
               [key: string]: {
                 [key: string]:
-                  | unknown
                   | string
                   | number
                   | boolean
-                  | {
-                      [key: string]: unknown | string | number | boolean | unknown | Array<unknown> | unknown;
-                    }
-                  | Array<unknown | string | number | boolean | Array<unknown>>
+                  | { [key: string]: string | number | boolean | unknown | Array<unknown> | unknown }
+                  | Array<string | number | boolean | unknown | Array<unknown> | null>
                   | unknown;
               };
             };
@@ -977,30 +963,20 @@ export namespace AutomateEvent {
              * methods.
              */
             value:
-              | unknown
               | string
               | number
               | boolean
               | {
                   [key: string]:
-                    | unknown
                     | string
                     | number
                     | boolean
-                    | {
-                        [key: string]:
-                          | unknown
-                          | string
-                          | number
-                          | boolean
-                          | unknown
-                          | Array<unknown>
-                          | unknown;
-                      }
-                    | Array<unknown | string | number | boolean | Array<unknown>>
+                    | { [key: string]: string | number | boolean | unknown | Array<unknown> | unknown }
+                    | Array<string | number | boolean | unknown | Array<unknown> | null>
                     | unknown;
                 }
-              | Array<unknown | string | number | boolean | Array<unknown>>;
+              | Array<string | number | boolean | unknown | Array<unknown> | null>
+              | null;
 
             /**
              * Provider-specific options.
@@ -1008,14 +984,11 @@ export namespace AutomateEvent {
             providerOptions?: {
               [key: string]: {
                 [key: string]:
-                  | unknown
                   | string
                   | number
                   | boolean
-                  | {
-                      [key: string]: unknown | string | number | boolean | unknown | Array<unknown> | unknown;
-                    }
-                  | Array<unknown | string | number | boolean | Array<unknown>>
+                  | { [key: string]: string | number | boolean | unknown | Array<unknown> | unknown }
+                  | Array<string | number | boolean | unknown | Array<unknown> | null>
                   | unknown;
               };
             };
@@ -1033,14 +1006,11 @@ export namespace AutomateEvent {
             providerOptions?: {
               [key: string]: {
                 [key: string]:
-                  | unknown
                   | string
                   | number
                   | boolean
-                  | {
-                      [key: string]: unknown | string | number | boolean | unknown | Array<unknown> | unknown;
-                    }
-                  | Array<unknown | string | number | boolean | Array<unknown>>
+                  | { [key: string]: string | number | boolean | unknown | Array<unknown> | unknown }
+                  | Array<string | number | boolean | unknown | Array<unknown> | null>
                   | unknown;
               };
             };
@@ -1062,14 +1032,11 @@ export namespace AutomateEvent {
             providerOptions?: {
               [key: string]: {
                 [key: string]:
-                  | unknown
                   | string
                   | number
                   | boolean
-                  | {
-                      [key: string]: unknown | string | number | boolean | unknown | Array<unknown> | unknown;
-                    }
-                  | Array<unknown | string | number | boolean | Array<unknown>>
+                  | { [key: string]: string | number | boolean | unknown | Array<unknown> | unknown }
+                  | Array<string | number | boolean | unknown | Array<unknown> | null>
                   | unknown;
               };
             };
@@ -1084,30 +1051,20 @@ export namespace AutomateEvent {
              * methods.
              */
             value:
-              | unknown
               | string
               | number
               | boolean
               | {
                   [key: string]:
-                    | unknown
                     | string
                     | number
                     | boolean
-                    | {
-                        [key: string]:
-                          | unknown
-                          | string
-                          | number
-                          | boolean
-                          | unknown
-                          | Array<unknown>
-                          | unknown;
-                      }
-                    | Array<unknown | string | number | boolean | Array<unknown>>
+                    | { [key: string]: string | number | boolean | unknown | Array<unknown> | unknown }
+                    | Array<string | number | boolean | unknown | Array<unknown> | null>
                     | unknown;
                 }
-              | Array<unknown | string | number | boolean | Array<unknown>>;
+              | Array<string | number | boolean | unknown | Array<unknown> | null>
+              | null;
 
             /**
              * Provider-specific options.
@@ -1115,14 +1072,11 @@ export namespace AutomateEvent {
             providerOptions?: {
               [key: string]: {
                 [key: string]:
-                  | unknown
                   | string
                   | number
                   | boolean
-                  | {
-                      [key: string]: unknown | string | number | boolean | unknown | Array<unknown> | unknown;
-                    }
-                  | Array<unknown | string | number | boolean | Array<unknown>>
+                  | { [key: string]: string | number | boolean | unknown | Array<unknown> | unknown }
+                  | Array<string | number | boolean | unknown | Array<unknown> | null>
                   | unknown;
               };
             };
@@ -1159,21 +1113,11 @@ export namespace AutomateEvent {
               providerOptions?: {
                 [key: string]: {
                   [key: string]:
-                    | unknown
                     | string
                     | number
                     | boolean
-                    | {
-                        [key: string]:
-                          | unknown
-                          | string
-                          | number
-                          | boolean
-                          | unknown
-                          | Array<unknown>
-                          | unknown;
-                      }
-                    | Array<unknown | string | number | boolean | Array<unknown>>
+                    | { [key: string]: string | number | boolean | unknown | Array<unknown> | unknown }
+                    | Array<string | number | boolean | unknown | Array<unknown> | null>
                     | unknown;
                 };
               };
@@ -1214,21 +1158,11 @@ export namespace AutomateEvent {
               providerOptions?: {
                 [key: string]: {
                   [key: string]:
-                    | unknown
                     | string
                     | number
                     | boolean
-                    | {
-                        [key: string]:
-                          | unknown
-                          | string
-                          | number
-                          | boolean
-                          | unknown
-                          | Array<unknown>
-                          | unknown;
-                      }
-                    | Array<unknown | string | number | boolean | Array<unknown>>
+                    | { [key: string]: string | number | boolean | unknown | Array<unknown> | unknown }
+                    | Array<string | number | boolean | unknown | Array<unknown> | null>
                     | unknown;
                 };
               };
@@ -1248,21 +1182,11 @@ export namespace AutomateEvent {
               providerOptions?: {
                 [key: string]: {
                   [key: string]:
-                    | unknown
                     | string
                     | number
                     | boolean
-                    | {
-                        [key: string]:
-                          | unknown
-                          | string
-                          | number
-                          | boolean
-                          | unknown
-                          | Array<unknown>
-                          | unknown;
-                      }
-                    | Array<unknown | string | number | boolean | Array<unknown>>
+                    | { [key: string]: string | number | boolean | unknown | Array<unknown> | unknown }
+                    | Array<string | number | boolean | unknown | Array<unknown> | null>
                     | unknown;
                 };
               };
@@ -1286,21 +1210,11 @@ export namespace AutomateEvent {
               providerOptions?: {
                 [key: string]: {
                   [key: string]:
-                    | unknown
                     | string
                     | number
                     | boolean
-                    | {
-                        [key: string]:
-                          | unknown
-                          | string
-                          | number
-                          | boolean
-                          | unknown
-                          | Array<unknown>
-                          | unknown;
-                      }
-                    | Array<unknown | string | number | boolean | Array<unknown>>
+                    | { [key: string]: string | number | boolean | unknown | Array<unknown> | unknown }
+                    | Array<string | number | boolean | unknown | Array<unknown> | null>
                     | unknown;
                 };
               };
@@ -1328,21 +1242,11 @@ export namespace AutomateEvent {
               providerOptions?: {
                 [key: string]: {
                   [key: string]:
-                    | unknown
                     | string
                     | number
                     | boolean
-                    | {
-                        [key: string]:
-                          | unknown
-                          | string
-                          | number
-                          | boolean
-                          | unknown
-                          | Array<unknown>
-                          | unknown;
-                      }
-                    | Array<unknown | string | number | boolean | Array<unknown>>
+                    | { [key: string]: string | number | boolean | unknown | Array<unknown> | unknown }
+                    | Array<string | number | boolean | unknown | Array<unknown> | null>
                     | unknown;
                 };
               };
@@ -1365,21 +1269,11 @@ export namespace AutomateEvent {
               providerOptions?: {
                 [key: string]: {
                   [key: string]:
-                    | unknown
                     | string
                     | number
                     | boolean
-                    | {
-                        [key: string]:
-                          | unknown
-                          | string
-                          | number
-                          | boolean
-                          | unknown
-                          | Array<unknown>
-                          | unknown;
-                      }
-                    | Array<unknown | string | number | boolean | Array<unknown>>
+                    | { [key: string]: string | number | boolean | unknown | Array<unknown> | unknown }
+                    | Array<string | number | boolean | unknown | Array<unknown> | null>
                     | unknown;
                 };
               };
@@ -1406,21 +1300,11 @@ export namespace AutomateEvent {
               providerOptions?: {
                 [key: string]: {
                   [key: string]:
-                    | unknown
                     | string
                     | number
                     | boolean
-                    | {
-                        [key: string]:
-                          | unknown
-                          | string
-                          | number
-                          | boolean
-                          | unknown
-                          | Array<unknown>
-                          | unknown;
-                      }
-                    | Array<unknown | string | number | boolean | Array<unknown>>
+                    | { [key: string]: string | number | boolean | unknown | Array<unknown> | unknown }
+                    | Array<string | number | boolean | unknown | Array<unknown> | null>
                     | unknown;
                 };
               };
@@ -1439,21 +1323,11 @@ export namespace AutomateEvent {
               providerOptions?: {
                 [key: string]: {
                   [key: string]:
-                    | unknown
                     | string
                     | number
                     | boolean
-                    | {
-                        [key: string]:
-                          | unknown
-                          | string
-                          | number
-                          | boolean
-                          | unknown
-                          | Array<unknown>
-                          | unknown;
-                      }
-                    | Array<unknown | string | number | boolean | Array<unknown>>
+                    | { [key: string]: string | number | boolean | unknown | Array<unknown> | unknown }
+                    | Array<string | number | boolean | unknown | Array<unknown> | null>
                     | unknown;
                 };
               };
@@ -1498,12 +1372,11 @@ export namespace AutomateEvent {
         providerOptions?: {
           [key: string]: {
             [key: string]:
-              | unknown
               | string
               | number
               | boolean
-              | { [key: string]: unknown | string | number | boolean | unknown | Array<unknown> | unknown }
-              | Array<unknown | string | number | boolean | Array<unknown>>
+              | { [key: string]: string | number | boolean | unknown | Array<unknown> | unknown }
+              | Array<string | number | boolean | unknown | Array<unknown> | null>
               | unknown;
           };
         };
@@ -1546,12 +1419,11 @@ export namespace AutomateEvent {
           providerOptions?: {
             [key: string]: {
               [key: string]:
-                | unknown
                 | string
                 | number
                 | boolean
-                | { [key: string]: unknown | string | number | boolean | unknown | Array<unknown> | unknown }
-                | Array<unknown | string | number | boolean | Array<unknown>>
+                | { [key: string]: string | number | boolean | unknown | Array<unknown> | unknown }
+                | Array<string | number | boolean | unknown | Array<unknown> | null>
                 | unknown;
             };
           };
@@ -1572,14 +1444,11 @@ export namespace AutomateEvent {
             providerOptions?: {
               [key: string]: {
                 [key: string]:
-                  | unknown
                   | string
                   | number
                   | boolean
-                  | {
-                      [key: string]: unknown | string | number | boolean | unknown | Array<unknown> | unknown;
-                    }
-                  | Array<unknown | string | number | boolean | Array<unknown>>
+                  | { [key: string]: string | number | boolean | unknown | Array<unknown> | unknown }
+                  | Array<string | number | boolean | unknown | Array<unknown> | null>
                   | unknown;
               };
             };
@@ -1594,30 +1463,20 @@ export namespace AutomateEvent {
              * methods.
              */
             value:
-              | unknown
               | string
               | number
               | boolean
               | {
                   [key: string]:
-                    | unknown
                     | string
                     | number
                     | boolean
-                    | {
-                        [key: string]:
-                          | unknown
-                          | string
-                          | number
-                          | boolean
-                          | unknown
-                          | Array<unknown>
-                          | unknown;
-                      }
-                    | Array<unknown | string | number | boolean | Array<unknown>>
+                    | { [key: string]: string | number | boolean | unknown | Array<unknown> | unknown }
+                    | Array<string | number | boolean | unknown | Array<unknown> | null>
                     | unknown;
                 }
-              | Array<unknown | string | number | boolean | Array<unknown>>;
+              | Array<string | number | boolean | unknown | Array<unknown> | null>
+              | null;
 
             /**
              * Provider-specific options.
@@ -1625,14 +1484,11 @@ export namespace AutomateEvent {
             providerOptions?: {
               [key: string]: {
                 [key: string]:
-                  | unknown
                   | string
                   | number
                   | boolean
-                  | {
-                      [key: string]: unknown | string | number | boolean | unknown | Array<unknown> | unknown;
-                    }
-                  | Array<unknown | string | number | boolean | Array<unknown>>
+                  | { [key: string]: string | number | boolean | unknown | Array<unknown> | unknown }
+                  | Array<string | number | boolean | unknown | Array<unknown> | null>
                   | unknown;
               };
             };
@@ -1650,14 +1506,11 @@ export namespace AutomateEvent {
             providerOptions?: {
               [key: string]: {
                 [key: string]:
-                  | unknown
                   | string
                   | number
                   | boolean
-                  | {
-                      [key: string]: unknown | string | number | boolean | unknown | Array<unknown> | unknown;
-                    }
-                  | Array<unknown | string | number | boolean | Array<unknown>>
+                  | { [key: string]: string | number | boolean | unknown | Array<unknown> | unknown }
+                  | Array<string | number | boolean | unknown | Array<unknown> | null>
                   | unknown;
               };
             };
@@ -1679,14 +1532,11 @@ export namespace AutomateEvent {
             providerOptions?: {
               [key: string]: {
                 [key: string]:
-                  | unknown
                   | string
                   | number
                   | boolean
-                  | {
-                      [key: string]: unknown | string | number | boolean | unknown | Array<unknown> | unknown;
-                    }
-                  | Array<unknown | string | number | boolean | Array<unknown>>
+                  | { [key: string]: string | number | boolean | unknown | Array<unknown> | unknown }
+                  | Array<string | number | boolean | unknown | Array<unknown> | null>
                   | unknown;
               };
             };
@@ -1701,30 +1551,20 @@ export namespace AutomateEvent {
              * methods.
              */
             value:
-              | unknown
               | string
               | number
               | boolean
               | {
                   [key: string]:
-                    | unknown
                     | string
                     | number
                     | boolean
-                    | {
-                        [key: string]:
-                          | unknown
-                          | string
-                          | number
-                          | boolean
-                          | unknown
-                          | Array<unknown>
-                          | unknown;
-                      }
-                    | Array<unknown | string | number | boolean | Array<unknown>>
+                    | { [key: string]: string | number | boolean | unknown | Array<unknown> | unknown }
+                    | Array<string | number | boolean | unknown | Array<unknown> | null>
                     | unknown;
                 }
-              | Array<unknown | string | number | boolean | Array<unknown>>;
+              | Array<string | number | boolean | unknown | Array<unknown> | null>
+              | null;
 
             /**
              * Provider-specific options.
@@ -1732,14 +1572,11 @@ export namespace AutomateEvent {
             providerOptions?: {
               [key: string]: {
                 [key: string]:
-                  | unknown
                   | string
                   | number
                   | boolean
-                  | {
-                      [key: string]: unknown | string | number | boolean | unknown | Array<unknown> | unknown;
-                    }
-                  | Array<unknown | string | number | boolean | Array<unknown>>
+                  | { [key: string]: string | number | boolean | unknown | Array<unknown> | unknown }
+                  | Array<string | number | boolean | unknown | Array<unknown> | null>
                   | unknown;
               };
             };
@@ -1776,21 +1613,11 @@ export namespace AutomateEvent {
               providerOptions?: {
                 [key: string]: {
                   [key: string]:
-                    | unknown
                     | string
                     | number
                     | boolean
-                    | {
-                        [key: string]:
-                          | unknown
-                          | string
-                          | number
-                          | boolean
-                          | unknown
-                          | Array<unknown>
-                          | unknown;
-                      }
-                    | Array<unknown | string | number | boolean | Array<unknown>>
+                    | { [key: string]: string | number | boolean | unknown | Array<unknown> | unknown }
+                    | Array<string | number | boolean | unknown | Array<unknown> | null>
                     | unknown;
                 };
               };
@@ -1831,21 +1658,11 @@ export namespace AutomateEvent {
               providerOptions?: {
                 [key: string]: {
                   [key: string]:
-                    | unknown
                     | string
                     | number
                     | boolean
-                    | {
-                        [key: string]:
-                          | unknown
-                          | string
-                          | number
-                          | boolean
-                          | unknown
-                          | Array<unknown>
-                          | unknown;
-                      }
-                    | Array<unknown | string | number | boolean | Array<unknown>>
+                    | { [key: string]: string | number | boolean | unknown | Array<unknown> | unknown }
+                    | Array<string | number | boolean | unknown | Array<unknown> | null>
                     | unknown;
                 };
               };
@@ -1865,21 +1682,11 @@ export namespace AutomateEvent {
               providerOptions?: {
                 [key: string]: {
                   [key: string]:
-                    | unknown
                     | string
                     | number
                     | boolean
-                    | {
-                        [key: string]:
-                          | unknown
-                          | string
-                          | number
-                          | boolean
-                          | unknown
-                          | Array<unknown>
-                          | unknown;
-                      }
-                    | Array<unknown | string | number | boolean | Array<unknown>>
+                    | { [key: string]: string | number | boolean | unknown | Array<unknown> | unknown }
+                    | Array<string | number | boolean | unknown | Array<unknown> | null>
                     | unknown;
                 };
               };
@@ -1903,21 +1710,11 @@ export namespace AutomateEvent {
               providerOptions?: {
                 [key: string]: {
                   [key: string]:
-                    | unknown
                     | string
                     | number
                     | boolean
-                    | {
-                        [key: string]:
-                          | unknown
-                          | string
-                          | number
-                          | boolean
-                          | unknown
-                          | Array<unknown>
-                          | unknown;
-                      }
-                    | Array<unknown | string | number | boolean | Array<unknown>>
+                    | { [key: string]: string | number | boolean | unknown | Array<unknown> | unknown }
+                    | Array<string | number | boolean | unknown | Array<unknown> | null>
                     | unknown;
                 };
               };
@@ -1945,21 +1742,11 @@ export namespace AutomateEvent {
               providerOptions?: {
                 [key: string]: {
                   [key: string]:
-                    | unknown
                     | string
                     | number
                     | boolean
-                    | {
-                        [key: string]:
-                          | unknown
-                          | string
-                          | number
-                          | boolean
-                          | unknown
-                          | Array<unknown>
-                          | unknown;
-                      }
-                    | Array<unknown | string | number | boolean | Array<unknown>>
+                    | { [key: string]: string | number | boolean | unknown | Array<unknown> | unknown }
+                    | Array<string | number | boolean | unknown | Array<unknown> | null>
                     | unknown;
                 };
               };
@@ -1982,21 +1769,11 @@ export namespace AutomateEvent {
               providerOptions?: {
                 [key: string]: {
                   [key: string]:
-                    | unknown
                     | string
                     | number
                     | boolean
-                    | {
-                        [key: string]:
-                          | unknown
-                          | string
-                          | number
-                          | boolean
-                          | unknown
-                          | Array<unknown>
-                          | unknown;
-                      }
-                    | Array<unknown | string | number | boolean | Array<unknown>>
+                    | { [key: string]: string | number | boolean | unknown | Array<unknown> | unknown }
+                    | Array<string | number | boolean | unknown | Array<unknown> | null>
                     | unknown;
                 };
               };
@@ -2023,21 +1800,11 @@ export namespace AutomateEvent {
               providerOptions?: {
                 [key: string]: {
                   [key: string]:
-                    | unknown
                     | string
                     | number
                     | boolean
-                    | {
-                        [key: string]:
-                          | unknown
-                          | string
-                          | number
-                          | boolean
-                          | unknown
-                          | Array<unknown>
-                          | unknown;
-                      }
-                    | Array<unknown | string | number | boolean | Array<unknown>>
+                    | { [key: string]: string | number | boolean | unknown | Array<unknown> | unknown }
+                    | Array<string | number | boolean | unknown | Array<unknown> | null>
                     | unknown;
                 };
               };
@@ -2056,21 +1823,11 @@ export namespace AutomateEvent {
               providerOptions?: {
                 [key: string]: {
                   [key: string]:
-                    | unknown
                     | string
                     | number
                     | boolean
-                    | {
-                        [key: string]:
-                          | unknown
-                          | string
-                          | number
-                          | boolean
-                          | unknown
-                          | Array<unknown>
-                          | unknown;
-                      }
-                    | Array<unknown | string | number | boolean | Array<unknown>>
+                    | { [key: string]: string | number | boolean | unknown | Array<unknown> | unknown }
+                    | Array<string | number | boolean | unknown | Array<unknown> | null>
                     | unknown;
                 };
               };
@@ -3255,7 +3012,7 @@ export namespace ResearchEvent {
           searches: { [key: string]: number };
 
           /**
-           * Success rates (0-1) for various operations
+           * Success rate metrics
            */
           successRates: Metrics.SuccessRates;
 
@@ -3276,7 +3033,7 @@ export namespace ResearchEvent {
           }
 
           /**
-           * Success rates (0-1) for various operations
+           * Success rate metrics
            */
           export interface SuccessRates {
             analyzes: number;
@@ -3402,7 +3159,7 @@ export namespace ResearchEvent {
 
     export namespace Data {
       /**
-       * Question assessment for evaluating:end payload
+       * Assessment of a single research question
        */
       export interface QuestionAssessment {
         /**
