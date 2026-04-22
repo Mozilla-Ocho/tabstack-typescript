@@ -365,7 +365,7 @@ export namespace AutomateEvent {
 
       usage: Data.Usage;
 
-      messages?: Array<Data.UnionMember0 | Data.UnionMember1 | Data.UnionMember2 | Data.UnionMember3>;
+      messages?: Array<Data.System | Data.User | Data.Assistant | Data.Tool>;
 
       object?: unknown;
 
@@ -392,7 +392,7 @@ export namespace AutomateEvent {
        * the resilience against prompt injection attacks, and because not all providers
        * support several system messages.
        */
-      export interface UnionMember0 {
+      export interface System {
         content: string;
 
         role: 'system';
@@ -408,9 +408,8 @@ export namespace AutomateEvent {
               | string
               | number
               | boolean
-              | { [key: string]: string | number | boolean | unknown | Array<unknown> | unknown }
-              | Array<string | number | boolean | unknown | Array<unknown> | null>
-              | unknown;
+              | { [key: string]: string | number | boolean | unknown | Array<unknown> }
+              | Array<string | number | boolean | unknown | Array<unknown> | null>;
           };
         };
       }
@@ -418,14 +417,12 @@ export namespace AutomateEvent {
       /**
        * A user message. It can contain text or a combination of text and images.
        */
-      export interface UnionMember1 {
+      export interface User {
         /**
          * Content of a user message. It can be a string or an array of text and image
          * parts.
          */
-        content:
-          | string
-          | Array<UnionMember1.UnionMember0 | UnionMember1.UnionMember1 | UnionMember1.UnionMember2>;
+        content: string | Array<User.Text | User.Image | User.File>;
 
         role: 'user';
 
@@ -440,18 +437,17 @@ export namespace AutomateEvent {
               | string
               | number
               | boolean
-              | { [key: string]: string | number | boolean | unknown | Array<unknown> | unknown }
-              | Array<string | number | boolean | unknown | Array<unknown> | null>
-              | unknown;
+              | { [key: string]: string | number | boolean | unknown | Array<unknown> }
+              | Array<string | number | boolean | unknown | Array<unknown> | null>;
           };
         };
       }
 
-      export namespace UnionMember1 {
+      export namespace User {
         /**
          * Text content part of a prompt. It contains a string of text.
          */
-        export interface UnionMember0 {
+        export interface Text {
           /**
            * The text content.
            */
@@ -470,9 +466,8 @@ export namespace AutomateEvent {
                 | string
                 | number
                 | boolean
-                | { [key: string]: string | number | boolean | unknown | Array<unknown> | unknown }
-                | Array<string | number | boolean | unknown | Array<unknown> | null>
-                | unknown;
+                | { [key: string]: string | number | boolean | unknown | Array<unknown> }
+                | Array<string | number | boolean | unknown | Array<unknown> | null>;
             };
           };
         }
@@ -480,14 +475,14 @@ export namespace AutomateEvent {
         /**
          * Image content part of a prompt. It contains an image.
          */
-        export interface UnionMember1 {
+        export interface Image {
           /**
            * Image data. Can either be:
            *
            * - data: a base64-encoded string, a Uint8Array, an ArrayBuffer, or a Buffer
            * - URL: a URL that points to the image
            */
-          image: string | UnionMember1.UnionMember1 | UnionMember1.ByteLength | UnionMember1.V1GlobalBuffer;
+          image: string | Image.UnionMember1 | Image.ByteLength | Image.V1GlobalBuffer;
 
           type: 'image';
 
@@ -507,14 +502,13 @@ export namespace AutomateEvent {
                 | string
                 | number
                 | boolean
-                | { [key: string]: string | number | boolean | unknown | Array<unknown> | unknown }
-                | Array<string | number | boolean | unknown | Array<unknown> | null>
-                | unknown;
+                | { [key: string]: string | number | boolean | unknown | Array<unknown> }
+                | Array<string | number | boolean | unknown | Array<unknown> | null>;
             };
           };
         }
 
-        export namespace UnionMember1 {
+        export namespace Image {
           export interface UnionMember1 {
             buffer: UnionMember1.Buffer;
 
@@ -563,14 +557,14 @@ export namespace AutomateEvent {
         /**
          * File content part of a prompt. It contains a file.
          */
-        export interface UnionMember2 {
+        export interface File {
           /**
            * File data. Can either be:
            *
            * - data: a base64-encoded string, a Uint8Array, an ArrayBuffer, or a Buffer
            * - URL: a URL that points to the image
            */
-          data: string | UnionMember2.UnionMember1 | UnionMember2.ByteLength | UnionMember2.V1GlobalBuffer;
+          data: string | File.UnionMember1 | File.ByteLength | File.V1GlobalBuffer;
 
           /**
            * IANA media type of the file.
@@ -595,14 +589,13 @@ export namespace AutomateEvent {
                 | string
                 | number
                 | boolean
-                | { [key: string]: string | number | boolean | unknown | Array<unknown> | unknown }
-                | Array<string | number | boolean | unknown | Array<unknown> | null>
-                | unknown;
+                | { [key: string]: string | number | boolean | unknown | Array<unknown> }
+                | Array<string | number | boolean | unknown | Array<unknown> | null>;
             };
           };
         }
 
-        export namespace UnionMember2 {
+        export namespace File {
           export interface UnionMember1 {
             buffer: UnionMember1.Buffer;
 
@@ -653,7 +646,7 @@ export namespace AutomateEvent {
        * An assistant message. It can contain text, tool calls, or a combination of text
        * and tool calls.
        */
-      export interface UnionMember2 {
+      export interface Assistant {
         /**
          * Content of an assistant message. It can be a string or an array of text, image,
          * reasoning, redacted reasoning, and tool call parts.
@@ -661,12 +654,12 @@ export namespace AutomateEvent {
         content:
           | string
           | Array<
-              | UnionMember2.UnionMember0
-              | UnionMember2.UnionMember1
-              | UnionMember2.UnionMember2
-              | UnionMember2.UnionMember3
-              | UnionMember2.UnionMember4
-              | UnionMember2.UnionMember5
+              | Assistant.Text
+              | Assistant.File
+              | Assistant.Reasoning
+              | Assistant.ToolCall
+              | Assistant.ToolResult
+              | Assistant.ToolApprovalRequest
             >;
 
         role: 'assistant';
@@ -682,18 +675,17 @@ export namespace AutomateEvent {
               | string
               | number
               | boolean
-              | { [key: string]: string | number | boolean | unknown | Array<unknown> | unknown }
-              | Array<string | number | boolean | unknown | Array<unknown> | null>
-              | unknown;
+              | { [key: string]: string | number | boolean | unknown | Array<unknown> }
+              | Array<string | number | boolean | unknown | Array<unknown> | null>;
           };
         };
       }
 
-      export namespace UnionMember2 {
+      export namespace Assistant {
         /**
          * Text content part of a prompt. It contains a string of text.
          */
-        export interface UnionMember0 {
+        export interface Text {
           /**
            * The text content.
            */
@@ -712,9 +704,8 @@ export namespace AutomateEvent {
                 | string
                 | number
                 | boolean
-                | { [key: string]: string | number | boolean | unknown | Array<unknown> | unknown }
-                | Array<string | number | boolean | unknown | Array<unknown> | null>
-                | unknown;
+                | { [key: string]: string | number | boolean | unknown | Array<unknown> }
+                | Array<string | number | boolean | unknown | Array<unknown> | null>;
             };
           };
         }
@@ -722,14 +713,14 @@ export namespace AutomateEvent {
         /**
          * File content part of a prompt. It contains a file.
          */
-        export interface UnionMember1 {
+        export interface File {
           /**
            * File data. Can either be:
            *
            * - data: a base64-encoded string, a Uint8Array, an ArrayBuffer, or a Buffer
            * - URL: a URL that points to the image
            */
-          data: string | UnionMember1.UnionMember1 | UnionMember1.ByteLength | UnionMember1.V1GlobalBuffer;
+          data: string | File.UnionMember1 | File.ByteLength | File.V1GlobalBuffer;
 
           /**
            * IANA media type of the file.
@@ -754,14 +745,13 @@ export namespace AutomateEvent {
                 | string
                 | number
                 | boolean
-                | { [key: string]: string | number | boolean | unknown | Array<unknown> | unknown }
-                | Array<string | number | boolean | unknown | Array<unknown> | null>
-                | unknown;
+                | { [key: string]: string | number | boolean | unknown | Array<unknown> }
+                | Array<string | number | boolean | unknown | Array<unknown> | null>;
             };
           };
         }
 
-        export namespace UnionMember1 {
+        export namespace File {
           export interface UnionMember1 {
             buffer: UnionMember1.Buffer;
 
@@ -810,7 +800,7 @@ export namespace AutomateEvent {
         /**
          * Reasoning content part of a prompt. It contains a reasoning.
          */
-        export interface UnionMember2 {
+        export interface Reasoning {
           /**
            * The reasoning text.
            */
@@ -829,9 +819,8 @@ export namespace AutomateEvent {
                 | string
                 | number
                 | boolean
-                | { [key: string]: string | number | boolean | unknown | Array<unknown> | unknown }
-                | Array<string | number | boolean | unknown | Array<unknown> | null>
-                | unknown;
+                | { [key: string]: string | number | boolean | unknown | Array<unknown> }
+                | Array<string | number | boolean | unknown | Array<unknown> | null>;
             };
           };
         }
@@ -840,7 +829,7 @@ export namespace AutomateEvent {
          * Tool call content part of a prompt. It contains a tool call (usually generated
          * by the AI model).
          */
-        export interface UnionMember3 {
+        export interface ToolCall {
           /**
            * Arguments of the tool call. This is a JSON-serializable object that matches the
            * tool's input schema.
@@ -876,9 +865,8 @@ export namespace AutomateEvent {
                 | string
                 | number
                 | boolean
-                | { [key: string]: string | number | boolean | unknown | Array<unknown> | unknown }
-                | Array<string | number | boolean | unknown | Array<unknown> | null>
-                | unknown;
+                | { [key: string]: string | number | boolean | unknown | Array<unknown> }
+                | Array<string | number | boolean | unknown | Array<unknown> | null>;
             };
           };
         }
@@ -887,17 +875,17 @@ export namespace AutomateEvent {
          * Tool result content part of a prompt. It contains the result of the tool call
          * with the matching ID.
          */
-        export interface UnionMember4 {
+        export interface ToolResult {
           /**
            * Result of the tool call. This is a JSON-serializable object.
            */
           output:
-            | UnionMember4.UnionMember0
-            | UnionMember4.UnionMember1
-            | UnionMember4.UnionMember2
-            | UnionMember4.UnionMember3
-            | UnionMember4.UnionMember4
-            | UnionMember4.UnionMember5;
+            | ToolResult.Text
+            | ToolResult.Json
+            | ToolResult.ExecutionDenied
+            | ToolResult.ErrorText
+            | ToolResult.ErrorJson
+            | ToolResult.Content;
 
           /**
            * ID of the tool call that this result is associated with.
@@ -922,15 +910,14 @@ export namespace AutomateEvent {
                 | string
                 | number
                 | boolean
-                | { [key: string]: string | number | boolean | unknown | Array<unknown> | unknown }
-                | Array<string | number | boolean | unknown | Array<unknown> | null>
-                | unknown;
+                | { [key: string]: string | number | boolean | unknown | Array<unknown> }
+                | Array<string | number | boolean | unknown | Array<unknown> | null>;
             };
           };
         }
 
-        export namespace UnionMember4 {
-          export interface UnionMember0 {
+        export namespace ToolResult {
+          export interface Text {
             /**
              * Text tool output that should be directly sent to the API.
              */
@@ -947,14 +934,13 @@ export namespace AutomateEvent {
                   | string
                   | number
                   | boolean
-                  | { [key: string]: string | number | boolean | unknown | Array<unknown> | unknown }
-                  | Array<string | number | boolean | unknown | Array<unknown> | null>
-                  | unknown;
+                  | { [key: string]: string | number | boolean | unknown | Array<unknown> }
+                  | Array<string | number | boolean | unknown | Array<unknown> | null>;
               };
             };
           }
 
-          export interface UnionMember1 {
+          export interface Json {
             type: 'json';
 
             /**
@@ -971,9 +957,8 @@ export namespace AutomateEvent {
                     | string
                     | number
                     | boolean
-                    | { [key: string]: string | number | boolean | unknown | Array<unknown> | unknown }
-                    | Array<string | number | boolean | unknown | Array<unknown> | null>
-                    | unknown;
+                    | { [key: string]: string | number | boolean | unknown | Array<unknown> }
+                    | Array<string | number | boolean | unknown | Array<unknown> | null>;
                 }
               | Array<string | number | boolean | unknown | Array<unknown> | null>
               | null;
@@ -987,14 +972,13 @@ export namespace AutomateEvent {
                   | string
                   | number
                   | boolean
-                  | { [key: string]: string | number | boolean | unknown | Array<unknown> | unknown }
-                  | Array<string | number | boolean | unknown | Array<unknown> | null>
-                  | unknown;
+                  | { [key: string]: string | number | boolean | unknown | Array<unknown> }
+                  | Array<string | number | boolean | unknown | Array<unknown> | null>;
               };
             };
           }
 
-          export interface UnionMember2 {
+          export interface ExecutionDenied {
             /**
              * Type when the user has denied the execution of the tool call.
              */
@@ -1009,9 +993,8 @@ export namespace AutomateEvent {
                   | string
                   | number
                   | boolean
-                  | { [key: string]: string | number | boolean | unknown | Array<unknown> | unknown }
-                  | Array<string | number | boolean | unknown | Array<unknown> | null>
-                  | unknown;
+                  | { [key: string]: string | number | boolean | unknown | Array<unknown> }
+                  | Array<string | number | boolean | unknown | Array<unknown> | null>;
               };
             };
 
@@ -1021,7 +1004,7 @@ export namespace AutomateEvent {
             reason?: string;
           }
 
-          export interface UnionMember3 {
+          export interface ErrorText {
             type: 'error-text';
 
             value: string;
@@ -1035,14 +1018,13 @@ export namespace AutomateEvent {
                   | string
                   | number
                   | boolean
-                  | { [key: string]: string | number | boolean | unknown | Array<unknown> | unknown }
-                  | Array<string | number | boolean | unknown | Array<unknown> | null>
-                  | unknown;
+                  | { [key: string]: string | number | boolean | unknown | Array<unknown> }
+                  | Array<string | number | boolean | unknown | Array<unknown> | null>;
               };
             };
           }
 
-          export interface UnionMember4 {
+          export interface ErrorJson {
             type: 'error-json';
 
             /**
@@ -1059,9 +1041,8 @@ export namespace AutomateEvent {
                     | string
                     | number
                     | boolean
-                    | { [key: string]: string | number | boolean | unknown | Array<unknown> | unknown }
-                    | Array<string | number | boolean | unknown | Array<unknown> | null>
-                    | unknown;
+                    | { [key: string]: string | number | boolean | unknown | Array<unknown> }
+                    | Array<string | number | boolean | unknown | Array<unknown> | null>;
                 }
               | Array<string | number | boolean | unknown | Array<unknown> | null>
               | null;
@@ -1075,31 +1056,30 @@ export namespace AutomateEvent {
                   | string
                   | number
                   | boolean
-                  | { [key: string]: string | number | boolean | unknown | Array<unknown> | unknown }
-                  | Array<string | number | boolean | unknown | Array<unknown> | null>
-                  | unknown;
+                  | { [key: string]: string | number | boolean | unknown | Array<unknown> }
+                  | Array<string | number | boolean | unknown | Array<unknown> | null>;
               };
             };
           }
 
-          export interface UnionMember5 {
+          export interface Content {
             type: 'content';
 
             value: Array<
-              | UnionMember5.UnionMember0
-              | UnionMember5.UnionMember1
-              | UnionMember5.UnionMember2
-              | UnionMember5.UnionMember3
-              | UnionMember5.UnionMember4
-              | UnionMember5.UnionMember5
-              | UnionMember5.UnionMember6
-              | UnionMember5.UnionMember7
-              | UnionMember5.UnionMember8
+              | Content.Text
+              | Content.Media
+              | Content.FileData
+              | Content.FileURL
+              | Content.FileID
+              | Content.ImageData
+              | Content.ImageURL
+              | Content.ImageFileID
+              | Content.Custom
             >;
           }
 
-          export namespace UnionMember5 {
-            export interface UnionMember0 {
+          export namespace Content {
+            export interface Text {
               /**
                * Text content.
                */
@@ -1116,25 +1096,24 @@ export namespace AutomateEvent {
                     | string
                     | number
                     | boolean
-                    | { [key: string]: string | number | boolean | unknown | Array<unknown> | unknown }
-                    | Array<string | number | boolean | unknown | Array<unknown> | null>
-                    | unknown;
+                    | { [key: string]: string | number | boolean | unknown | Array<unknown> }
+                    | Array<string | number | boolean | unknown | Array<unknown> | null>;
                 };
               };
             }
 
-            export interface UnionMember1 {
+            export interface Media {
               data: string;
 
               mediaType: string;
 
               /**
-               * @deprecated Deprecated. Use image-data or file-data instead.
+               * @deprecated Deprecated by the upstream schema.
                */
               type: 'media';
             }
 
-            export interface UnionMember2 {
+            export interface FileData {
               /**
                * Base-64 encoded media data.
                */
@@ -1161,14 +1140,13 @@ export namespace AutomateEvent {
                     | string
                     | number
                     | boolean
-                    | { [key: string]: string | number | boolean | unknown | Array<unknown> | unknown }
-                    | Array<string | number | boolean | unknown | Array<unknown> | null>
-                    | unknown;
+                    | { [key: string]: string | number | boolean | unknown | Array<unknown> }
+                    | Array<string | number | boolean | unknown | Array<unknown> | null>;
                 };
               };
             }
 
-            export interface UnionMember3 {
+            export interface FileURL {
               type: 'file-url';
 
               /**
@@ -1185,14 +1163,13 @@ export namespace AutomateEvent {
                     | string
                     | number
                     | boolean
-                    | { [key: string]: string | number | boolean | unknown | Array<unknown> | unknown }
-                    | Array<string | number | boolean | unknown | Array<unknown> | null>
-                    | unknown;
+                    | { [key: string]: string | number | boolean | unknown | Array<unknown> }
+                    | Array<string | number | boolean | unknown | Array<unknown> | null>;
                 };
               };
             }
 
-            export interface UnionMember4 {
+            export interface FileID {
               /**
                * ID of the file.
                *
@@ -1213,14 +1190,13 @@ export namespace AutomateEvent {
                     | string
                     | number
                     | boolean
-                    | { [key: string]: string | number | boolean | unknown | Array<unknown> | unknown }
-                    | Array<string | number | boolean | unknown | Array<unknown> | null>
-                    | unknown;
+                    | { [key: string]: string | number | boolean | unknown | Array<unknown> }
+                    | Array<string | number | boolean | unknown | Array<unknown> | null>;
                 };
               };
             }
 
-            export interface UnionMember5 {
+            export interface ImageData {
               /**
                * Base-64 encoded image data.
                */
@@ -1245,14 +1221,13 @@ export namespace AutomateEvent {
                     | string
                     | number
                     | boolean
-                    | { [key: string]: string | number | boolean | unknown | Array<unknown> | unknown }
-                    | Array<string | number | boolean | unknown | Array<unknown> | null>
-                    | unknown;
+                    | { [key: string]: string | number | boolean | unknown | Array<unknown> }
+                    | Array<string | number | boolean | unknown | Array<unknown> | null>;
                 };
               };
             }
 
-            export interface UnionMember6 {
+            export interface ImageURL {
               /**
                * Images that are referenced using a URL.
                */
@@ -1272,14 +1247,13 @@ export namespace AutomateEvent {
                     | string
                     | number
                     | boolean
-                    | { [key: string]: string | number | boolean | unknown | Array<unknown> | unknown }
-                    | Array<string | number | boolean | unknown | Array<unknown> | null>
-                    | unknown;
+                    | { [key: string]: string | number | boolean | unknown | Array<unknown> }
+                    | Array<string | number | boolean | unknown | Array<unknown> | null>;
                 };
               };
             }
 
-            export interface UnionMember7 {
+            export interface ImageFileID {
               /**
                * Image that is referenced using a provider file id.
                *
@@ -1303,14 +1277,13 @@ export namespace AutomateEvent {
                     | string
                     | number
                     | boolean
-                    | { [key: string]: string | number | boolean | unknown | Array<unknown> | unknown }
-                    | Array<string | number | boolean | unknown | Array<unknown> | null>
-                    | unknown;
+                    | { [key: string]: string | number | boolean | unknown | Array<unknown> }
+                    | Array<string | number | boolean | unknown | Array<unknown> | null>;
                 };
               };
             }
 
-            export interface UnionMember8 {
+            export interface Custom {
               /**
                * Custom content part. This can be used to implement provider-specific content
                * parts.
@@ -1326,9 +1299,8 @@ export namespace AutomateEvent {
                     | string
                     | number
                     | boolean
-                    | { [key: string]: string | number | boolean | unknown | Array<unknown> | unknown }
-                    | Array<string | number | boolean | unknown | Array<unknown> | null>
-                    | unknown;
+                    | { [key: string]: string | number | boolean | unknown | Array<unknown> }
+                    | Array<string | number | boolean | unknown | Array<unknown> | null>;
                 };
               };
             }
@@ -1338,7 +1310,7 @@ export namespace AutomateEvent {
         /**
          * Tool approval request prompt part.
          */
-        export interface UnionMember5 {
+        export interface ToolApprovalRequest {
           /**
            * ID of the tool approval.
            */
@@ -1356,11 +1328,11 @@ export namespace AutomateEvent {
       /**
        * A tool message. It contains the result of one or more tool calls.
        */
-      export interface UnionMember3 {
+      export interface Tool {
         /**
          * Content of a tool message. It is an array of tool result parts.
          */
-        content: Array<UnionMember3.UnionMember0 | UnionMember3.UnionMember1>;
+        content: Array<Tool.ToolResult | Tool.ToolApprovalResponse>;
 
         role: 'tool';
 
@@ -1375,29 +1347,28 @@ export namespace AutomateEvent {
               | string
               | number
               | boolean
-              | { [key: string]: string | number | boolean | unknown | Array<unknown> | unknown }
-              | Array<string | number | boolean | unknown | Array<unknown> | null>
-              | unknown;
+              | { [key: string]: string | number | boolean | unknown | Array<unknown> }
+              | Array<string | number | boolean | unknown | Array<unknown> | null>;
           };
         };
       }
 
-      export namespace UnionMember3 {
+      export namespace Tool {
         /**
          * Tool result content part of a prompt. It contains the result of the tool call
          * with the matching ID.
          */
-        export interface UnionMember0 {
+        export interface ToolResult {
           /**
            * Result of the tool call. This is a JSON-serializable object.
            */
           output:
-            | UnionMember0.UnionMember0
-            | UnionMember0.UnionMember1
-            | UnionMember0.UnionMember2
-            | UnionMember0.UnionMember3
-            | UnionMember0.UnionMember4
-            | UnionMember0.UnionMember5;
+            | ToolResult.Text
+            | ToolResult.Json
+            | ToolResult.ExecutionDenied
+            | ToolResult.ErrorText
+            | ToolResult.ErrorJson
+            | ToolResult.Content;
 
           /**
            * ID of the tool call that this result is associated with.
@@ -1422,15 +1393,14 @@ export namespace AutomateEvent {
                 | string
                 | number
                 | boolean
-                | { [key: string]: string | number | boolean | unknown | Array<unknown> | unknown }
-                | Array<string | number | boolean | unknown | Array<unknown> | null>
-                | unknown;
+                | { [key: string]: string | number | boolean | unknown | Array<unknown> }
+                | Array<string | number | boolean | unknown | Array<unknown> | null>;
             };
           };
         }
 
-        export namespace UnionMember0 {
-          export interface UnionMember0 {
+        export namespace ToolResult {
+          export interface Text {
             /**
              * Text tool output that should be directly sent to the API.
              */
@@ -1447,14 +1417,13 @@ export namespace AutomateEvent {
                   | string
                   | number
                   | boolean
-                  | { [key: string]: string | number | boolean | unknown | Array<unknown> | unknown }
-                  | Array<string | number | boolean | unknown | Array<unknown> | null>
-                  | unknown;
+                  | { [key: string]: string | number | boolean | unknown | Array<unknown> }
+                  | Array<string | number | boolean | unknown | Array<unknown> | null>;
               };
             };
           }
 
-          export interface UnionMember1 {
+          export interface Json {
             type: 'json';
 
             /**
@@ -1471,9 +1440,8 @@ export namespace AutomateEvent {
                     | string
                     | number
                     | boolean
-                    | { [key: string]: string | number | boolean | unknown | Array<unknown> | unknown }
-                    | Array<string | number | boolean | unknown | Array<unknown> | null>
-                    | unknown;
+                    | { [key: string]: string | number | boolean | unknown | Array<unknown> }
+                    | Array<string | number | boolean | unknown | Array<unknown> | null>;
                 }
               | Array<string | number | boolean | unknown | Array<unknown> | null>
               | null;
@@ -1487,14 +1455,13 @@ export namespace AutomateEvent {
                   | string
                   | number
                   | boolean
-                  | { [key: string]: string | number | boolean | unknown | Array<unknown> | unknown }
-                  | Array<string | number | boolean | unknown | Array<unknown> | null>
-                  | unknown;
+                  | { [key: string]: string | number | boolean | unknown | Array<unknown> }
+                  | Array<string | number | boolean | unknown | Array<unknown> | null>;
               };
             };
           }
 
-          export interface UnionMember2 {
+          export interface ExecutionDenied {
             /**
              * Type when the user has denied the execution of the tool call.
              */
@@ -1509,9 +1476,8 @@ export namespace AutomateEvent {
                   | string
                   | number
                   | boolean
-                  | { [key: string]: string | number | boolean | unknown | Array<unknown> | unknown }
-                  | Array<string | number | boolean | unknown | Array<unknown> | null>
-                  | unknown;
+                  | { [key: string]: string | number | boolean | unknown | Array<unknown> }
+                  | Array<string | number | boolean | unknown | Array<unknown> | null>;
               };
             };
 
@@ -1521,7 +1487,7 @@ export namespace AutomateEvent {
             reason?: string;
           }
 
-          export interface UnionMember3 {
+          export interface ErrorText {
             type: 'error-text';
 
             value: string;
@@ -1535,14 +1501,13 @@ export namespace AutomateEvent {
                   | string
                   | number
                   | boolean
-                  | { [key: string]: string | number | boolean | unknown | Array<unknown> | unknown }
-                  | Array<string | number | boolean | unknown | Array<unknown> | null>
-                  | unknown;
+                  | { [key: string]: string | number | boolean | unknown | Array<unknown> }
+                  | Array<string | number | boolean | unknown | Array<unknown> | null>;
               };
             };
           }
 
-          export interface UnionMember4 {
+          export interface ErrorJson {
             type: 'error-json';
 
             /**
@@ -1559,9 +1524,8 @@ export namespace AutomateEvent {
                     | string
                     | number
                     | boolean
-                    | { [key: string]: string | number | boolean | unknown | Array<unknown> | unknown }
-                    | Array<string | number | boolean | unknown | Array<unknown> | null>
-                    | unknown;
+                    | { [key: string]: string | number | boolean | unknown | Array<unknown> }
+                    | Array<string | number | boolean | unknown | Array<unknown> | null>;
                 }
               | Array<string | number | boolean | unknown | Array<unknown> | null>
               | null;
@@ -1575,31 +1539,30 @@ export namespace AutomateEvent {
                   | string
                   | number
                   | boolean
-                  | { [key: string]: string | number | boolean | unknown | Array<unknown> | unknown }
-                  | Array<string | number | boolean | unknown | Array<unknown> | null>
-                  | unknown;
+                  | { [key: string]: string | number | boolean | unknown | Array<unknown> }
+                  | Array<string | number | boolean | unknown | Array<unknown> | null>;
               };
             };
           }
 
-          export interface UnionMember5 {
+          export interface Content {
             type: 'content';
 
             value: Array<
-              | UnionMember5.UnionMember0
-              | UnionMember5.UnionMember1
-              | UnionMember5.UnionMember2
-              | UnionMember5.UnionMember3
-              | UnionMember5.UnionMember4
-              | UnionMember5.UnionMember5
-              | UnionMember5.UnionMember6
-              | UnionMember5.UnionMember7
-              | UnionMember5.UnionMember8
+              | Content.Text
+              | Content.Media
+              | Content.FileData
+              | Content.FileURL
+              | Content.FileID
+              | Content.ImageData
+              | Content.ImageURL
+              | Content.ImageFileID
+              | Content.Custom
             >;
           }
 
-          export namespace UnionMember5 {
-            export interface UnionMember0 {
+          export namespace Content {
+            export interface Text {
               /**
                * Text content.
                */
@@ -1616,25 +1579,24 @@ export namespace AutomateEvent {
                     | string
                     | number
                     | boolean
-                    | { [key: string]: string | number | boolean | unknown | Array<unknown> | unknown }
-                    | Array<string | number | boolean | unknown | Array<unknown> | null>
-                    | unknown;
+                    | { [key: string]: string | number | boolean | unknown | Array<unknown> }
+                    | Array<string | number | boolean | unknown | Array<unknown> | null>;
                 };
               };
             }
 
-            export interface UnionMember1 {
+            export interface Media {
               data: string;
 
               mediaType: string;
 
               /**
-               * @deprecated Deprecated. Use image-data or file-data instead.
+               * @deprecated Deprecated by the upstream schema.
                */
               type: 'media';
             }
 
-            export interface UnionMember2 {
+            export interface FileData {
               /**
                * Base-64 encoded media data.
                */
@@ -1661,14 +1623,13 @@ export namespace AutomateEvent {
                     | string
                     | number
                     | boolean
-                    | { [key: string]: string | number | boolean | unknown | Array<unknown> | unknown }
-                    | Array<string | number | boolean | unknown | Array<unknown> | null>
-                    | unknown;
+                    | { [key: string]: string | number | boolean | unknown | Array<unknown> }
+                    | Array<string | number | boolean | unknown | Array<unknown> | null>;
                 };
               };
             }
 
-            export interface UnionMember3 {
+            export interface FileURL {
               type: 'file-url';
 
               /**
@@ -1685,14 +1646,13 @@ export namespace AutomateEvent {
                     | string
                     | number
                     | boolean
-                    | { [key: string]: string | number | boolean | unknown | Array<unknown> | unknown }
-                    | Array<string | number | boolean | unknown | Array<unknown> | null>
-                    | unknown;
+                    | { [key: string]: string | number | boolean | unknown | Array<unknown> }
+                    | Array<string | number | boolean | unknown | Array<unknown> | null>;
                 };
               };
             }
 
-            export interface UnionMember4 {
+            export interface FileID {
               /**
                * ID of the file.
                *
@@ -1713,14 +1673,13 @@ export namespace AutomateEvent {
                     | string
                     | number
                     | boolean
-                    | { [key: string]: string | number | boolean | unknown | Array<unknown> | unknown }
-                    | Array<string | number | boolean | unknown | Array<unknown> | null>
-                    | unknown;
+                    | { [key: string]: string | number | boolean | unknown | Array<unknown> }
+                    | Array<string | number | boolean | unknown | Array<unknown> | null>;
                 };
               };
             }
 
-            export interface UnionMember5 {
+            export interface ImageData {
               /**
                * Base-64 encoded image data.
                */
@@ -1745,14 +1704,13 @@ export namespace AutomateEvent {
                     | string
                     | number
                     | boolean
-                    | { [key: string]: string | number | boolean | unknown | Array<unknown> | unknown }
-                    | Array<string | number | boolean | unknown | Array<unknown> | null>
-                    | unknown;
+                    | { [key: string]: string | number | boolean | unknown | Array<unknown> }
+                    | Array<string | number | boolean | unknown | Array<unknown> | null>;
                 };
               };
             }
 
-            export interface UnionMember6 {
+            export interface ImageURL {
               /**
                * Images that are referenced using a URL.
                */
@@ -1772,14 +1730,13 @@ export namespace AutomateEvent {
                     | string
                     | number
                     | boolean
-                    | { [key: string]: string | number | boolean | unknown | Array<unknown> | unknown }
-                    | Array<string | number | boolean | unknown | Array<unknown> | null>
-                    | unknown;
+                    | { [key: string]: string | number | boolean | unknown | Array<unknown> }
+                    | Array<string | number | boolean | unknown | Array<unknown> | null>;
                 };
               };
             }
 
-            export interface UnionMember7 {
+            export interface ImageFileID {
               /**
                * Image that is referenced using a provider file id.
                *
@@ -1803,14 +1760,13 @@ export namespace AutomateEvent {
                     | string
                     | number
                     | boolean
-                    | { [key: string]: string | number | boolean | unknown | Array<unknown> | unknown }
-                    | Array<string | number | boolean | unknown | Array<unknown> | null>
-                    | unknown;
+                    | { [key: string]: string | number | boolean | unknown | Array<unknown> }
+                    | Array<string | number | boolean | unknown | Array<unknown> | null>;
                 };
               };
             }
 
-            export interface UnionMember8 {
+            export interface Custom {
               /**
                * Custom content part. This can be used to implement provider-specific content
                * parts.
@@ -1826,9 +1782,8 @@ export namespace AutomateEvent {
                     | string
                     | number
                     | boolean
-                    | { [key: string]: string | number | boolean | unknown | Array<unknown> | unknown }
-                    | Array<string | number | boolean | unknown | Array<unknown> | null>
-                    | unknown;
+                    | { [key: string]: string | number | boolean | unknown | Array<unknown> }
+                    | Array<string | number | boolean | unknown | Array<unknown> | null>;
                 };
               };
             }
@@ -1838,7 +1793,7 @@ export namespace AutomateEvent {
         /**
          * Tool approval response prompt part.
          */
-        export interface UnionMember1 {
+        export interface ToolApprovalResponse {
           /**
            * ID of the tool approval.
            */
