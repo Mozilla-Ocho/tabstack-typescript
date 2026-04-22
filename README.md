@@ -38,8 +38,6 @@ const client = new Tabstack({
 const automateEvent = await client.agent.automate({
   task: 'Find the top 3 trending repositories and extract their names, descriptions, and star counts',
 });
-
-console.log(automateEvent.data);
 ```
 
 ### Request & Response types
@@ -168,7 +166,7 @@ const { data: automateEvent, response: raw } = await client.agent
   })
   .withResponse();
 console.log(raw.headers.get('X-My-Header'));
-console.log(automateEvent.data);
+console.log(automateEvent);
 ```
 
 ### Logging

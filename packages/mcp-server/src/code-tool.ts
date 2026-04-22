@@ -26,8 +26,6 @@ For example:
 \`\`\`
 async function run(client) {
   const automateEvent = await client.agent.automate({ task: 'Find the top 3 trending repositories and extract their names, descriptions, and star counts' });
-
-  console.log(automateEvent.data);
 }
 \`\`\`
 
