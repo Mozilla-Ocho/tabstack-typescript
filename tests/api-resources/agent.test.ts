@@ -67,7 +67,7 @@ describe('resource agent', () => {
     const response = await client.agent.research({
       query: 'What are the latest developments in quantum computing?',
       fetch_timeout: 30,
-      mode: 'balanced',
+      mode: 'fast',
       nocache: false,
     });
   });

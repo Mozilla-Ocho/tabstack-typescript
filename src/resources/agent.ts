@@ -91,8 +91,8 @@ export class Agent extends APIResource {
    *
    * **Research Modes:**
    *
-   * - `fast` - Quick answers with minimal web searches
-   * - `balanced` - Standard research with multiple iterations (default)
+   * - `fast` - Quick answers with minimal web searches (default)
+   * - `balanced` - Standard research with multiple iterations
    *
    * **Use Cases:**
    *
@@ -3691,7 +3691,7 @@ export interface AgentResearchParams {
   fetch_timeout?: number;
 
   /**
-   * Research mode: fast (quick answers), balanced (standard research, default)
+   * Research mode: fast (quick answers, default), balanced (standard research)
    */
   mode?: 'fast' | 'balanced';
 
