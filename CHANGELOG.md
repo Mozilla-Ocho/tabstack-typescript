@@ -1,5 +1,31 @@
 # Changelog
 
+## 2.5.0 (2026-04-22)
+
+Full Changelog: [v2.4.0...v2.5.0](https://github.com/Mozilla-Ocho/tabstack-typescript/compare/v2.4.0...v2.5.0)
+
+### Features
+
+* **api:** api update ([218e58b](https://github.com/Mozilla-Ocho/tabstack-typescript/commit/218e58b5d354ade8b263ce924ec7815d5eebf3e2))
+* **api:** api update ([0657737](https://github.com/Mozilla-Ocho/tabstack-typescript/commit/0657737690e756d57b7aa9dabec4520589afecdf))
+
+
+### Bug Fixes
+
+* **codegen:** OAS 3.0 compliance + local Spectral lint + Stainless PR check ([a711498](https://github.com/Mozilla-Ocho/tabstack-typescript/commit/a71149850369e87496944f5477760360356d08c9))
+* **codegen:** reduce Stainless variant-naming and ambiguity warnings ([5ecb272](https://github.com/Mozilla-Ocho/tabstack-typescript/commit/5ecb272a1be18fe081425b9bcd12e9c1b3acbd2d))
+
+
+### Chores
+
+* **internal:** more robust bootstrap script ([bace454](https://github.com/Mozilla-Ocho/tabstack-typescript/commit/bace454f2e0ee23bf26bcf753e7cbd357020f4b9))
+* **internal:** update docs ordering ([0237c98](https://github.com/Mozilla-Ocho/tabstack-typescript/commit/0237c98853b43e6be78840a1d11276dba6569956))
+
+
+### Documentation
+
+* **research:** correct default mode from balanced to fast ([a364abc](https://github.com/Mozilla-Ocho/tabstack-typescript/commit/a364abc7c49812373d05a6af2be6df677d844cd3))
+
 ## 2.4.0 (2026-04-09)
 
 Full Changelog: [v2.3.0...v2.4.0](https://github.com/Mozilla-Ocho/tabstack-typescript/compare/v2.3.0...v2.4.0)
