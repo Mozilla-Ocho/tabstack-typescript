@@ -3681,7 +3681,7 @@ export namespace AgentAutomateInputParams {
 
 export interface AgentResearchParams {
   /**
-   * The research query or question to answer
+   * The research query or question to answer. Maximum 10,000 characters.
    */
   query: string;
 
