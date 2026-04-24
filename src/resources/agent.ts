@@ -41,13 +41,7 @@ export class Agent extends APIResource {
    * ```
    */
   automate(body: AgentAutomateParams, options?: RequestOptions): APIPromise<Stream<AutomateEvent>> {
-    return this._client.post('/automate', {
-      body,
-      ...options,
-      headers: buildHeaders([{ Accept: 'text/event-stream' }, options?.headers]),
-      stream: true,
-      __synthesizeEventData: true,
-    }) as APIPromise<Stream<AutomateEvent>>;
+    return this._client.post('/automate', { body, ...options, headers: buildHeaders([{Accept: 'text/event-stream'}, options?.headers]), stream: true, __synthesizeEventData: true }) as APIPromise<Stream<AutomateEvent>>;
   }
 
   /**
@@ -71,11 +65,7 @@ export class Agent extends APIResource {
    * );
    * ```
    */
-  automateInput(
-    requestID: string,
-    body: AgentAutomateInputParams,
-    options?: RequestOptions,
-  ): APIPromise<AgentAutomateInputResponse> {
+  automateInput(requestID: string, body: AgentAutomateInputParams, options?: RequestOptions): APIPromise<AgentAutomateInputResponse> {
     return this._client.post(path`/automate/${requestID}/input`, { body, ...options });
   }
 
@@ -110,49 +100,14 @@ export class Agent extends APIResource {
    * ```
    */
   research(body: AgentResearchParams, options?: RequestOptions): APIPromise<Stream<ResearchEvent>> {
-    return this._client.post('/research', {
-      body,
-      ...options,
-      headers: buildHeaders([{ Accept: 'text/event-stream' }, options?.headers]),
-      stream: true,
-      __synthesizeEventData: true,
-    }) as APIPromise<Stream<ResearchEvent>>;
+    return this._client.post('/research', { body, ...options, headers: buildHeaders([{Accept: 'text/event-stream'}, options?.headers]), stream: true, __synthesizeEventData: true }) as APIPromise<Stream<ResearchEvent>>;
   }
 }
 
 /**
  * A Server-Sent Event from /v1/automate. Typed discriminated union keyed on event.
  */
-export type AutomateEvent =
-  | AutomateEvent.V1AutomateEventAgentAction
-  | AutomateEvent.V1AutomateEventAgentExtracted
-  | AutomateEvent.V1AutomateEventAgentProcessing
-  | AutomateEvent.V1AutomateEventAgentReasoned
-  | AutomateEvent.V1AutomateEventAgentStatus
-  | AutomateEvent.V1AutomateEventAgentStep
-  | AutomateEvent.V1AutomateEventAgentWaiting
-  | AutomateEvent.V1AutomateEventAIGeneration
-  | AutomateEvent.V1AutomateEventAIGenerationError
-  | AutomateEvent.V1AutomateEventBrowserActionCompleted
-  | AutomateEvent.V1AutomateEventBrowserActionStarted
-  | AutomateEvent.V1AutomateEventBrowserNavigated
-  | AutomateEvent.V1AutomateEventBrowserReconnected
-  | AutomateEvent.V1AutomateEventBrowserScreenshotCaptured
-  | AutomateEvent.V1AutomateEventBrowserScreenshotCapturedImage
-  | AutomateEvent.V1AutomateEventCdpEndpointConnected
-  | AutomateEvent.V1AutomateEventCdpEndpointCycle
-  | AutomateEvent.V1AutomateEventInteractiveFormDataError
-  | AutomateEvent.V1AutomateEventInteractiveFormDataRequest
-  | AutomateEvent.V1AutomateEventSystemDebugCompression
-  | AutomateEvent.V1AutomateEventSystemDebugMessage
-  | AutomateEvent.V1AutomateEventTaskAborted
-  | AutomateEvent.V1AutomateEventTaskCompleted
-  | AutomateEvent.V1AutomateEventTaskMetrics
-  | AutomateEvent.V1AutomateEventTaskMetricsIncremental
-  | AutomateEvent.V1AutomateEventTaskSetup
-  | AutomateEvent.V1AutomateEventTaskStarted
-  | AutomateEvent.V1AutomateEventTaskValidated
-  | AutomateEvent.V1AutomateEventTaskValidationError;
+export type AutomateEvent = AutomateEvent.V1AutomateEventAgentAction | AutomateEvent.V1AutomateEventAgentExtracted | AutomateEvent.V1AutomateEventAgentProcessing | AutomateEvent.V1AutomateEventAgentReasoned | AutomateEvent.V1AutomateEventAgentStatus | AutomateEvent.V1AutomateEventAgentStep | AutomateEvent.V1AutomateEventAgentWaiting | AutomateEvent.V1AutomateEventAIGeneration | AutomateEvent.V1AutomateEventAIGenerationError | AutomateEvent.V1AutomateEventBrowserActionCompleted | AutomateEvent.V1AutomateEventBrowserActionStarted | AutomateEvent.V1AutomateEventBrowserNavigated | AutomateEvent.V1AutomateEventBrowserReconnected | AutomateEvent.V1AutomateEventBrowserScreenshotCaptured | AutomateEvent.V1AutomateEventBrowserScreenshotCapturedImage | AutomateEvent.V1AutomateEventCdpEndpointConnected | AutomateEvent.V1AutomateEventCdpEndpointCycle | AutomateEvent.V1AutomateEventInteractiveFormDataError | AutomateEvent.V1AutomateEventInteractiveFormDataRequest | AutomateEvent.V1AutomateEventSystemDebugCompression | AutomateEvent.V1AutomateEventSystemDebugMessage | AutomateEvent.V1AutomateEventTaskAborted | AutomateEvent.V1AutomateEventTaskCompleted | AutomateEvent.V1AutomateEventTaskMetrics | AutomateEvent.V1AutomateEventTaskMetricsIncremental | AutomateEvent.V1AutomateEventTaskSetup | AutomateEvent.V1AutomateEventTaskStarted | AutomateEvent.V1AutomateEventTaskValidated | AutomateEvent.V1AutomateEventTaskValidationError
 
 export namespace AutomateEvent {
   /**
@@ -402,16 +357,7 @@ export namespace AutomateEvent {
          * from the AI SDK and enable provider-specific functionality that can be fully
          * encapsulated in the provider.
          */
-        providerOptions?: {
-          [key: string]: {
-            [key: string]:
-              | string
-              | number
-              | boolean
-              | { [key: string]: string | number | boolean | unknown | Array<unknown> }
-              | Array<string | number | boolean | unknown | Array<unknown> | null>;
-          };
-        };
+        providerOptions?: { [key: string]: { [key: string]: string | number | boolean | { [key: string]: string | number | boolean | unknown | Array<unknown> } | Array<string | number | boolean | unknown | Array<unknown> | null> } };
       }
 
       /**
@@ -431,16 +377,7 @@ export namespace AutomateEvent {
          * from the AI SDK and enable provider-specific functionality that can be fully
          * encapsulated in the provider.
          */
-        providerOptions?: {
-          [key: string]: {
-            [key: string]:
-              | string
-              | number
-              | boolean
-              | { [key: string]: string | number | boolean | unknown | Array<unknown> }
-              | Array<string | number | boolean | unknown | Array<unknown> | null>;
-          };
-        };
+        providerOptions?: { [key: string]: { [key: string]: string | number | boolean | { [key: string]: string | number | boolean | unknown | Array<unknown> } | Array<string | number | boolean | unknown | Array<unknown> | null> } };
       }
 
       export namespace User {
@@ -460,16 +397,7 @@ export namespace AutomateEvent {
            * from the AI SDK and enable provider-specific functionality that can be fully
            * encapsulated in the provider.
            */
-          providerOptions?: {
-            [key: string]: {
-              [key: string]:
-                | string
-                | number
-                | boolean
-                | { [key: string]: string | number | boolean | unknown | Array<unknown> }
-                | Array<string | number | boolean | unknown | Array<unknown> | null>;
-            };
-          };
+          providerOptions?: { [key: string]: { [key: string]: string | number | boolean | { [key: string]: string | number | boolean | unknown | Array<unknown> } | Array<string | number | boolean | unknown | Array<unknown> | null> } };
         }
 
         /**
@@ -496,16 +424,7 @@ export namespace AutomateEvent {
            * from the AI SDK and enable provider-specific functionality that can be fully
            * encapsulated in the provider.
            */
-          providerOptions?: {
-            [key: string]: {
-              [key: string]:
-                | string
-                | number
-                | boolean
-                | { [key: string]: string | number | boolean | unknown | Array<unknown> }
-                | Array<string | number | boolean | unknown | Array<unknown> | null>;
-            };
-          };
+          providerOptions?: { [key: string]: { [key: string]: string | number | boolean | { [key: string]: string | number | boolean | unknown | Array<unknown> } | Array<string | number | boolean | unknown | Array<unknown> | null> } };
         }
 
         export namespace Image {
@@ -520,7 +439,7 @@ export namespace AutomateEvent {
 
             length: number;
 
-            [k: string]: number | UnionMember1.Buffer | undefined;
+          [k: string]: number | UnionMember1.Buffer | undefined
           }
 
           export namespace UnionMember1 {
@@ -544,7 +463,7 @@ export namespace AutomateEvent {
 
             length: number;
 
-            [k: string]: number | V1GlobalBuffer.Buffer | undefined;
+          [k: string]: number | V1GlobalBuffer.Buffer | undefined
           }
 
           export namespace V1GlobalBuffer {
@@ -583,16 +502,7 @@ export namespace AutomateEvent {
            * from the AI SDK and enable provider-specific functionality that can be fully
            * encapsulated in the provider.
            */
-          providerOptions?: {
-            [key: string]: {
-              [key: string]:
-                | string
-                | number
-                | boolean
-                | { [key: string]: string | number | boolean | unknown | Array<unknown> }
-                | Array<string | number | boolean | unknown | Array<unknown> | null>;
-            };
-          };
+          providerOptions?: { [key: string]: { [key: string]: string | number | boolean | { [key: string]: string | number | boolean | unknown | Array<unknown> } | Array<string | number | boolean | unknown | Array<unknown> | null> } };
         }
 
         export namespace File {
@@ -607,7 +517,7 @@ export namespace AutomateEvent {
 
             length: number;
 
-            [k: string]: number | UnionMember1.Buffer | undefined;
+          [k: string]: number | UnionMember1.Buffer | undefined
           }
 
           export namespace UnionMember1 {
@@ -631,7 +541,7 @@ export namespace AutomateEvent {
 
             length: number;
 
-            [k: string]: number | V1GlobalBuffer.Buffer | undefined;
+          [k: string]: number | V1GlobalBuffer.Buffer | undefined
           }
 
           export namespace V1GlobalBuffer {
@@ -651,16 +561,7 @@ export namespace AutomateEvent {
          * Content of an assistant message. It can be a string or an array of text, image,
          * reasoning, redacted reasoning, and tool call parts.
          */
-        content:
-          | string
-          | Array<
-              | Assistant.Text
-              | Assistant.File
-              | Assistant.Reasoning
-              | Assistant.ToolCall
-              | Assistant.ToolResult
-              | Assistant.ToolApprovalRequest
-            >;
+        content: string | Array<Assistant.Text | Assistant.File | Assistant.Reasoning | Assistant.ToolCall | Assistant.ToolResult | Assistant.ToolApprovalRequest>;
 
         role: 'assistant';
 
@@ -669,16 +570,7 @@ export namespace AutomateEvent {
          * from the AI SDK and enable provider-specific functionality that can be fully
          * encapsulated in the provider.
          */
-        providerOptions?: {
-          [key: string]: {
-            [key: string]:
-              | string
-              | number
-              | boolean
-              | { [key: string]: string | number | boolean | unknown | Array<unknown> }
-              | Array<string | number | boolean | unknown | Array<unknown> | null>;
-          };
-        };
+        providerOptions?: { [key: string]: { [key: string]: string | number | boolean | { [key: string]: string | number | boolean | unknown | Array<unknown> } | Array<string | number | boolean | unknown | Array<unknown> | null> } };
       }
 
       export namespace Assistant {
@@ -698,16 +590,7 @@ export namespace AutomateEvent {
            * from the AI SDK and enable provider-specific functionality that can be fully
            * encapsulated in the provider.
            */
-          providerOptions?: {
-            [key: string]: {
-              [key: string]:
-                | string
-                | number
-                | boolean
-                | { [key: string]: string | number | boolean | unknown | Array<unknown> }
-                | Array<string | number | boolean | unknown | Array<unknown> | null>;
-            };
-          };
+          providerOptions?: { [key: string]: { [key: string]: string | number | boolean | { [key: string]: string | number | boolean | unknown | Array<unknown> } | Array<string | number | boolean | unknown | Array<unknown> | null> } };
         }
 
         /**
@@ -739,16 +622,7 @@ export namespace AutomateEvent {
            * from the AI SDK and enable provider-specific functionality that can be fully
            * encapsulated in the provider.
            */
-          providerOptions?: {
-            [key: string]: {
-              [key: string]:
-                | string
-                | number
-                | boolean
-                | { [key: string]: string | number | boolean | unknown | Array<unknown> }
-                | Array<string | number | boolean | unknown | Array<unknown> | null>;
-            };
-          };
+          providerOptions?: { [key: string]: { [key: string]: string | number | boolean | { [key: string]: string | number | boolean | unknown | Array<unknown> } | Array<string | number | boolean | unknown | Array<unknown> | null> } };
         }
 
         export namespace File {
@@ -763,7 +637,7 @@ export namespace AutomateEvent {
 
             length: number;
 
-            [k: string]: number | UnionMember1.Buffer | undefined;
+          [k: string]: number | UnionMember1.Buffer | undefined
           }
 
           export namespace UnionMember1 {
@@ -787,7 +661,7 @@ export namespace AutomateEvent {
 
             length: number;
 
-            [k: string]: number | V1GlobalBuffer.Buffer | undefined;
+          [k: string]: number | V1GlobalBuffer.Buffer | undefined
           }
 
           export namespace V1GlobalBuffer {
@@ -813,16 +687,7 @@ export namespace AutomateEvent {
            * from the AI SDK and enable provider-specific functionality that can be fully
            * encapsulated in the provider.
            */
-          providerOptions?: {
-            [key: string]: {
-              [key: string]:
-                | string
-                | number
-                | boolean
-                | { [key: string]: string | number | boolean | unknown | Array<unknown> }
-                | Array<string | number | boolean | unknown | Array<unknown> | null>;
-            };
-          };
+          providerOptions?: { [key: string]: { [key: string]: string | number | boolean | { [key: string]: string | number | boolean | unknown | Array<unknown> } | Array<string | number | boolean | unknown | Array<unknown> | null> } };
         }
 
         /**
@@ -859,16 +724,7 @@ export namespace AutomateEvent {
            * from the AI SDK and enable provider-specific functionality that can be fully
            * encapsulated in the provider.
            */
-          providerOptions?: {
-            [key: string]: {
-              [key: string]:
-                | string
-                | number
-                | boolean
-                | { [key: string]: string | number | boolean | unknown | Array<unknown> }
-                | Array<string | number | boolean | unknown | Array<unknown> | null>;
-            };
-          };
+          providerOptions?: { [key: string]: { [key: string]: string | number | boolean | { [key: string]: string | number | boolean | unknown | Array<unknown> } | Array<string | number | boolean | unknown | Array<unknown> | null> } };
         }
 
         /**
@@ -879,13 +735,7 @@ export namespace AutomateEvent {
           /**
            * Result of the tool call. This is a JSON-serializable object.
            */
-          output:
-            | ToolResult.Text
-            | ToolResult.Json
-            | ToolResult.ExecutionDenied
-            | ToolResult.ErrorText
-            | ToolResult.ErrorJson
-            | ToolResult.Content;
+          output: ToolResult.Text | ToolResult.Json | ToolResult.ExecutionDenied | ToolResult.ErrorText | ToolResult.ErrorJson | ToolResult.Content;
 
           /**
            * ID of the tool call that this result is associated with.
@@ -904,16 +754,7 @@ export namespace AutomateEvent {
            * from the AI SDK and enable provider-specific functionality that can be fully
            * encapsulated in the provider.
            */
-          providerOptions?: {
-            [key: string]: {
-              [key: string]:
-                | string
-                | number
-                | boolean
-                | { [key: string]: string | number | boolean | unknown | Array<unknown> }
-                | Array<string | number | boolean | unknown | Array<unknown> | null>;
-            };
-          };
+          providerOptions?: { [key: string]: { [key: string]: string | number | boolean | { [key: string]: string | number | boolean | unknown | Array<unknown> } | Array<string | number | boolean | unknown | Array<unknown> | null> } };
         }
 
         export namespace ToolResult {
@@ -928,16 +769,7 @@ export namespace AutomateEvent {
             /**
              * Provider-specific options.
              */
-            providerOptions?: {
-              [key: string]: {
-                [key: string]:
-                  | string
-                  | number
-                  | boolean
-                  | { [key: string]: string | number | boolean | unknown | Array<unknown> }
-                  | Array<string | number | boolean | unknown | Array<unknown> | null>;
-              };
-            };
+            providerOptions?: { [key: string]: { [key: string]: string | number | boolean | { [key: string]: string | number | boolean | unknown | Array<unknown> } | Array<string | number | boolean | unknown | Array<unknown> | null> } };
           }
 
           export interface Json {
@@ -948,34 +780,12 @@ export namespace AutomateEvent {
              * values can be serialized and deserialized by the JSON.stringify and JSON.parse
              * methods.
              */
-            value:
-              | string
-              | number
-              | boolean
-              | {
-                  [key: string]:
-                    | string
-                    | number
-                    | boolean
-                    | { [key: string]: string | number | boolean | unknown | Array<unknown> }
-                    | Array<string | number | boolean | unknown | Array<unknown> | null>;
-                }
-              | Array<string | number | boolean | unknown | Array<unknown> | null>
-              | null;
+            value: string | number | boolean | { [key: string]: string | number | boolean | { [key: string]: string | number | boolean | unknown | Array<unknown> } | Array<string | number | boolean | unknown | Array<unknown> | null> } | Array<string | number | boolean | unknown | Array<unknown> | null> | null;
 
             /**
              * Provider-specific options.
              */
-            providerOptions?: {
-              [key: string]: {
-                [key: string]:
-                  | string
-                  | number
-                  | boolean
-                  | { [key: string]: string | number | boolean | unknown | Array<unknown> }
-                  | Array<string | number | boolean | unknown | Array<unknown> | null>;
-              };
-            };
+            providerOptions?: { [key: string]: { [key: string]: string | number | boolean | { [key: string]: string | number | boolean | unknown | Array<unknown> } | Array<string | number | boolean | unknown | Array<unknown> | null> } };
           }
 
           export interface ExecutionDenied {
@@ -987,16 +797,7 @@ export namespace AutomateEvent {
             /**
              * Provider-specific options.
              */
-            providerOptions?: {
-              [key: string]: {
-                [key: string]:
-                  | string
-                  | number
-                  | boolean
-                  | { [key: string]: string | number | boolean | unknown | Array<unknown> }
-                  | Array<string | number | boolean | unknown | Array<unknown> | null>;
-              };
-            };
+            providerOptions?: { [key: string]: { [key: string]: string | number | boolean | { [key: string]: string | number | boolean | unknown | Array<unknown> } | Array<string | number | boolean | unknown | Array<unknown> | null> } };
 
             /**
              * Optional reason for the execution denial.
@@ -1012,16 +813,7 @@ export namespace AutomateEvent {
             /**
              * Provider-specific options.
              */
-            providerOptions?: {
-              [key: string]: {
-                [key: string]:
-                  | string
-                  | number
-                  | boolean
-                  | { [key: string]: string | number | boolean | unknown | Array<unknown> }
-                  | Array<string | number | boolean | unknown | Array<unknown> | null>;
-              };
-            };
+            providerOptions?: { [key: string]: { [key: string]: string | number | boolean | { [key: string]: string | number | boolean | unknown | Array<unknown> } | Array<string | number | boolean | unknown | Array<unknown> | null> } };
           }
 
           export interface ErrorJson {
@@ -1032,50 +824,18 @@ export namespace AutomateEvent {
              * values can be serialized and deserialized by the JSON.stringify and JSON.parse
              * methods.
              */
-            value:
-              | string
-              | number
-              | boolean
-              | {
-                  [key: string]:
-                    | string
-                    | number
-                    | boolean
-                    | { [key: string]: string | number | boolean | unknown | Array<unknown> }
-                    | Array<string | number | boolean | unknown | Array<unknown> | null>;
-                }
-              | Array<string | number | boolean | unknown | Array<unknown> | null>
-              | null;
+            value: string | number | boolean | { [key: string]: string | number | boolean | { [key: string]: string | number | boolean | unknown | Array<unknown> } | Array<string | number | boolean | unknown | Array<unknown> | null> } | Array<string | number | boolean | unknown | Array<unknown> | null> | null;
 
             /**
              * Provider-specific options.
              */
-            providerOptions?: {
-              [key: string]: {
-                [key: string]:
-                  | string
-                  | number
-                  | boolean
-                  | { [key: string]: string | number | boolean | unknown | Array<unknown> }
-                  | Array<string | number | boolean | unknown | Array<unknown> | null>;
-              };
-            };
+            providerOptions?: { [key: string]: { [key: string]: string | number | boolean | { [key: string]: string | number | boolean | unknown | Array<unknown> } | Array<string | number | boolean | unknown | Array<unknown> | null> } };
           }
 
           export interface Content {
             type: 'content';
 
-            value: Array<
-              | Content.Text
-              | Content.Media
-              | Content.FileData
-              | Content.FileURL
-              | Content.FileID
-              | Content.ImageData
-              | Content.ImageURL
-              | Content.ImageFileID
-              | Content.Custom
-            >;
+            value: Array<Content.Text | Content.Media | Content.FileData | Content.FileURL | Content.FileID | Content.ImageData | Content.ImageURL | Content.ImageFileID | Content.Custom>;
           }
 
           export namespace Content {
@@ -1090,16 +850,7 @@ export namespace AutomateEvent {
               /**
                * Provider-specific options.
                */
-              providerOptions?: {
-                [key: string]: {
-                  [key: string]:
-                    | string
-                    | number
-                    | boolean
-                    | { [key: string]: string | number | boolean | unknown | Array<unknown> }
-                    | Array<string | number | boolean | unknown | Array<unknown> | null>;
-                };
-              };
+              providerOptions?: { [key: string]: { [key: string]: string | number | boolean | { [key: string]: string | number | boolean | unknown | Array<unknown> } | Array<string | number | boolean | unknown | Array<unknown> | null> } };
             }
 
             export interface Media {
@@ -1134,16 +885,7 @@ export namespace AutomateEvent {
               /**
                * Provider-specific options.
                */
-              providerOptions?: {
-                [key: string]: {
-                  [key: string]:
-                    | string
-                    | number
-                    | boolean
-                    | { [key: string]: string | number | boolean | unknown | Array<unknown> }
-                    | Array<string | number | boolean | unknown | Array<unknown> | null>;
-                };
-              };
+              providerOptions?: { [key: string]: { [key: string]: string | number | boolean | { [key: string]: string | number | boolean | unknown | Array<unknown> } | Array<string | number | boolean | unknown | Array<unknown> | null> } };
             }
 
             export interface FileURL {
@@ -1157,16 +899,7 @@ export namespace AutomateEvent {
               /**
                * Provider-specific options.
                */
-              providerOptions?: {
-                [key: string]: {
-                  [key: string]:
-                    | string
-                    | number
-                    | boolean
-                    | { [key: string]: string | number | boolean | unknown | Array<unknown> }
-                    | Array<string | number | boolean | unknown | Array<unknown> | null>;
-                };
-              };
+              providerOptions?: { [key: string]: { [key: string]: string | number | boolean | { [key: string]: string | number | boolean | unknown | Array<unknown> } | Array<string | number | boolean | unknown | Array<unknown> | null> } };
             }
 
             export interface FileID {
@@ -1184,16 +917,7 @@ export namespace AutomateEvent {
               /**
                * Provider-specific options.
                */
-              providerOptions?: {
-                [key: string]: {
-                  [key: string]:
-                    | string
-                    | number
-                    | boolean
-                    | { [key: string]: string | number | boolean | unknown | Array<unknown> }
-                    | Array<string | number | boolean | unknown | Array<unknown> | null>;
-                };
-              };
+              providerOptions?: { [key: string]: { [key: string]: string | number | boolean | { [key: string]: string | number | boolean | unknown | Array<unknown> } | Array<string | number | boolean | unknown | Array<unknown> | null> } };
             }
 
             export interface ImageData {
@@ -1215,16 +939,7 @@ export namespace AutomateEvent {
               /**
                * Provider-specific options.
                */
-              providerOptions?: {
-                [key: string]: {
-                  [key: string]:
-                    | string
-                    | number
-                    | boolean
-                    | { [key: string]: string | number | boolean | unknown | Array<unknown> }
-                    | Array<string | number | boolean | unknown | Array<unknown> | null>;
-                };
-              };
+              providerOptions?: { [key: string]: { [key: string]: string | number | boolean | { [key: string]: string | number | boolean | unknown | Array<unknown> } | Array<string | number | boolean | unknown | Array<unknown> | null> } };
             }
 
             export interface ImageURL {
@@ -1241,16 +956,7 @@ export namespace AutomateEvent {
               /**
                * Provider-specific options.
                */
-              providerOptions?: {
-                [key: string]: {
-                  [key: string]:
-                    | string
-                    | number
-                    | boolean
-                    | { [key: string]: string | number | boolean | unknown | Array<unknown> }
-                    | Array<string | number | boolean | unknown | Array<unknown> | null>;
-                };
-              };
+              providerOptions?: { [key: string]: { [key: string]: string | number | boolean | { [key: string]: string | number | boolean | unknown | Array<unknown> } | Array<string | number | boolean | unknown | Array<unknown> | null> } };
             }
 
             export interface ImageFileID {
@@ -1271,16 +977,7 @@ export namespace AutomateEvent {
               /**
                * Provider-specific options.
                */
-              providerOptions?: {
-                [key: string]: {
-                  [key: string]:
-                    | string
-                    | number
-                    | boolean
-                    | { [key: string]: string | number | boolean | unknown | Array<unknown> }
-                    | Array<string | number | boolean | unknown | Array<unknown> | null>;
-                };
-              };
+              providerOptions?: { [key: string]: { [key: string]: string | number | boolean | { [key: string]: string | number | boolean | unknown | Array<unknown> } | Array<string | number | boolean | unknown | Array<unknown> | null> } };
             }
 
             export interface Custom {
@@ -1293,16 +990,7 @@ export namespace AutomateEvent {
               /**
                * Provider-specific options.
                */
-              providerOptions?: {
-                [key: string]: {
-                  [key: string]:
-                    | string
-                    | number
-                    | boolean
-                    | { [key: string]: string | number | boolean | unknown | Array<unknown> }
-                    | Array<string | number | boolean | unknown | Array<unknown> | null>;
-                };
-              };
+              providerOptions?: { [key: string]: { [key: string]: string | number | boolean | { [key: string]: string | number | boolean | unknown | Array<unknown> } | Array<string | number | boolean | unknown | Array<unknown> | null> } };
             }
           }
         }
@@ -1341,16 +1029,7 @@ export namespace AutomateEvent {
          * from the AI SDK and enable provider-specific functionality that can be fully
          * encapsulated in the provider.
          */
-        providerOptions?: {
-          [key: string]: {
-            [key: string]:
-              | string
-              | number
-              | boolean
-              | { [key: string]: string | number | boolean | unknown | Array<unknown> }
-              | Array<string | number | boolean | unknown | Array<unknown> | null>;
-          };
-        };
+        providerOptions?: { [key: string]: { [key: string]: string | number | boolean | { [key: string]: string | number | boolean | unknown | Array<unknown> } | Array<string | number | boolean | unknown | Array<unknown> | null> } };
       }
 
       export namespace Tool {
@@ -1362,13 +1041,7 @@ export namespace AutomateEvent {
           /**
            * Result of the tool call. This is a JSON-serializable object.
            */
-          output:
-            | ToolResult.Text
-            | ToolResult.Json
-            | ToolResult.ExecutionDenied
-            | ToolResult.ErrorText
-            | ToolResult.ErrorJson
-            | ToolResult.Content;
+          output: ToolResult.Text | ToolResult.Json | ToolResult.ExecutionDenied | ToolResult.ErrorText | ToolResult.ErrorJson | ToolResult.Content;
 
           /**
            * ID of the tool call that this result is associated with.
@@ -1387,16 +1060,7 @@ export namespace AutomateEvent {
            * from the AI SDK and enable provider-specific functionality that can be fully
            * encapsulated in the provider.
            */
-          providerOptions?: {
-            [key: string]: {
-              [key: string]:
-                | string
-                | number
-                | boolean
-                | { [key: string]: string | number | boolean | unknown | Array<unknown> }
-                | Array<string | number | boolean | unknown | Array<unknown> | null>;
-            };
-          };
+          providerOptions?: { [key: string]: { [key: string]: string | number | boolean | { [key: string]: string | number | boolean | unknown | Array<unknown> } | Array<string | number | boolean | unknown | Array<unknown> | null> } };
         }
 
         export namespace ToolResult {
@@ -1411,16 +1075,7 @@ export namespace AutomateEvent {
             /**
              * Provider-specific options.
              */
-            providerOptions?: {
-              [key: string]: {
-                [key: string]:
-                  | string
-                  | number
-                  | boolean
-                  | { [key: string]: string | number | boolean | unknown | Array<unknown> }
-                  | Array<string | number | boolean | unknown | Array<unknown> | null>;
-              };
-            };
+            providerOptions?: { [key: string]: { [key: string]: string | number | boolean | { [key: string]: string | number | boolean | unknown | Array<unknown> } | Array<string | number | boolean | unknown | Array<unknown> | null> } };
           }
 
           export interface Json {
@@ -1431,34 +1086,12 @@ export namespace AutomateEvent {
              * values can be serialized and deserialized by the JSON.stringify and JSON.parse
              * methods.
              */
-            value:
-              | string
-              | number
-              | boolean
-              | {
-                  [key: string]:
-                    | string
-                    | number
-                    | boolean
-                    | { [key: string]: string | number | boolean | unknown | Array<unknown> }
-                    | Array<string | number | boolean | unknown | Array<unknown> | null>;
-                }
-              | Array<string | number | boolean | unknown | Array<unknown> | null>
-              | null;
+            value: string | number | boolean | { [key: string]: string | number | boolean | { [key: string]: string | number | boolean | unknown | Array<unknown> } | Array<string | number | boolean | unknown | Array<unknown> | null> } | Array<string | number | boolean | unknown | Array<unknown> | null> | null;
 
             /**
              * Provider-specific options.
              */
-            providerOptions?: {
-              [key: string]: {
-                [key: string]:
-                  | string
-                  | number
-                  | boolean
-                  | { [key: string]: string | number | boolean | unknown | Array<unknown> }
-                  | Array<string | number | boolean | unknown | Array<unknown> | null>;
-              };
-            };
+            providerOptions?: { [key: string]: { [key: string]: string | number | boolean | { [key: string]: string | number | boolean | unknown | Array<unknown> } | Array<string | number | boolean | unknown | Array<unknown> | null> } };
           }
 
           export interface ExecutionDenied {
@@ -1470,16 +1103,7 @@ export namespace AutomateEvent {
             /**
              * Provider-specific options.
              */
-            providerOptions?: {
-              [key: string]: {
-                [key: string]:
-                  | string
-                  | number
-                  | boolean
-                  | { [key: string]: string | number | boolean | unknown | Array<unknown> }
-                  | Array<string | number | boolean | unknown | Array<unknown> | null>;
-              };
-            };
+            providerOptions?: { [key: string]: { [key: string]: string | number | boolean | { [key: string]: string | number | boolean | unknown | Array<unknown> } | Array<string | number | boolean | unknown | Array<unknown> | null> } };
 
             /**
              * Optional reason for the execution denial.
@@ -1495,16 +1119,7 @@ export namespace AutomateEvent {
             /**
              * Provider-specific options.
              */
-            providerOptions?: {
-              [key: string]: {
-                [key: string]:
-                  | string
-                  | number
-                  | boolean
-                  | { [key: string]: string | number | boolean | unknown | Array<unknown> }
-                  | Array<string | number | boolean | unknown | Array<unknown> | null>;
-              };
-            };
+            providerOptions?: { [key: string]: { [key: string]: string | number | boolean | { [key: string]: string | number | boolean | unknown | Array<unknown> } | Array<string | number | boolean | unknown | Array<unknown> | null> } };
           }
 
           export interface ErrorJson {
@@ -1515,50 +1130,18 @@ export namespace AutomateEvent {
              * values can be serialized and deserialized by the JSON.stringify and JSON.parse
              * methods.
              */
-            value:
-              | string
-              | number
-              | boolean
-              | {
-                  [key: string]:
-                    | string
-                    | number
-                    | boolean
-                    | { [key: string]: string | number | boolean | unknown | Array<unknown> }
-                    | Array<string | number | boolean | unknown | Array<unknown> | null>;
-                }
-              | Array<string | number | boolean | unknown | Array<unknown> | null>
-              | null;
+            value: string | number | boolean | { [key: string]: string | number | boolean | { [key: string]: string | number | boolean | unknown | Array<unknown> } | Array<string | number | boolean | unknown | Array<unknown> | null> } | Array<string | number | boolean | unknown | Array<unknown> | null> | null;
 
             /**
              * Provider-specific options.
              */
-            providerOptions?: {
-              [key: string]: {
-                [key: string]:
-                  | string
-                  | number
-                  | boolean
-                  | { [key: string]: string | number | boolean | unknown | Array<unknown> }
-                  | Array<string | number | boolean | unknown | Array<unknown> | null>;
-              };
-            };
+            providerOptions?: { [key: string]: { [key: string]: string | number | boolean | { [key: string]: string | number | boolean | unknown | Array<unknown> } | Array<string | number | boolean | unknown | Array<unknown> | null> } };
           }
 
           export interface Content {
             type: 'content';
 
-            value: Array<
-              | Content.Text
-              | Content.Media
-              | Content.FileData
-              | Content.FileURL
-              | Content.FileID
-              | Content.ImageData
-              | Content.ImageURL
-              | Content.ImageFileID
-              | Content.Custom
-            >;
+            value: Array<Content.Text | Content.Media | Content.FileData | Content.FileURL | Content.FileID | Content.ImageData | Content.ImageURL | Content.ImageFileID | Content.Custom>;
           }
 
           export namespace Content {
@@ -1573,16 +1156,7 @@ export namespace AutomateEvent {
               /**
                * Provider-specific options.
                */
-              providerOptions?: {
-                [key: string]: {
-                  [key: string]:
-                    | string
-                    | number
-                    | boolean
-                    | { [key: string]: string | number | boolean | unknown | Array<unknown> }
-                    | Array<string | number | boolean | unknown | Array<unknown> | null>;
-                };
-              };
+              providerOptions?: { [key: string]: { [key: string]: string | number | boolean | { [key: string]: string | number | boolean | unknown | Array<unknown> } | Array<string | number | boolean | unknown | Array<unknown> | null> } };
             }
 
             export interface Media {
@@ -1617,16 +1191,7 @@ export namespace AutomateEvent {
               /**
                * Provider-specific options.
                */
-              providerOptions?: {
-                [key: string]: {
-                  [key: string]:
-                    | string
-                    | number
-                    | boolean
-                    | { [key: string]: string | number | boolean | unknown | Array<unknown> }
-                    | Array<string | number | boolean | unknown | Array<unknown> | null>;
-                };
-              };
+              providerOptions?: { [key: string]: { [key: string]: string | number | boolean | { [key: string]: string | number | boolean | unknown | Array<unknown> } | Array<string | number | boolean | unknown | Array<unknown> | null> } };
             }
 
             export interface FileURL {
@@ -1640,16 +1205,7 @@ export namespace AutomateEvent {
               /**
                * Provider-specific options.
                */
-              providerOptions?: {
-                [key: string]: {
-                  [key: string]:
-                    | string
-                    | number
-                    | boolean
-                    | { [key: string]: string | number | boolean | unknown | Array<unknown> }
-                    | Array<string | number | boolean | unknown | Array<unknown> | null>;
-                };
-              };
+              providerOptions?: { [key: string]: { [key: string]: string | number | boolean | { [key: string]: string | number | boolean | unknown | Array<unknown> } | Array<string | number | boolean | unknown | Array<unknown> | null> } };
             }
 
             export interface FileID {
@@ -1667,16 +1223,7 @@ export namespace AutomateEvent {
               /**
                * Provider-specific options.
                */
-              providerOptions?: {
-                [key: string]: {
-                  [key: string]:
-                    | string
-                    | number
-                    | boolean
-                    | { [key: string]: string | number | boolean | unknown | Array<unknown> }
-                    | Array<string | number | boolean | unknown | Array<unknown> | null>;
-                };
-              };
+              providerOptions?: { [key: string]: { [key: string]: string | number | boolean | { [key: string]: string | number | boolean | unknown | Array<unknown> } | Array<string | number | boolean | unknown | Array<unknown> | null> } };
             }
 
             export interface ImageData {
@@ -1698,16 +1245,7 @@ export namespace AutomateEvent {
               /**
                * Provider-specific options.
                */
-              providerOptions?: {
-                [key: string]: {
-                  [key: string]:
-                    | string
-                    | number
-                    | boolean
-                    | { [key: string]: string | number | boolean | unknown | Array<unknown> }
-                    | Array<string | number | boolean | unknown | Array<unknown> | null>;
-                };
-              };
+              providerOptions?: { [key: string]: { [key: string]: string | number | boolean | { [key: string]: string | number | boolean | unknown | Array<unknown> } | Array<string | number | boolean | unknown | Array<unknown> | null> } };
             }
 
             export interface ImageURL {
@@ -1724,16 +1262,7 @@ export namespace AutomateEvent {
               /**
                * Provider-specific options.
                */
-              providerOptions?: {
-                [key: string]: {
-                  [key: string]:
-                    | string
-                    | number
-                    | boolean
-                    | { [key: string]: string | number | boolean | unknown | Array<unknown> }
-                    | Array<string | number | boolean | unknown | Array<unknown> | null>;
-                };
-              };
+              providerOptions?: { [key: string]: { [key: string]: string | number | boolean | { [key: string]: string | number | boolean | unknown | Array<unknown> } | Array<string | number | boolean | unknown | Array<unknown> | null> } };
             }
 
             export interface ImageFileID {
@@ -1754,16 +1283,7 @@ export namespace AutomateEvent {
               /**
                * Provider-specific options.
                */
-              providerOptions?: {
-                [key: string]: {
-                  [key: string]:
-                    | string
-                    | number
-                    | boolean
-                    | { [key: string]: string | number | boolean | unknown | Array<unknown> }
-                    | Array<string | number | boolean | unknown | Array<unknown> | null>;
-                };
-              };
+              providerOptions?: { [key: string]: { [key: string]: string | number | boolean | { [key: string]: string | number | boolean | unknown | Array<unknown> } | Array<string | number | boolean | unknown | Array<unknown> | null> } };
             }
 
             export interface Custom {
@@ -1776,16 +1296,7 @@ export namespace AutomateEvent {
               /**
                * Provider-specific options.
                */
-              providerOptions?: {
-                [key: string]: {
-                  [key: string]:
-                    | string
-                    | number
-                    | boolean
-                    | { [key: string]: string | number | boolean | unknown | Array<unknown> }
-                    | Array<string | number | boolean | unknown | Array<unknown> | null>;
-                };
-              };
+              providerOptions?: { [key: string]: { [key: string]: string | number | boolean | { [key: string]: string | number | boolean | unknown | Array<unknown> } | Array<string | number | boolean | unknown | Array<unknown> | null> } };
             }
           }
         }
@@ -2150,18 +1661,7 @@ export namespace AutomateEvent {
         /**
          * Semantic field type
          */
-        fieldType:
-          | 'text'
-          | 'email'
-          | 'phone'
-          | 'date'
-          | 'number'
-          | 'select'
-          | 'checkbox'
-          | 'radio'
-          | 'textarea'
-          | 'password'
-          | 'other';
+        fieldType: 'text' | 'email' | 'phone' | 'date' | 'number' | 'select' | 'checkbox' | 'radio' | 'textarea' | 'password' | 'other';
 
         /**
          * The field's visible label
@@ -2236,18 +1736,7 @@ export namespace AutomateEvent {
         /**
          * Semantic field type
          */
-        fieldType:
-          | 'text'
-          | 'email'
-          | 'phone'
-          | 'date'
-          | 'number'
-          | 'select'
-          | 'checkbox'
-          | 'radio'
-          | 'textarea'
-          | 'password'
-          | 'other';
+        fieldType: 'text' | 'email' | 'phone' | 'date' | 'number' | 'select' | 'checkbox' | 'radio' | 'textarea' | 'password' | 'other';
 
         /**
          * The field's visible label
@@ -2601,30 +2090,7 @@ export namespace AutomateEvent {
 /**
  * A Server-Sent Event from /v1/research. Typed discriminated union keyed on event.
  */
-export type ResearchEvent =
-  | ResearchEvent.V1ResearchEventAnalyzingEnd
-  | ResearchEvent.V1ResearchEventAnalyzingStart
-  | ResearchEvent.V1ResearchEventComplete
-  | ResearchEvent.V1ResearchEventError
-  | ResearchEvent.V1ResearchEventEvaluatingEnd
-  | ResearchEvent.V1ResearchEventEvaluatingStart
-  | ResearchEvent.V1ResearchEventFollowingEnd
-  | ResearchEvent.V1ResearchEventFollowingStart
-  | ResearchEvent.V1ResearchEventIterationEnd
-  | ResearchEvent.V1ResearchEventIterationStart
-  | ResearchEvent.V1ResearchEventJudgingEnd
-  | ResearchEvent.V1ResearchEventJudgingStart
-  | ResearchEvent.V1ResearchEventOutliningEnd
-  | ResearchEvent.V1ResearchEventOutliningStart
-  | ResearchEvent.V1ResearchEventPlanningEnd
-  | ResearchEvent.V1ResearchEventPlanningStart
-  | ResearchEvent.V1ResearchEventPrefetchingEnd
-  | ResearchEvent.V1ResearchEventPrefetchingStart
-  | ResearchEvent.V1ResearchEventSearchingEnd
-  | ResearchEvent.V1ResearchEventSearchingStart
-  | ResearchEvent.V1ResearchEventStart
-  | ResearchEvent.V1ResearchEventWritingEnd
-  | ResearchEvent.V1ResearchEventWritingStart;
+export type ResearchEvent = ResearchEvent.V1ResearchEventAnalyzingEnd | ResearchEvent.V1ResearchEventAnalyzingStart | ResearchEvent.V1ResearchEventComplete | ResearchEvent.V1ResearchEventError | ResearchEvent.V1ResearchEventEvaluatingEnd | ResearchEvent.V1ResearchEventEvaluatingStart | ResearchEvent.V1ResearchEventFollowingEnd | ResearchEvent.V1ResearchEventFollowingStart | ResearchEvent.V1ResearchEventIterationEnd | ResearchEvent.V1ResearchEventIterationStart | ResearchEvent.V1ResearchEventJudgingEnd | ResearchEvent.V1ResearchEventJudgingStart | ResearchEvent.V1ResearchEventOutliningEnd | ResearchEvent.V1ResearchEventOutliningStart | ResearchEvent.V1ResearchEventPlanningEnd | ResearchEvent.V1ResearchEventPlanningStart | ResearchEvent.V1ResearchEventPrefetchingEnd | ResearchEvent.V1ResearchEventPrefetchingStart | ResearchEvent.V1ResearchEventSearchingEnd | ResearchEvent.V1ResearchEventSearchingStart | ResearchEvent.V1ResearchEventStart | ResearchEvent.V1ResearchEventWritingEnd | ResearchEvent.V1ResearchEventWritingStart
 
 export namespace ResearchEvent {
   /**
@@ -3058,17 +2524,7 @@ export namespace ResearchEvent {
       /**
        * Activity types for research workflow
        */
-      activity?:
-        | 'prefetching'
-        | 'planning'
-        | 'iteration'
-        | 'searching'
-        | 'analyzing'
-        | 'following'
-        | 'evaluating'
-        | 'outlining'
-        | 'writing'
-        | 'judging';
+      activity?: 'prefetching' | 'planning' | 'iteration' | 'searching' | 'analyzing' | 'following' | 'evaluating' | 'outlining' | 'writing' | 'judging';
 
       iteration?: number;
     }
@@ -3708,6 +3164,6 @@ export declare namespace Agent {
     type AgentAutomateInputResponse as AgentAutomateInputResponse,
     type AgentAutomateParams as AgentAutomateParams,
     type AgentAutomateInputParams as AgentAutomateInputParams,
-    type AgentResearchParams as AgentResearchParams,
+    type AgentResearchParams as AgentResearchParams
   };
 }
