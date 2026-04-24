@@ -1,5 +1,20 @@
 # Changelog
 
+## 2.6.0 (2026-04-24)
+
+Full Changelog: [v2.5.0...v2.6.0](https://github.com/Mozilla-Ocho/tabstack-typescript/compare/v2.5.0...v2.6.0)
+
+### Features
+
+* **api:** api update ([ef8a219](https://github.com/Mozilla-Ocho/tabstack-typescript/commit/ef8a219a966c66336a7004779fa9048ff2378da4))
+* **codegen:** consume Pilo's AutomateStreamEvent as the /automate SSE root ([2375325](https://github.com/Mozilla-Ocho/tabstack-typescript/commit/23753256ab2fbc0b786654a43219ac42b7e2bcd8))
+
+
+### Chores
+
+* **formatter:** run prettier and eslint separately ([e90f0c4](https://github.com/Mozilla-Ocho/tabstack-typescript/commit/e90f0c4e0ec6512ea7a72c1f3d9a5e2ef01a08ef))
+* restructure docs search code ([cb96f26](https://github.com/Mozilla-Ocho/tabstack-typescript/commit/cb96f26480e7998a5ca6d64fb3b4f11e7783083f))
+
 ## 2.5.0 (2026-04-22)
 
 Full Changelog: [v2.4.0...v2.5.0](https://github.com/Mozilla-Ocho/tabstack-typescript/compare/v2.4.0...v2.5.0)
