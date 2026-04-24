@@ -2,12 +2,17 @@
 
 import Tabstack from '@tabstack/sdk';
 
-const client = new Tabstack({ apiKey: 'My API Key', baseURL: process.env["TEST_API_BASE_URL"] ?? 'http://127.0.0.1:4010' });
+const client = new Tabstack({
+  apiKey: 'My API Key',
+  baseURL: process.env['TEST_API_BASE_URL'] ?? 'http://127.0.0.1:4010',
+});
 
 describe('resource agent', () => {
   // Mock server tests are disabled
   test.skip('automate: only required params', async () => {
-    const responsePromise = client.agent.automate({ task: 'Find the top 3 trending repositories and extract their names, descriptions, and star counts' });
+    const responsePromise = client.agent.automate({
+      task: 'Find the top 3 trending repositories and extract their names, descriptions, and star counts',
+    });
     const rawResponse = await responsePromise.asResponse();
     expect(rawResponse).toBeInstanceOf(Response);
     const response = await responsePromise;
@@ -20,15 +25,15 @@ describe('resource agent', () => {
   // Mock server tests are disabled
   test.skip('automate: required and optional params', async () => {
     const response = await client.agent.automate({
-    task: 'Find the top 3 trending repositories and extract their names, descriptions, and star counts',
-    data: {},
-    geo_target: { country: 'US' },
-    guardrails: 'browse and extract only, don\'t interact with repositories',
-    interactive: false,
-    maxIterations: 50,
-    maxValidationAttempts: 3,
-    url: 'https://github.com/trending',
-  });
+      task: 'Find the top 3 trending repositories and extract their names, descriptions, and star counts',
+      data: {},
+      geo_target: { country: 'US' },
+      guardrails: "browse and extract only, don't interact with repositories",
+      interactive: false,
+      maxIterations: 50,
+      maxValidationAttempts: 3,
+      url: 'https://github.com/trending',
+    });
   });
 
   // Mock server tests are disabled
@@ -45,7 +50,9 @@ describe('resource agent', () => {
 
   // Mock server tests are disabled
   test.skip('research: only required params', async () => {
-    const responsePromise = client.agent.research({ query: 'What are the latest developments in quantum computing?' });
+    const responsePromise = client.agent.research({
+      query: 'What are the latest developments in quantum computing?',
+    });
     const rawResponse = await responsePromise.asResponse();
     expect(rawResponse).toBeInstanceOf(Response);
     const response = await responsePromise;
@@ -58,10 +65,10 @@ describe('resource agent', () => {
   // Mock server tests are disabled
   test.skip('research: required and optional params', async () => {
     const response = await client.agent.research({
-    query: 'What are the latest developments in quantum computing?',
-    fetch_timeout: 30,
-    mode: 'fast',
-    nocache: false,
-  });
+      query: 'What are the latest developments in quantum computing?',
+      fetch_timeout: 30,
+      mode: 'fast',
+      nocache: false,
+    });
   });
 });

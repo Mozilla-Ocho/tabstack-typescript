@@ -60,7 +60,7 @@ export class Extract extends APIResource {
   }
 }
 
-export type ExtractJsonResponse = { [key: string]: unknown }
+export type ExtractJsonResponse = { [key: string]: unknown };
 
 export interface ExtractMarkdownResponse {
   /**
@@ -257,6 +257,6 @@ export declare namespace Extract {
     type ExtractJsonResponse as ExtractJsonResponse,
     type ExtractMarkdownResponse as ExtractMarkdownResponse,
     type ExtractJsonParams as ExtractJsonParams,
-    type ExtractMarkdownParams as ExtractMarkdownParams
+    type ExtractMarkdownParams as ExtractMarkdownParams,
   };
 }

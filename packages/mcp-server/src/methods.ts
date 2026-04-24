@@ -7,39 +7,46 @@ export type SdkMethod = {
   fullyQualifiedName: string;
   httpMethod?: 'get' | 'post' | 'put' | 'patch' | 'delete' | 'query';
   httpPath?: string;
-}
+};
 
-export const sdkMethods: SdkMethod[] = [{
-  clientCallName: 'client.agent.automate',
-  fullyQualifiedName: 'agent.automate',
-  httpMethod: 'post',
-  httpPath: '/automate',
-},{
-  clientCallName: 'client.agent.automateInput',
-  fullyQualifiedName: 'agent.automateInput',
-  httpMethod: 'post',
-  httpPath: '/automate/{requestID}/input',
-},{
-  clientCallName: 'client.agent.research',
-  fullyQualifiedName: 'agent.research',
-  httpMethod: 'post',
-  httpPath: '/research',
-},{
-  clientCallName: 'client.extract.json',
-  fullyQualifiedName: 'extract.json',
-  httpMethod: 'post',
-  httpPath: '/extract/json',
-},{
-  clientCallName: 'client.extract.markdown',
-  fullyQualifiedName: 'extract.markdown',
-  httpMethod: 'post',
-  httpPath: '/extract/markdown',
-},{
-  clientCallName: 'client.generate.json',
-  fullyQualifiedName: 'generate.json',
-  httpMethod: 'post',
-  httpPath: '/generate/json',
-}];
+export const sdkMethods: SdkMethod[] = [
+  {
+    clientCallName: 'client.agent.automate',
+    fullyQualifiedName: 'agent.automate',
+    httpMethod: 'post',
+    httpPath: '/automate',
+  },
+  {
+    clientCallName: 'client.agent.automateInput',
+    fullyQualifiedName: 'agent.automateInput',
+    httpMethod: 'post',
+    httpPath: '/automate/{requestID}/input',
+  },
+  {
+    clientCallName: 'client.agent.research',
+    fullyQualifiedName: 'agent.research',
+    httpMethod: 'post',
+    httpPath: '/research',
+  },
+  {
+    clientCallName: 'client.extract.json',
+    fullyQualifiedName: 'extract.json',
+    httpMethod: 'post',
+    httpPath: '/extract/json',
+  },
+  {
+    clientCallName: 'client.extract.markdown',
+    fullyQualifiedName: 'extract.markdown',
+    httpMethod: 'post',
+    httpPath: '/extract/markdown',
+  },
+  {
+    clientCallName: 'client.generate.json',
+    fullyQualifiedName: 'generate.json',
+    httpMethod: 'post',
+    httpPath: '/generate/json',
+  },
+];
 
 function allowedMethodsForCodeTool(options: McpOptions | undefined): SdkMethod[] | undefined {
   if (!options) {
@@ -54,9 +61,9 @@ function allowedMethodsForCodeTool(options: McpOptions | undefined): SdkMethod[]
 
     if (options.codeAllowHttpGets) {
       // Add all methods that map to an HTTP GET
-      sdkMethods.filter((method) => method.httpMethod === 'get').forEach(
-        (method) => allowedMethodsSet.add(method)
-      );
+      sdkMethods
+        .filter((method) => method.httpMethod === 'get')
+        .forEach((method) => allowedMethodsSet.add(method));
     }
 
     if (options.codeAllowedMethods) {
@@ -65,13 +72,15 @@ function allowedMethodsForCodeTool(options: McpOptions | undefined): SdkMethod[]
         try {
           return new RegExp(pattern);
         } catch (e) {
-          throw new Error(`Invalid regex pattern for allowed method: "${pattern}": ${e instanceof Error ? e.message : e}`);
+          throw new Error(
+            `Invalid regex pattern for allowed method: "${pattern}": ${e instanceof Error ? e.message : e}`,
+          );
         }
       });
 
-      sdkMethods.filter((method) =>
-          allowedRegexps.some((regexp) => regexp.test(method.fullyQualifiedName))
-        ).forEach((method) => allowedMethodsSet.add(method));
+      sdkMethods
+        .filter((method) => allowedRegexps.some((regexp) => regexp.test(method.fullyQualifiedName)))
+        .forEach((method) => allowedMethodsSet.add(method));
     }
 
     allowedMethods = Array.from(allowedMethodsSet);
@@ -86,12 +95,14 @@ function allowedMethodsForCodeTool(options: McpOptions | undefined): SdkMethod[]
       try {
         return new RegExp(pattern);
       } catch (e) {
-        throw new Error(`Invalid regex pattern for blocked method: "${pattern}": ${e instanceof Error ? e.message : e}`);
+        throw new Error(
+          `Invalid regex pattern for blocked method: "${pattern}": ${e instanceof Error ? e.message : e}`,
+        );
       }
     });
 
-    allowedMethods = allowedMethods.filter((method) =>
-      !blockedRegexps.some((regexp) => regexp.test(method.fullyQualifiedName))
+    allowedMethods = allowedMethods.filter(
+      (method) => !blockedRegexps.some((regexp) => regexp.test(method.fullyQualifiedName)),
     );
   }
 
