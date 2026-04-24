@@ -107,7 +107,7 @@ export class Agent extends APIResource {
 /**
  * A Server-Sent Event from /v1/automate. Typed discriminated union keyed on event.
  */
-export type AutomateEvent = AutomateEvent.V1AutomateEventAgentAction | AutomateEvent.V1AutomateEventAgentExtracted | AutomateEvent.V1AutomateEventAgentProcessing | AutomateEvent.V1AutomateEventAgentReasoned | AutomateEvent.V1AutomateEventAgentStatus | AutomateEvent.V1AutomateEventAgentStep | AutomateEvent.V1AutomateEventAgentWaiting | AutomateEvent.V1AutomateEventAIGeneration | AutomateEvent.V1AutomateEventAIGenerationError | AutomateEvent.V1AutomateEventBrowserActionCompleted | AutomateEvent.V1AutomateEventBrowserActionStarted | AutomateEvent.V1AutomateEventBrowserNavigated | AutomateEvent.V1AutomateEventBrowserReconnected | AutomateEvent.V1AutomateEventBrowserScreenshotCaptured | AutomateEvent.V1AutomateEventBrowserScreenshotCapturedImage | AutomateEvent.V1AutomateEventCdpEndpointConnected | AutomateEvent.V1AutomateEventCdpEndpointCycle | AutomateEvent.V1AutomateEventInteractiveFormDataError | AutomateEvent.V1AutomateEventInteractiveFormDataRequest | AutomateEvent.V1AutomateEventSystemDebugCompression | AutomateEvent.V1AutomateEventSystemDebugMessage | AutomateEvent.V1AutomateEventTaskAborted | AutomateEvent.V1AutomateEventTaskCompleted | AutomateEvent.V1AutomateEventTaskMetrics | AutomateEvent.V1AutomateEventTaskMetricsIncremental | AutomateEvent.V1AutomateEventTaskSetup | AutomateEvent.V1AutomateEventTaskStarted | AutomateEvent.V1AutomateEventTaskValidated | AutomateEvent.V1AutomateEventTaskValidationError
+export type AutomateEvent = AutomateEvent.V1AutomateEventAgentAction | AutomateEvent.V1AutomateEventAgentExtracted | AutomateEvent.V1AutomateEventAgentProcessing | AutomateEvent.V1AutomateEventAgentReasoned | AutomateEvent.V1AutomateEventAgentStatus | AutomateEvent.V1AutomateEventAgentStep | AutomateEvent.V1AutomateEventAgentWaiting | AutomateEvent.V1AutomateEventAIGeneration | AutomateEvent.V1AutomateEventAIGenerationError | AutomateEvent.V1AutomateEventBrowserActionCompleted | AutomateEvent.V1AutomateEventBrowserActionStarted | AutomateEvent.V1AutomateEventBrowserNavigated | AutomateEvent.V1AutomateEventBrowserReconnected | AutomateEvent.V1AutomateEventBrowserScreenshotCaptured | AutomateEvent.V1AutomateEventBrowserScreenshotCapturedImage | AutomateEvent.V1AutomateEventCdpEndpointConnected | AutomateEvent.V1AutomateEventCdpEndpointCycle | AutomateEvent.V1AutomateEventComplete | AutomateEvent.V1AutomateEventDone | AutomateEvent.V1AutomateEventError | AutomateEvent.V1AutomateEventInteractiveFormDataError | AutomateEvent.V1AutomateEventInteractiveFormDataRequest | AutomateEvent.V1AutomateEventSystemDebugCompression | AutomateEvent.V1AutomateEventSystemDebugMessage | AutomateEvent.V1AutomateEventTaskAborted | AutomateEvent.V1AutomateEventTaskCompleted | AutomateEvent.V1AutomateEventTaskMetrics | AutomateEvent.V1AutomateEventTaskMetricsIncremental | AutomateEvent.V1AutomateEventTaskSetup | AutomateEvent.V1AutomateEventTaskStarted | AutomateEvent.V1AutomateEventTaskValidated | AutomateEvent.V1AutomateEventTaskValidationError
 
 export namespace AutomateEvent {
   /**
@@ -1609,6 +1609,140 @@ export namespace AutomateEvent {
        * Total number of configured CDP endpoints
        */
       total: number;
+    }
+  }
+
+  /**
+   * Envelope for the "complete" event from /v1/automate.
+   */
+  export interface V1AutomateEventComplete {
+    /**
+     * Payload for the `complete` stream event. Structurally identical to
+     * TaskExecutionResult from webAgent.ts — the `complete` event's data is the
+     * agent's final TaskExecutionResult, stringified onto the SSE stream.
+     */
+    data: V1AutomateEventComplete.Data;
+
+    event: 'complete';
+  }
+
+  export namespace V1AutomateEventComplete {
+    /**
+     * Payload for the `complete` stream event. Structurally identical to
+     * TaskExecutionResult from webAgent.ts — the `complete` event's data is the
+     * agent's final TaskExecutionResult, stringified onto the SSE stream.
+     */
+    export interface Data {
+      /**
+       * Final answer or result from the agent
+       */
+      finalAnswer: string | null;
+
+      /**
+       * Execution statistics
+       */
+      stats: Data.Stats;
+
+      /**
+       * Whether the task completed successfully
+       */
+      success: boolean;
+
+      /**
+       * Structured error information for failed tasks
+       */
+      error?: Data.Error;
+    }
+
+    export namespace Data {
+      /**
+       * Execution statistics
+       */
+      export interface Stats {
+        actions: number;
+
+        durationMs: number;
+
+        endTime: number;
+
+        iterations: number;
+
+        startTime: number;
+      }
+
+      /**
+       * Structured error information for failed tasks
+       */
+      export interface Error {
+        /**
+         * Error codes for task failures
+         */
+        code: 'TASK_ABORTED' | 'MAX_ITERATIONS' | 'MAX_ERRORS' | 'TASK_FAILED';
+
+        /**
+         * Human-readable error message
+         */
+        message: string;
+      }
+    }
+  }
+
+  /**
+   * Envelope for the "done" event from /v1/automate.
+   */
+  export interface V1AutomateEventDone {
+    /**
+     * Payload for the `done` stream terminator event. Empty today; reserved for future
+     * metadata.
+     */
+    data: { [key: string]: unknown };
+
+    event: 'done';
+  }
+
+  /**
+   * Envelope for the "error" event from /v1/automate.
+   */
+  export interface V1AutomateEventError {
+    /**
+     * Payload for the top-level `error` stream event. Emitted when an uncaught error
+     * escapes the task runner. Mirrors `ErrorResponse` from the server package's
+     * `taskRunner.ts` — kept structurally aligned so schema and runtime stay
+     * consistent. Distinct from agent-level error events like `ai:generation:error`
+     * and `task:validation_error`, which are emitted through the normal event emitter
+     * during the agent loop.
+     */
+    data: V1AutomateEventError.Data;
+
+    event: 'error';
+  }
+
+  export namespace V1AutomateEventError {
+    /**
+     * Payload for the top-level `error` stream event. Emitted when an uncaught error
+     * escapes the task runner. Mirrors `ErrorResponse` from the server package's
+     * `taskRunner.ts` — kept structurally aligned so schema and runtime stay
+     * consistent. Distinct from agent-level error events like `ai:generation:error`
+     * and `task:validation_error`, which are emitted through the normal event emitter
+     * during the agent loop.
+     */
+    export interface Data {
+      error: Data.Error;
+
+      success: false;
+    }
+
+    export namespace Data {
+      export interface Error {
+        code: string;
+
+        message: string;
+
+        /**
+         * ISO-8601 timestamp
+         */
+        timestamp: string;
+      }
     }
   }
 
