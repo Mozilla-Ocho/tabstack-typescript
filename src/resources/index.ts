@@ -1,5 +1,19 @@
 // File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
-export { Agent, type AutomateEvent, type ResearchEvent, type AgentAutomateInputResponse, type AgentAutomateParams, type AgentAutomateInputParams, type AgentResearchParams } from './agent';;
-export { Extract, type ExtractJsonResponse, type ExtractMarkdownResponse, type ExtractJsonParams, type ExtractMarkdownParams } from './extract';;
-export { Generate, type GenerateJsonResponse, type GenerateJsonParams } from './generate';;
+export {
+  Agent,
+  type AutomateEvent,
+  type ResearchEvent,
+  type AgentAutomateInputResponse,
+  type AgentAutomateParams,
+  type AgentAutomateInputParams,
+  type AgentResearchParams,
+} from './agent';
+export {
+  Extract,
+  type ExtractJsonResponse,
+  type ExtractMarkdownResponse,
+  type ExtractJsonParams,
+  type ExtractMarkdownParams,
+} from './extract';
+export { Generate, type GenerateJsonResponse, type GenerateJsonParams } from './generate';

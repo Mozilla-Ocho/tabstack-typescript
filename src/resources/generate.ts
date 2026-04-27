@@ -42,7 +42,7 @@ export class Generate extends APIResource {
   }
 }
 
-export type GenerateJsonResponse = { [key: string]: unknown }
+export type GenerateJsonResponse = { [key: string]: unknown };
 
 export interface GenerateJsonParams {
   /**
@@ -92,8 +92,5 @@ export namespace GenerateJsonParams {
 }
 
 export declare namespace Generate {
-  export {
-    type GenerateJsonResponse as GenerateJsonResponse,
-    type GenerateJsonParams as GenerateJsonParams
-  };
+  export { type GenerateJsonResponse as GenerateJsonResponse, type GenerateJsonParams as GenerateJsonParams };
 }
