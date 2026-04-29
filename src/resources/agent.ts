@@ -154,6 +154,7 @@ export type AutomateEvent =
   | AutomateEvent.V1AutomateEventTaskMetricsIncremental
   | AutomateEvent.V1AutomateEventTaskSetup
   | AutomateEvent.V1AutomateEventTaskStarted
+  | AutomateEvent.V1AutomateEventTaskTraceContext
   | AutomateEvent.V1AutomateEventTaskValidated
   | AutomateEvent.V1AutomateEventTaskValidationError;
 
@@ -2671,6 +2672,34 @@ export namespace AutomateEvent {
       url: string;
 
       actionItems?: Array<string>;
+    }
+  }
+
+  /**
+   * Envelope for the "task:trace_context" event from /v1/automate.
+   */
+  export interface V1AutomateEventTaskTraceContext {
+    /**
+     * Payload for the task:trace_context event. Carries the OpenTelemetry trace ID for
+     * this /v1/automate request so consumers can deep-link to distributed-tracing UIs
+     * (e.g. Cloud Trace, Cloud Logging) for the run.
+     */
+    data: V1AutomateEventTaskTraceContext.Data;
+
+    event: 'task:trace_context';
+  }
+
+  export namespace V1AutomateEventTaskTraceContext {
+    /**
+     * Payload for the task:trace_context event. Carries the OpenTelemetry trace ID for
+     * this /v1/automate request so consumers can deep-link to distributed-tracing UIs
+     * (e.g. Cloud Trace, Cloud Logging) for the run.
+     */
+    export interface Data {
+      /**
+       * W3C trace ID — 32-character lowercase hexadecimal string.
+       */
+      traceId: string;
     }
   }
 
