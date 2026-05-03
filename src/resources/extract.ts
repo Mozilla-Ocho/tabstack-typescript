@@ -41,7 +41,11 @@ export class Extract extends APIResource {
    * ```
    */
   json(body: ExtractJsonParams, options?: RequestOptions): APIPromise<ExtractJsonResponse> {
-    return this._client.post('/extract/json', { body, ...options });
+    return this._client.post('/extract/json', {
+      body,
+      timeout: (this._client as any)._options.timeout ?? 300000,
+      ...options,
+    });
   }
 
   /**
@@ -56,7 +60,11 @@ export class Extract extends APIResource {
    * ```
    */
   markdown(body: ExtractMarkdownParams, options?: RequestOptions): APIPromise<ExtractMarkdownResponse> {
-    return this._client.post('/extract/markdown', { body, ...options });
+    return this._client.post('/extract/markdown', {
+      body,
+      timeout: (this._client as any)._options.timeout ?? 180000,
+      ...options,
+    });
   }
 }
 
