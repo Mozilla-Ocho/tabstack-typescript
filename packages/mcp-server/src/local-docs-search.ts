@@ -91,7 +91,7 @@ const EMBEDDED_METHODS: MethodEntry[] = [
       },
       http: {
         example:
-          'curl https://api.tabstack.ai/v1/automate \\\n    -H \'Content-Type: application/json\' \\\n    -H "Authorization: Bearer $TABSTACK_API_KEY" \\\n    -d "{\n          \\"task\\": \\"Find the top 3 trending repositories and extract their names, descriptions, and star counts\\",\n          \\"guardrails\\": \\"browse and extract only, don\'t interact with repositories\\",\n          \\"maxIterations\\": 50,\n          \\"maxValidationAttempts\\": 3,\n          \\"url\\": \\"https://github.com/trending\\"\n        }"',
+          'curl https://api.tabstack.ai/v1/automate \\\n    -H \'Content-Type: application/json\' \\\n    -H "Authorization: Bearer $TABSTACK_API_KEY" \\\n    --max-time 600 \\\n    -d "{\n          \\"task\\": \\"Find the top 3 trending repositories and extract their names, descriptions, and star counts\\",\n          \\"guardrails\\": \\"browse and extract only, don\'t interact with repositories\\",\n          \\"maxIterations\\": 50,\n          \\"maxValidationAttempts\\": 3,\n          \\"url\\": \\"https://github.com/trending\\"\n        }"',
       },
     },
   },
@@ -167,7 +167,7 @@ const EMBEDDED_METHODS: MethodEntry[] = [
       },
       http: {
         example:
-          'curl https://api.tabstack.ai/v1/research \\\n    -H \'Content-Type: application/json\' \\\n    -H "Authorization: Bearer $TABSTACK_API_KEY" \\\n    -d \'{\n          "query": "What are the latest developments in quantum computing?",\n          "fetch_timeout": 30,\n          "mode": "fast"\n        }\'',
+          'curl https://api.tabstack.ai/v1/research \\\n    -H \'Content-Type: application/json\' \\\n    -H "Authorization: Bearer $TABSTACK_API_KEY" \\\n    --max-time 600 \\\n    -d \'{\n          "query": "What are the latest developments in quantum computing?",\n          "fetch_timeout": 30,\n          "mode": "fast"\n        }\'',
       },
     },
   },
@@ -207,7 +207,7 @@ const EMBEDDED_METHODS: MethodEntry[] = [
       },
       http: {
         example:
-          'curl https://api.tabstack.ai/v1/extract/json \\\n    -H \'Content-Type: application/json\' \\\n    -H "Authorization: Bearer $TABSTACK_API_KEY" \\\n    -d \'{\n          "json_schema": {\n            "properties": {\n              "stories": {\n                "items": {\n                  "properties": {\n                    "author": {\n                      "description": "Author username",\n                      "type": "string"\n                    },\n                    "points": {\n                      "description": "Story points",\n                      "type": "number"\n                    },\n                    "title": {\n                      "description": "Story title",\n                      "type": "string"\n                    }\n                  },\n                  "type": "object"\n                },\n                "type": "array"\n              }\n            },\n            "type": "object"\n          },\n          "url": "https://news.ycombinator.com",\n          "effort": "standard"\n        }\'',
+          'curl https://api.tabstack.ai/v1/extract/json \\\n    -H \'Content-Type: application/json\' \\\n    -H "Authorization: Bearer $TABSTACK_API_KEY" \\\n    --max-time 300 \\\n    -d \'{\n          "json_schema": {\n            "properties": {\n              "stories": {\n                "items": {\n                  "properties": {\n                    "author": {\n                      "description": "Author username",\n                      "type": "string"\n                    },\n                    "points": {\n                      "description": "Story points",\n                      "type": "number"\n                    },\n                    "title": {\n                      "description": "Story title",\n                      "type": "string"\n                    }\n                  },\n                  "type": "object"\n                },\n                "type": "array"\n              }\n            },\n            "type": "object"\n          },\n          "url": "https://news.ycombinator.com",\n          "effort": "standard"\n        }\'',
       },
     },
   },
@@ -249,7 +249,7 @@ const EMBEDDED_METHODS: MethodEntry[] = [
       },
       http: {
         example:
-          'curl https://api.tabstack.ai/v1/extract/markdown \\\n    -H \'Content-Type: application/json\' \\\n    -H "Authorization: Bearer $TABSTACK_API_KEY" \\\n    -d \'{\n          "url": "https://example.com/blog/article",\n          "effort": "standard",\n          "metadata": true\n        }\'',
+          'curl https://api.tabstack.ai/v1/extract/markdown \\\n    -H \'Content-Type: application/json\' \\\n    -H "Authorization: Bearer $TABSTACK_API_KEY" \\\n    --max-time 180 \\\n    -d \'{\n          "url": "https://example.com/blog/article",\n          "effort": "standard",\n          "metadata": true\n        }\'',
       },
     },
   },
@@ -291,7 +291,7 @@ const EMBEDDED_METHODS: MethodEntry[] = [
       },
       http: {
         example:
-          'curl https://api.tabstack.ai/v1/generate/json \\\n    -H \'Content-Type: application/json\' \\\n    -H "Authorization: Bearer $TABSTACK_API_KEY" \\\n    -d "{\n          \\"instructions\\": \\"For each story, categorize it (tech/business/science/other) and write a one-sentence summary explaining what it\'s about in simple terms.\\",\n          \\"json_schema\\": {\n            \\"properties\\": {\n              \\"summaries\\": {\n                \\"items\\": {\n                  \\"properties\\": {\n                    \\"category\\": {\n                      \\"description\\": \\"Story category (tech/business/science/etc)\\",\n                      \\"type\\": \\"string\\"\n                    },\n                    \\"summary\\": {\n                      \\"description\\": \\"One-sentence summary of the story\\",\n                      \\"type\\": \\"string\\"\n                    },\n                    \\"title\\": {\n                      \\"description\\": \\"Story title\\",\n                      \\"type\\": \\"string\\"\n                    }\n                  },\n                  \\"type\\": \\"object\\"\n                },\n                \\"type\\": \\"array\\"\n              }\n            },\n            \\"type\\": \\"object\\"\n          },\n          \\"url\\": \\"https://news.ycombinator.com\\",\n          \\"effort\\": \\"standard\\"\n        }"',
+          'curl https://api.tabstack.ai/v1/generate/json \\\n    -H \'Content-Type: application/json\' \\\n    -H "Authorization: Bearer $TABSTACK_API_KEY" \\\n    --max-time 300 \\\n    -d "{\n          \\"instructions\\": \\"For each story, categorize it (tech/business/science/other) and write a one-sentence summary explaining what it\'s about in simple terms.\\",\n          \\"json_schema\\": {\n            \\"properties\\": {\n              \\"summaries\\": {\n                \\"items\\": {\n                  \\"properties\\": {\n                    \\"category\\": {\n                      \\"description\\": \\"Story category (tech/business/science/etc)\\",\n                      \\"type\\": \\"string\\"\n                    },\n                    \\"summary\\": {\n                      \\"description\\": \\"One-sentence summary of the story\\",\n                      \\"type\\": \\"string\\"\n                    },\n                    \\"title\\": {\n                      \\"description\\": \\"Story title\\",\n                      \\"type\\": \\"string\\"\n                    }\n                  },\n                  \\"type\\": \\"object\\"\n                },\n                \\"type\\": \\"array\\"\n              }\n            },\n            \\"type\\": \\"object\\"\n          },\n          \\"url\\": \\"https://news.ycombinator.com\\",\n          \\"effort\\": \\"standard\\"\n        }"',
       },
     },
   },

@@ -38,7 +38,11 @@ export class Generate extends APIResource {
    * ```
    */
   json(body: GenerateJsonParams, options?: RequestOptions): APIPromise<GenerateJsonResponse> {
-    return this._client.post('/generate/json', { body, ...options });
+    return this._client.post('/generate/json', {
+      body,
+      timeout: (this._client as any)._options.timeout ?? 300000,
+      ...options,
+    });
   }
 }
 

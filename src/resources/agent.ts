@@ -43,6 +43,7 @@ export class Agent extends APIResource {
   automate(body: AgentAutomateParams, options?: RequestOptions): APIPromise<Stream<AutomateEvent>> {
     return this._client.post('/automate', {
       body,
+      timeout: (this._client as any)._options.timeout ?? 600000,
       ...options,
       headers: buildHeaders([{ Accept: 'text/event-stream' }, options?.headers]),
       stream: true,
@@ -112,6 +113,7 @@ export class Agent extends APIResource {
   research(body: AgentResearchParams, options?: RequestOptions): APIPromise<Stream<ResearchEvent>> {
     return this._client.post('/research', {
       body,
+      timeout: (this._client as any)._options.timeout ?? 600000,
       ...options,
       headers: buildHeaders([{ Accept: 'text/event-stream' }, options?.headers]),
       stream: true,
