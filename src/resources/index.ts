@@ -1,9 +1,12 @@
 // File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
+export * from './shared';
 export {
   Agent,
   type AutomateEvent,
   type ResearchEvent,
+  type V1GlobalBuffer,
+  type V1ResearchQuestionAssessment,
   type AgentAutomateInputResponse,
   type AgentAutomateParams,
   type AgentAutomateInputParams,

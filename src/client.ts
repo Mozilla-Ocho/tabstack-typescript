@@ -25,6 +25,8 @@ import {
   AgentResearchParams,
   AutomateEvent,
   ResearchEvent,
+  V1GlobalBuffer,
+  V1ResearchQuestionAssessment,
 } from './resources/agent';
 import {
   Extract,
@@ -762,6 +764,8 @@ export declare namespace Tabstack {
     Agent as Agent,
     type AutomateEvent as AutomateEvent,
     type ResearchEvent as ResearchEvent,
+    type V1GlobalBuffer as V1GlobalBuffer,
+    type V1ResearchQuestionAssessment as V1ResearchQuestionAssessment,
     type AgentAutomateInputResponse as AgentAutomateInputResponse,
     type AgentAutomateParams as AgentAutomateParams,
     type AgentAutomateInputParams as AgentAutomateInputParams,
@@ -781,4 +785,6 @@ export declare namespace Tabstack {
     type GenerateJsonResponse as GenerateJsonResponse,
     type GenerateJsonParams as GenerateJsonParams,
   };
+
+  export type GeotargetGeoTarget = API.GeotargetGeoTarget;
 }

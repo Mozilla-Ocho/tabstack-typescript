@@ -1,6 +1,7 @@
 // File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
 import { APIResource } from '../core/resource';
+import * as Shared from './shared';
 import { APIPromise } from '../core/api-promise';
 import { RequestOptions } from '../internal/request-options';
 
@@ -196,25 +197,12 @@ export interface ExtractJsonParams {
   /**
    * Optional geotargeting parameters for proxy requests
    */
-  geo_target?: ExtractJsonParams.GeoTarget;
+  geo_target?: Shared.GeotargetGeoTarget;
 
   /**
    * Bypass cache and force fresh data retrieval
    */
   nocache?: boolean;
-}
-
-export namespace ExtractJsonParams {
-  /**
-   * Optional geotargeting parameters for proxy requests
-   */
-  export interface GeoTarget {
-    /**
-     * Country code using ISO 3166-1 alpha-2 standard (2 letters, e.g., "US", "GB",
-     * "JP"). See: https://en.wikipedia.org/wiki/ISO_3166-1_alpha-2
-     */
-    country?: string;
-  }
 }
 
 export interface ExtractMarkdownParams {
@@ -233,7 +221,7 @@ export interface ExtractMarkdownParams {
   /**
    * Optional geotargeting parameters for proxy requests
    */
-  geo_target?: ExtractMarkdownParams.GeoTarget;
+  geo_target?: Shared.GeotargetGeoTarget;
 
   /**
    * Include extracted metadata (Open Graph and HTML metadata) as a separate field in
@@ -245,19 +233,6 @@ export interface ExtractMarkdownParams {
    * Bypass cache and force fresh data retrieval
    */
   nocache?: boolean;
-}
-
-export namespace ExtractMarkdownParams {
-  /**
-   * Optional geotargeting parameters for proxy requests
-   */
-  export interface GeoTarget {
-    /**
-     * Country code using ISO 3166-1 alpha-2 standard (2 letters, e.g., "US", "GB",
-     * "JP"). See: https://en.wikipedia.org/wiki/ISO_3166-1_alpha-2
-     */
-    country?: string;
-  }
 }
 
 export declare namespace Extract {
