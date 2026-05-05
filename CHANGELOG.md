@@ -1,5 +1,23 @@
 # Changelog
 
+## 2.6.1 (2026-05-05)
+
+Full Changelog: [v2.6.0...v2.6.1](https://github.com/Mozilla-Ocho/tabstack-typescript/compare/v2.6.0...v2.6.1)
+
+### Features
+
+* **api:** add endpoint specfic timeouts ([4d6bd2e](https://github.com/Mozilla-Ocho/tabstack-typescript/commit/4d6bd2ec28d2424f239fd7fc763e0ed394f43a51))
+* **api:** manual updates ([cc20909](https://github.com/Mozilla-Ocho/tabstack-typescript/commit/cc209097670fa44ec405ed1740681d4a12f50586))
+* **automate:** emit task:trace_context SSE event with trace ID ([51cc989](https://github.com/Mozilla-Ocho/tabstack-typescript/commit/51cc9894ca8b828dcfe5413e3cee66384b071149))
+* support setting headers via env ([dc80807](https://github.com/Mozilla-Ocho/tabstack-typescript/commit/dc80807af38c51ce4a041a6ba331c62897aace6d))
+
+
+### Chores
+
+* avoid formatting file that gets changed during releases ([8bcebec](https://github.com/Mozilla-Ocho/tabstack-typescript/commit/8bcebec347f5b03762e7ff725a3c19a4425c0d3b))
+* **format:** run eslint and prettier separately ([0d94d58](https://github.com/Mozilla-Ocho/tabstack-typescript/commit/0d94d58968327fc93081582f0e4aa52c73ef3a77))
+* **internal:** codegen related update ([8ee7235](https://github.com/Mozilla-Ocho/tabstack-typescript/commit/8ee7235bb02f5696aa8f0682b5c91d18a9755eac))
+
 ## 2.6.0 (2026-04-24)
 
 Full Changelog: [v2.5.0...v2.6.0](https://github.com/Mozilla-Ocho/tabstack-typescript/compare/v2.5.0...v2.6.0)
