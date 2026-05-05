@@ -1,6 +1,7 @@
 // File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
 import { APIResource } from '../core/resource';
+import * as Shared from './shared';
 import { APIPromise } from '../core/api-promise';
 import { RequestOptions } from '../internal/request-options';
 
@@ -74,25 +75,12 @@ export interface GenerateJsonParams {
   /**
    * Optional geotargeting parameters for proxy requests
    */
-  geo_target?: GenerateJsonParams.GeoTarget;
+  geo_target?: Shared.GeotargetGeoTarget;
 
   /**
    * Bypass cache and force fresh data retrieval
    */
   nocache?: boolean;
-}
-
-export namespace GenerateJsonParams {
-  /**
-   * Optional geotargeting parameters for proxy requests
-   */
-  export interface GeoTarget {
-    /**
-     * Country code using ISO 3166-1 alpha-2 standard (2 letters, e.g., "US", "GB",
-     * "JP"). See: https://en.wikipedia.org/wiki/ISO_3166-1_alpha-2
-     */
-    country?: string;
-  }
 }
 
 export declare namespace Generate {

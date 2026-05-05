@@ -1,6 +1,8 @@
 // File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
 import { APIResource } from '../core/resource';
+import * as AgentAPI from './agent';
+import * as Shared from './shared';
 import { APIPromise } from '../core/api-promise';
 import { Stream } from '../core/streaming';
 import { buildHeaders } from '../internal/headers';
@@ -488,7 +490,7 @@ export namespace AutomateEvent {
            * - data: a base64-encoded string, a Uint8Array, an ArrayBuffer, or a Buffer
            * - URL: a URL that points to the image
            */
-          image: string | Image.UnionMember1 | Image.ByteLength | Image.V1GlobalBuffer;
+          image: string | Image.UnionMember1 | Image.ByteLength | AgentAPI.V1GlobalBuffer;
 
           type: 'image';
 
@@ -538,26 +540,6 @@ export namespace AutomateEvent {
           export interface ByteLength {
             byteLength: number;
           }
-
-          export interface V1GlobalBuffer {
-            buffer: V1GlobalBuffer.Buffer;
-
-            byteLength: number;
-
-            byteOffset: number;
-
-            BYTES_PER_ELEMENT: number;
-
-            length: number;
-
-            [k: string]: number | V1GlobalBuffer.Buffer | undefined;
-          }
-
-          export namespace V1GlobalBuffer {
-            export interface Buffer {
-              byteLength: number;
-            }
-          }
         }
 
         /**
@@ -570,7 +552,7 @@ export namespace AutomateEvent {
            * - data: a base64-encoded string, a Uint8Array, an ArrayBuffer, or a Buffer
            * - URL: a URL that points to the image
            */
-          data: string | File.UnionMember1 | File.ByteLength | File.V1GlobalBuffer;
+          data: string | File.UnionMember1 | File.ByteLength | AgentAPI.V1GlobalBuffer;
 
           /**
            * IANA media type of the file.
@@ -624,26 +606,6 @@ export namespace AutomateEvent {
 
           export interface ByteLength {
             byteLength: number;
-          }
-
-          export interface V1GlobalBuffer {
-            buffer: V1GlobalBuffer.Buffer;
-
-            byteLength: number;
-
-            byteOffset: number;
-
-            BYTES_PER_ELEMENT: number;
-
-            length: number;
-
-            [k: string]: number | V1GlobalBuffer.Buffer | undefined;
-          }
-
-          export namespace V1GlobalBuffer {
-            export interface Buffer {
-              byteLength: number;
-            }
           }
         }
       }
@@ -726,7 +688,7 @@ export namespace AutomateEvent {
            * - data: a base64-encoded string, a Uint8Array, an ArrayBuffer, or a Buffer
            * - URL: a URL that points to the image
            */
-          data: string | File.UnionMember1 | File.ByteLength | File.V1GlobalBuffer;
+          data: string | File.UnionMember1 | File.ByteLength | AgentAPI.V1GlobalBuffer;
 
           /**
            * IANA media type of the file.
@@ -780,26 +742,6 @@ export namespace AutomateEvent {
 
           export interface ByteLength {
             byteLength: number;
-          }
-
-          export interface V1GlobalBuffer {
-            buffer: V1GlobalBuffer.Buffer;
-
-            byteLength: number;
-
-            byteOffset: number;
-
-            BYTES_PER_ELEMENT: number;
-
-            length: number;
-
-            [k: string]: number | V1GlobalBuffer.Buffer | undefined;
-          }
-
-          export namespace V1GlobalBuffer {
-            export interface Buffer {
-              byteLength: number;
-            }
           }
         }
 
@@ -3014,7 +2956,7 @@ export namespace ResearchEvent {
           /**
            * Assessment of each research question's status and findings
            */
-          questionAssessments: Array<GapEvaluation.QuestionAssessment>;
+          questionAssessments: Array<AgentAPI.V1ResearchQuestionAssessment>;
 
           /**
            * Research coverage level - assesses quality across all questions.
@@ -3057,29 +2999,6 @@ export namespace ResearchEvent {
            * - Omit or provide empty array if shouldContinueResearch is false
            */
           searchQueries?: Array<string>;
-        }
-
-        export namespace GapEvaluation {
-          /**
-           * Assessment of a single research question
-           */
-          export interface QuestionAssessment {
-            /**
-             * What we learned (if answered/partial) or what's missing (if unanswered)
-             */
-            findings: string;
-
-            /**
-             * The research question being assessed
-             */
-            question: string;
-
-            /**
-             * Status: answered (clear info), partial (some info, gaps remain), unanswered (no
-             * relevant info)
-             */
-            status: 'answered' | 'partial' | 'unanswered';
-          }
         }
 
         /**
@@ -3273,34 +3192,11 @@ export namespace ResearchEvent {
 
       nextQueries: Array<string>;
 
-      questionAssessments: Array<Data.QuestionAssessment>;
+      questionAssessments: Array<AgentAPI.V1ResearchQuestionAssessment>;
 
       shouldContinue: boolean;
 
       timestamp: number;
-    }
-
-    export namespace Data {
-      /**
-       * Assessment of a single research question
-       */
-      export interface QuestionAssessment {
-        /**
-         * What we learned (if answered/partial) or what's missing (if unanswered)
-         */
-        findings: string;
-
-        /**
-         * The research question being assessed
-         */
-        question: string;
-
-        /**
-         * Status: answered (clear info), partial (some info, gaps remain), unanswered (no
-         * relevant info)
-         */
-        status: 'answered' | 'partial' | 'unanswered';
-      }
     }
   }
 
@@ -3768,6 +3664,47 @@ export namespace ResearchEvent {
   }
 }
 
+export interface V1GlobalBuffer {
+  buffer: V1GlobalBuffer.Buffer;
+
+  byteLength: number;
+
+  byteOffset: number;
+
+  BYTES_PER_ELEMENT: number;
+
+  length: number;
+
+  [k: string]: number | V1GlobalBuffer.Buffer | undefined;
+}
+
+export namespace V1GlobalBuffer {
+  export interface Buffer {
+    byteLength: number;
+  }
+}
+
+/**
+ * Assessment of a single research question
+ */
+export interface V1ResearchQuestionAssessment {
+  /**
+   * What we learned (if answered/partial) or what's missing (if unanswered)
+   */
+  findings: string;
+
+  /**
+   * The research question being assessed
+   */
+  question: string;
+
+  /**
+   * Status: answered (clear info), partial (some info, gaps remain), unanswered (no
+   * relevant info)
+   */
+  status: 'answered' | 'partial' | 'unanswered';
+}
+
 export interface AgentAutomateInputResponse {
   status?: string;
 }
@@ -3786,7 +3723,7 @@ export interface AgentAutomateParams {
   /**
    * Optional geotargeting parameters for proxy requests
    */
-  geo_target?: AgentAutomateParams.GeoTarget;
+  geo_target?: Shared.GeotargetGeoTarget;
 
   /**
    * Safety constraints for execution
@@ -3812,19 +3749,6 @@ export interface AgentAutomateParams {
    * Starting URL for the task
    */
   url?: string;
-}
-
-export namespace AgentAutomateParams {
-  /**
-   * Optional geotargeting parameters for proxy requests
-   */
-  export interface GeoTarget {
-    /**
-     * Country code using ISO 3166-1 alpha-2 standard (2 letters, e.g., "US", "GB",
-     * "JP"). See: https://en.wikipedia.org/wiki/ISO_3166-1_alpha-2
-     */
-    country?: string;
-  }
 }
 
 export interface AgentAutomateInputParams {
@@ -3873,6 +3797,8 @@ export declare namespace Agent {
   export {
     type AutomateEvent as AutomateEvent,
     type ResearchEvent as ResearchEvent,
+    type V1GlobalBuffer as V1GlobalBuffer,
+    type V1ResearchQuestionAssessment as V1ResearchQuestionAssessment,
     type AgentAutomateInputResponse as AgentAutomateInputResponse,
     type AgentAutomateParams as AgentAutomateParams,
     type AgentAutomateInputParams as AgentAutomateInputParams,

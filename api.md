@@ -1,9 +1,17 @@
+# Shared
+
+Types:
+
+- <code><a href="./src/resources/shared.ts">GeotargetGeoTarget</a></code>
+
 # Agent
 
 Types:
 
 - <code><a href="./src/resources/agent.ts">AutomateEvent</a></code>
 - <code><a href="./src/resources/agent.ts">ResearchEvent</a></code>
+- <code><a href="./src/resources/agent.ts">V1GlobalBuffer</a></code>
+- <code><a href="./src/resources/agent.ts">V1ResearchQuestionAssessment</a></code>
 - <code><a href="./src/resources/agent.ts">AgentAutomateInputResponse</a></code>
 
 Methods:
