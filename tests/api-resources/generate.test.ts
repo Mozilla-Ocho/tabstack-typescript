@@ -12,7 +12,7 @@ describe('resource generate', () => {
   test.skip('json: only required params', async () => {
     const responsePromise = client.generate.json({
       instructions:
-        "For each story, categorize it (tech/business/science/other) and write a one-sentence summary explaining what it's about in simple terms.",
+        'For each story, categorize it (tech/business/science/other) and write a one-sentence summary describing the story in simple terms.',
       json_schema: {
         properties: {
           summaries: {
@@ -44,7 +44,7 @@ describe('resource generate', () => {
   test.skip('json: required and optional params', async () => {
     const response = await client.generate.json({
       instructions:
-        "For each story, categorize it (tech/business/science/other) and write a one-sentence summary explaining what it's about in simple terms.",
+        'For each story, categorize it (tech/business/science/other) and write a one-sentence summary describing the story in simple terms.',
       json_schema: {
         properties: {
           summaries: {

@@ -14,7 +14,7 @@ export class Generate extends APIResource {
    * ```ts
    * const response = await client.generate.json({
    *   instructions:
-   *     "For each story, categorize it (tech/business/science/other) and write a one-sentence summary explaining what it's about in simple terms.",
+   *     'For each story, categorize it (tech/business/science/other) and write a one-sentence summary describing the story in simple terms.',
    *   json_schema: {
    *     properties: {
    *       summaries: {
