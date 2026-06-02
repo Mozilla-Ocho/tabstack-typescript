@@ -32,6 +32,8 @@ describe('resource agent', () => {
       interactive: false,
       maxIterations: 50,
       maxValidationAttempts: 3,
+      trusted_hostnames: ['string'],
+      unsafe_mode: false,
       url: 'https://github.com/trending',
     });
   });
