@@ -3746,6 +3746,22 @@ export interface AgentAutomateParams {
   maxValidationAttempts?: number;
 
   /**
+   * TrustedHostnames lists hostnames where the action firewall is bypassed for fills
+   * and submissions. WARNING: on listed hosts, prompt injection from page content
+   * can drive the agent to fill and submit any field, including personal and
+   * credential data. Use only for sites you fully trust to receive your data.
+   */
+  trusted_hostnames?: Array<string>;
+
+  /**
+   * UnsafeMode disables the action firewall entirely. WARNING: prompt injection from
+   * page content can then cause the agent to submit your data, including
+   * credentials, personal information, and conversation context, to
+   * attacker-controlled forms. Only enable for trusted, controlled environments.
+   */
+  unsafe_mode?: boolean;
+
+  /**
    * Starting URL for the task
    */
   url?: string;
