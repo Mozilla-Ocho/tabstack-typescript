@@ -80,6 +80,7 @@ describe('resource extract', () => {
   test.skip('markdown: required and optional params', async () => {
     const response = await client.extract.markdown({
       url: 'https://example.com/blog/article',
+      content: 'main',
       effort: 'standard',
       geo_target: { country: 'US' },
       metadata: true,
