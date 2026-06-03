@@ -220,6 +220,12 @@ export interface ExtractMarkdownParams {
   url: string;
 
   /**
+   * Content scope. "main" (default) returns the main article content; "full" returns
+   * the whole page, including navigation, footer, and links.
+   */
+  content?: 'main' | 'full';
+
+  /**
    * Fetch effort level controlling speed vs. capability tradeoff. "min": fastest, no
    * fallback (1-5s). "standard": balanced with enhanced reliability (default,
    * 3-15s). "max": full browser rendering for JS-heavy sites (15-60s).
