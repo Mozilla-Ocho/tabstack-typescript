@@ -1,5 +1,37 @@
 # Changelog
 
+## 2.7.0 (2026-07-17)
+
+Full Changelog: [v2.6.1...v2.7.0](https://github.com/Mozilla-Ocho/tabstack-typescript/compare/v2.6.1...v2.7.0)
+
+### Features
+
+* **api:** api update ([9e4dcca](https://github.com/Mozilla-Ocho/tabstack-typescript/commit/9e4dcca4cb35a53e127287a4670073ff6e5df6bd))
+* **api:** manual updates ([b2d94be](https://github.com/Mozilla-Ocho/tabstack-typescript/commit/b2d94be2d1c7ff56b941dcefad473441eb81c9d2))
+* **automate:** expose trusted_hostnames and unsafe_mode (TAB-980) ([7b9f402](https://github.com/Mozilla-Ocho/tabstack-typescript/commit/7b9f40295226992653113ae8a749c12e1b3286b1))
+* **stlc:** configurable CI runner and private-production-repo support in workflow templates ([baf877a](https://github.com/Mozilla-Ocho/tabstack-typescript/commit/baf877a49514cdeae2ee6adddca9d644dcc8d60e))
+* TAB-991 Add content (main/full) param to /extract/markdown ([9f407c5](https://github.com/Mozilla-Ocho/tabstack-typescript/commit/9f407c56f093f323cbea60b05c4f59f9b87ad948))
+
+
+### Bug Fixes
+
+* **ci:** bump @arethetypeswrong/cli to ^0.18.0 and run CI workflows on Node 24 ([eb255b8](https://github.com/Mozilla-Ocho/tabstack-typescript/commit/eb255b8c10eaac8b88e0c95c13bcb39696fa061d))
+* **client:** send content-type header for requests with an omitted optional body ([e805738](https://github.com/Mozilla-Ocho/tabstack-typescript/commit/e805738dab499a6dcc6639661732f35836081c6d))
+* **typescript:** upgrade tsc-multi so that it works with Node 26 ([209e0a8](https://github.com/Mozilla-Ocho/tabstack-typescript/commit/209e0a8af0ddcc2f24b28ec7aaf37d5322736ba2))
+
+
+### Chores
+
+* configure new SDK language ([52e286e](https://github.com/Mozilla-Ocho/tabstack-typescript/commit/52e286e1df678e34f17c1db802e730ed4623734a))
+* redact api-key headers in debug logs ([bca22fc](https://github.com/Mozilla-Ocho/tabstack-typescript/commit/bca22fc3f0b423fe733ebbe0cbf98c29ab4f390b))
+* **tests:** remove redundant File import ([bfbcf1c](https://github.com/Mozilla-Ocho/tabstack-typescript/commit/bfbcf1cab6b5cc6694d6fe04dba17683d212284b))
+
+
+### Documentation
+
+* **generate:** remove apostrophe from instructions example ([6cadd20](https://github.com/Mozilla-Ocho/tabstack-typescript/commit/6cadd2057bd1dfd85afe616f6efd37ec5029beaf))
+* update http mcp docs ([5f803be](https://github.com/Mozilla-Ocho/tabstack-typescript/commit/5f803bed938816448ef059e184d02d6f880d1faf))
+
 ## 2.6.1 (2026-05-05)
 
 Full Changelog: [v2.6.0...v2.6.1](https://github.com/Mozilla-Ocho/tabstack-typescript/compare/v2.6.0...v2.6.1)
