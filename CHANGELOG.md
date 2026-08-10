@@ -1,5 +1,16 @@
 # Changelog
 
+## [2.7.1](https://github.com/Mozilla-Ocho/tabstack-typescript/compare/v2.7.0...v2.7.1) (2026-08-10)
+
+
+### Bug Fixes
+
+* **ci:** build release-please with pnpm instead of npm -g (TAB-1192) ([#24](https://github.com/Mozilla-Ocho/tabstack-typescript/issues/24)) ([7cb4c29](https://github.com/Mozilla-Ocho/tabstack-typescript/commit/7cb4c29327b399b9f30be808e73fd675da42f190))
+* **ci:** build release-please with pnpm instead of npm -g (TAB-1192) ([#25](https://github.com/Mozilla-Ocho/tabstack-typescript/issues/25)) ([0db5767](https://github.com/Mozilla-Ocho/tabstack-typescript/commit/0db576783c00d62d96d632c1b9b2e517b98039e4))
+* **ci:** build release-please with pnpm instead of npm -g (TAB-1192) ([#25](https://github.com/Mozilla-Ocho/tabstack-typescript/issues/25)) ([2dcbd45](https://github.com/Mozilla-Ocho/tabstack-typescript/commit/2dcbd458d50f55954e8abb402a2f47a40a18750c))
+* **ci:** install pnpm directly for the release-please build (TAB-1192) ([#26](https://github.com/Mozilla-Ocho/tabstack-typescript/issues/26)) ([8f13833](https://github.com/Mozilla-Ocho/tabstack-typescript/commit/8f13833566addeb0c0353e3a6bb998203023e4cd))
+* **ci:** install pnpm directly for the release-please build (TAB-1192) ([#27](https://github.com/Mozilla-Ocho/tabstack-typescript/issues/27)) ([2b43b76](https://github.com/Mozilla-Ocho/tabstack-typescript/commit/2b43b7641e32d18b7c08094edb1852c5921619f7))
+
 ## 2.7.0 (2026-07-17)
 
 Full Changelog: [v2.6.1...v2.7.0](https://github.com/Mozilla-Ocho/tabstack-typescript/compare/v2.6.1...v2.7.0)
