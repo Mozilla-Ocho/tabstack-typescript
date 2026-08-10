@@ -1,0 +1,61 @@
+# Opens and updates the release PR, and creates the GitHub release once that PR
+# merges. This replaces Stainless's hosted release-please, which stopped with
+# their shutdown.
+#
+# It runs Stainless's fork of release-please rather than googleapis/release-please
+# because release-please-config.json relies on --changes-branch, which only the
+# fork supports: conventional commits are read from `next` while the release
+# lands on `main`.
+name: Release Please
+
+# This file lives on both `main` and `next`. A push only runs the workflow file
+# as it exists on the pushed branch, and workflow_dispatch is only offered on the
+# default branch, so both copies are needed: `next` keeps the release PR current,
+# `main` cuts the release when that PR merges. Release PRs carry next's commits
+# onto main, so the two copies stay in sync on their own.
+on:
+  push:
+    branches:
+      - main
+      - next
+  workflow_dispatch:
+
+permissions:
+  contents: write
+  pull-requests: write
+
+jobs:
+  release-please:
+    name: release-please
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
+        with:
+          fetch-depth: 0
+
+      - name: Set up Node
+        uses: actions/setup-node@3235b876344d2a9aa001b8d1453c930bba69e610 # v3.9.1
+        with:
+          node-version: '20'
+
+      - name: Install release-please
+        run: npm install -g 'git+https://github.com/stainless-api/release-please.git#a116e1e520e0f87824acf46a2e79c91d41e819d7'
+
+      # A release created with GITHUB_TOKEN does not trigger other workflows, so
+      # publish-npm.yml will not fire on its own. Add a RELEASE_PLEASE_TOKEN
+      # secret to get automatic publishing; without one, publish by dispatching
+      # publish-npm.yml manually after the release appears.
+      - name: Create the GitHub release
+        run: |
+          release-please github-release \
+            --repo-url='${{ github.repository }}' \
+            --target-branch=main \
+            --token='${{ secrets.RELEASE_PLEASE_TOKEN || secrets.GITHUB_TOKEN }}'
+
+      - name: Open or update the release PR
+        run: |
+          release-please release-pr \
+            --repo-url='${{ github.repository }}' \
+            --target-branch=main \
+            --changes-branch=next \
+            --token='${{ secrets.RELEASE_PLEASE_TOKEN || secrets.GITHUB_TOKEN }}'
