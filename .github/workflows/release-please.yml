@@ -133,11 +133,20 @@ jobs:
             publish=publish-pypi.yml
           fi
 
+          short=$(echo '${{ github.repository }}' | cut -d/ -f2)
           fence='```'
           {
             echo "Release **$version** is prepared on \`$branch\`. The version bump and changelog are already committed there."
             echo
-            echo "This org does not allow GitHub Actions to create pull requests, so a person has to open it:"
+            echo "This org does not allow GitHub Actions to create pull requests, so a person has to open it. From a \`tabstack-api-docs\` checkout:"
+            echo
+            echo "$fence"
+            echo "node scripts/open-sdk-release.mjs $short"
+            echo "$fence"
+            echo
+            echo "That finds the branch and version itself and applies the required label. Add \`--dry-run\` to see what it would do."
+            echo
+            echo "<details><summary>Without that checkout</summary>"
             echo
             echo "$fence"
             echo "gh pr create --repo ${{ github.repository }} --base main \\"
@@ -148,6 +157,8 @@ jobs:
             echo "$fence"
             echo
             echo "The \`autorelease: pending\` label is required: \`github-release\` uses it to find the merged PR, and without it the release is silently skipped."
+            echo
+            echo "</details>"
             echo
             echo "Merging that PR creates the tag and GitHub release automatically. Publishing needs one more command, because a release created with \`GITHUB_TOKEN\` does not trigger other workflows:"
             echo
