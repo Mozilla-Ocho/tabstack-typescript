@@ -1,5 +1,48 @@
 # Changelog
 
+## [2.8.0](https://github.com/Mozilla-Ocho/tabstack-typescript/compare/v2.7.1...v2.8.0) (2026-08-10)
+
+
+### Features
+
+* **ci:** cut releases automatically, without a pull request (TAB-1192) ([#37](https://github.com/Mozilla-Ocho/tabstack-typescript/issues/37)) ([bdb3636](https://github.com/Mozilla-Ocho/tabstack-typescript/commit/bdb3636c38829a8e3e229fdb6500354765602999))
+* **ci:** cut releases automatically, without a pull request (TAB-1192) ([#38](https://github.com/Mozilla-Ocho/tabstack-typescript/issues/38)) ([903799e](https://github.com/Mozilla-Ocho/tabstack-typescript/commit/903799ec644d54cc0855ca6018d69d610e23942f))
+
+
+### Bug Fixes
+
+* **ci:** assign the release issue to whoever pushed (TAB-1192) ([#31](https://github.com/Mozilla-Ocho/tabstack-typescript/issues/31)) ([a3819d8](https://github.com/Mozilla-Ocho/tabstack-typescript/commit/a3819d82f6cd99872fba64481fb2639d015ae5f5))
+* **ci:** assign the release issue to whoever pushed (TAB-1192) ([#32](https://github.com/Mozilla-Ocho/tabstack-typescript/issues/32)) ([926bd10](https://github.com/Mozilla-Ocho/tabstack-typescript/commit/926bd104d7ddbfa6fdddfb18d0b51cbf0f6ca888))
+* **ci:** make the release pipeline usable end to end (TAB-1192) ([#28](https://github.com/Mozilla-Ocho/tabstack-typescript/issues/28)) ([46c6740](https://github.com/Mozilla-Ocho/tabstack-typescript/commit/46c674019fb2e1f301f62b7be28053aca0844874))
+* **ci:** make the release pipeline usable end to end (TAB-1192) ([#29](https://github.com/Mozilla-Ocho/tabstack-typescript/issues/29)) ([f69e0fb](https://github.com/Mozilla-Ocho/tabstack-typescript/commit/f69e0fb13f9f25fb05db1ba2d51572be9bef2d7b))
+* **ci:** merge the release branch onto main instead of pushing it (TAB-1192) ([#39](https://github.com/Mozilla-Ocho/tabstack-typescript/issues/39)) ([d31fdb7](https://github.com/Mozilla-Ocho/tabstack-typescript/commit/d31fdb7ffaad3bf25b1587bb1fa4ad8a191a75ee))
+* **ci:** merge the release branch onto main instead of pushing it (TAB-1192) ([#40](https://github.com/Mozilla-Ocho/tabstack-typescript/issues/40)) ([5534cfe](https://github.com/Mozilla-Ocho/tabstack-typescript/commit/5534cfeb3255c3b18c9d977255e7a05316ddbc35))
+* **ci:** publish only the root package to npm (TAB-1192) ([#35](https://github.com/Mozilla-Ocho/tabstack-typescript/issues/35)) ([cdef870](https://github.com/Mozilla-Ocho/tabstack-typescript/commit/cdef87016bda296214c4749c9adeeec32722701a))
+* **ci:** publish only the root package to npm (TAB-1192) ([#36](https://github.com/Mozilla-Ocho/tabstack-typescript/issues/36)) ([252e08c](https://github.com/Mozilla-Ocho/tabstack-typescript/commit/252e08cad798d5e9314ca1b43c03fe02fc9da828))
+* **ci:** stop the sync skipping on a matching manifest version (TAB-1192) ([#49](https://github.com/Mozilla-Ocho/tabstack-typescript/issues/49)) ([5c4c5d9](https://github.com/Mozilla-Ocho/tabstack-typescript/commit/5c4c5d98e0a7d35bee6b4937b3d0c78df9a33946))
+* **ci:** stop the sync skipping on a matching manifest version (TAB-1192) ([#50](https://github.com/Mozilla-Ocho/tabstack-typescript/issues/50)) ([6860d7f](https://github.com/Mozilla-Ocho/tabstack-typescript/commit/6860d7f4d68fef2e997902bcb4558bdc418b567c))
+* **ci:** sync every release-managed file back to next (TAB-1192) ([#47](https://github.com/Mozilla-Ocho/tabstack-typescript/issues/47)) ([95a1ba8](https://github.com/Mozilla-Ocho/tabstack-typescript/commit/95a1ba8b241d1380769c46707d4f3bc3a3c1ad31))
+* **ci:** use --add-assignee when editing the release issue (TAB-1192) ([#33](https://github.com/Mozilla-Ocho/tabstack-typescript/issues/33)) ([43da4b8](https://github.com/Mozilla-Ocho/tabstack-typescript/commit/43da4b83c0dad0189704e481ce4c54f00cf3f7e5))
+* **ci:** use --add-assignee when editing the release issue (TAB-1192) ([#34](https://github.com/Mozilla-Ocho/tabstack-typescript/issues/34)) ([0a754fe](https://github.com/Mozilla-Ocho/tabstack-typescript/commit/0a754fe5f104d81591e2c92fd261e0d376c28785))
+
+
+### Reverts
+
+* **ci:** restore the issue-driven release flow (TAB-1192) ([#41](https://github.com/Mozilla-Ocho/tabstack-typescript/issues/41)) ([cb93203](https://github.com/Mozilla-Ocho/tabstack-typescript/commit/cb932038a3a51fa8944fa9e2c7af4e5a18ba8939))
+* **ci:** restore the issue-driven release flow (TAB-1192) ([#42](https://github.com/Mozilla-Ocho/tabstack-typescript/issues/42)) ([f0f6463](https://github.com/Mozilla-Ocho/tabstack-typescript/commit/f0f6463ba726a191deee7fab838d58ed97f48249))
+
+
+### Chores
+
+* sync release 2.7.1 to next ([97ba376](https://github.com/Mozilla-Ocho/tabstack-typescript/commit/97ba376ba230db340cd6db85fb15f0b6158d42c0))
+* sync release manifest to next (2.7.1) ([0660d96](https://github.com/Mozilla-Ocho/tabstack-typescript/commit/0660d96e0cf422df29f763497881247a5cbddb36))
+
+
+### Documentation
+
+* **ci:** point the release issue at the release script (TAB-1192) ([#44](https://github.com/Mozilla-Ocho/tabstack-typescript/issues/44)) ([477eb92](https://github.com/Mozilla-Ocho/tabstack-typescript/commit/477eb92935b5a7710b45e58d950e1925e4837c57))
+* **ci:** point the release issue at the release script (TAB-1192) ([#45](https://github.com/Mozilla-Ocho/tabstack-typescript/issues/45)) ([eb2a8a2](https://github.com/Mozilla-Ocho/tabstack-typescript/commit/eb2a8a203ea1230314e80495ba4a1ff7286274ae))
+
 ## [2.7.1](https://github.com/Mozilla-Ocho/tabstack-typescript/compare/v2.7.0...v2.7.1) (2026-08-10)
 
 
