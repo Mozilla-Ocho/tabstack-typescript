@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.8.1](https://github.com/Mozilla-Ocho/tabstack-typescript/compare/v2.8.0...v2.8.1) (2026-08-10)
+
+
+### Chores
+
+* sync release 2.8.0 to next ([83d6bde](https://github.com/Mozilla-Ocho/tabstack-typescript/commit/83d6bde07170ec9a3fca53509ea7e8ba39937958))
+
 ## [2.8.0](https://github.com/Mozilla-Ocho/tabstack-typescript/compare/v2.7.1...v2.8.0) (2026-08-10)
 
 
