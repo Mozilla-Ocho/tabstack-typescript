@@ -81,23 +81,52 @@ jobs:
       # the changes branch, but a release only bumps it on main. Without this, next
       # keeps its old version and every subsequent run re-proposes a version that
       # has already shipped. Stainless's bot did this step; it is not optional.
-      - name: Sync the release manifest back to next
+      - name: Sync the release version back to next
         if: github.ref == 'refs/heads/main'
         run: |
           git fetch --quiet origin main next
-          main_version=$(git show origin/main:.release-please-manifest.json | jq -r '.["."]')
-          next_version=$(git show origin/next:.release-please-manifest.json | jq -r '.["."]')
+          main_version=$(git show refs/remotes/origin/main:.release-please-manifest.json | jq -r '.["."]')
+          next_version=$(git show refs/remotes/origin/next:.release-please-manifest.json | jq -r '.["."]')
           if [ "$main_version" = "$next_version" ]; then
             echo "next already at $next_version, nothing to sync"
             exit 0
           fi
+
+          # Every file release-please rewrites on a release, not just the manifest.
+          # Syncing the manifest alone leaves package.json, the version module and
+          # the changelog stale on next, and the next release branch then conflicts
+          # with main on all of them. Read the list from the config so it stays
+          # correct if the config changes.
+          files=".release-please-manifest.json CHANGELOG.md"
+          if [ -f package.json ]; then
+            files="$files package.json"
+          else
+            files="$files pyproject.toml"
+          fi
+          extra=$(jq -r '.["extra-files"][]? | if type == "string" then . else .path end' \
+            release-please-config.json)
+          files="$files $extra"
+
           echo "syncing next from $next_version to $main_version"
-          git checkout --quiet -B next origin/next
-          git show origin/main:.release-please-manifest.json > .release-please-manifest.json
+          git checkout --quiet -B next refs/remotes/origin/next
+          synced=""
+          for f in $files; do
+            if git cat-file -e "refs/remotes/origin/main:$f" 2>/dev/null; then
+              git show "refs/remotes/origin/main:$f" > "$f"
+              synced="$synced $f"
+            else
+              echo "not on main, skipping: $f"
+            fi
+          done
+
+          git add -- $synced
+          if git diff --cached --quiet; then
+            echo "no differences to sync"
+            exit 0
+          fi
           git -c user.name='github-actions[bot]' \
               -c user.email='41898282+github-actions[bot]@users.noreply.github.com' \
-              commit --quiet -m "chore: sync release manifest to next ($main_version)" \
-              .release-please-manifest.json
+              commit --quiet -m "chore: sync release $main_version to next"
           git push --quiet origin next
 
       # Fails with 403 when it has to create the PR, because the org forbids it.
