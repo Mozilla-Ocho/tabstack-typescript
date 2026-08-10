@@ -6,13 +6,19 @@
 # because release-please-config.json relies on --changes-branch, which only the
 # fork supports: conventional commits are read from `next` while the release
 # lands on `main`.
-name: Release Please
-
+#
+# The fork is built with pnpm and its own lockfile rather than installed with
+# `npm install -g git+...`. npm's git-dep preparation resolves a newer TypeScript
+# than the fork's tsconfig allows and the build fails on
+# `moduleResolution=node10`.
+#
 # This file lives on both `main` and `next`. A push only runs the workflow file
 # as it exists on the pushed branch, and workflow_dispatch is only offered on the
 # default branch, so both copies are needed: `next` keeps the release PR current,
 # `main` cuts the release when that PR merges. Release PRs carry next's commits
 # onto main, so the two copies stay in sync on their own.
+name: Release Please
+
 on:
   push:
     branches:
@@ -24,6 +30,9 @@ permissions:
   contents: write
   pull-requests: write
 
+env:
+  RELEASE_PLEASE_REF: a116e1e520e0f87824acf46a2e79c91d41e819d7
+
 jobs:
   release-please:
     name: release-please
@@ -33,28 +42,38 @@ jobs:
         with:
           fetch-depth: 0
 
+      - name: Set up pnpm
+        uses: pnpm/action-setup@b906affcce14559ad1aafd4ab0e942779e9f58b1 # v4.3.0
+
       - name: Set up Node
         uses: actions/setup-node@3235b876344d2a9aa001b8d1453c930bba69e610 # v3.9.1
         with:
           node-version: '20'
 
-      - name: Install release-please
-        run: npm install -g 'git+https://github.com/stainless-api/release-please.git#a116e1e520e0f87824acf46a2e79c91d41e819d7'
+      - name: Build release-please
+        run: |
+          git clone --quiet https://github.com/stainless-api/release-please.git "$RUNNER_TEMP/release-please"
+          git -C "$RUNNER_TEMP/release-please" checkout --quiet "$RELEASE_PLEASE_REF"
+          pnpm --dir "$RUNNER_TEMP/release-please" install --frozen-lockfile
+          pnpm --dir "$RUNNER_TEMP/release-please" run build
 
       # A release created with GITHUB_TOKEN does not trigger other workflows, so
-      # publish-npm.yml will not fire on its own. Add a RELEASE_PLEASE_TOKEN
+      # the publish workflow will not fire on its own. Add a RELEASE_PLEASE_TOKEN
       # secret to get automatic publishing; without one, publish by dispatching
-      # publish-npm.yml manually after the release appears.
+      # that workflow manually after the release appears.
+      #
+      # --changes-branch is not accepted by github-release, only by release-pr,
+      # and the CLI runs yargs in strict mode, so passing it here would fail.
       - name: Create the GitHub release
         run: |
-          release-please github-release \
+          node "$RUNNER_TEMP/release-please/build/src/bin/release-please.js" github-release \
             --repo-url='${{ github.repository }}' \
             --target-branch=main \
             --token='${{ secrets.RELEASE_PLEASE_TOKEN || secrets.GITHUB_TOKEN }}'
 
       - name: Open or update the release PR
         run: |
-          release-please release-pr \
+          node "$RUNNER_TEMP/release-please/build/src/bin/release-please.js" release-pr \
             --repo-url='${{ github.repository }}' \
             --target-branch=main \
             --changes-branch=next \
