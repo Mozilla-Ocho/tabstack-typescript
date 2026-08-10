@@ -32,6 +32,12 @@ permissions:
 
 env:
   RELEASE_PLEASE_REF: a116e1e520e0f87824acf46a2e79c91d41e819d7
+  # The version the fork itself declares in packageManager. pnpm/action-setup is
+  # not used: it needs a version from a root package.json, which tabstack-python
+  # does not have, and in tabstack-typescript it would clash with that repo's own
+  # packageManager pin. We are building the fork, so the fork's version is the
+  # one that matters.
+  PNPM_VERSION: 9.11.0
 
 jobs:
   release-please:
@@ -42,9 +48,6 @@ jobs:
         with:
           fetch-depth: 0
 
-      - name: Set up pnpm
-        uses: pnpm/action-setup@b906affcce14559ad1aafd4ab0e942779e9f58b1 # v4.3.0
-
       - name: Set up Node
         uses: actions/setup-node@3235b876344d2a9aa001b8d1453c930bba69e610 # v3.9.1
         with:
@@ -52,6 +55,7 @@ jobs:
 
       - name: Build release-please
         run: |
+          npm install -g "pnpm@$PNPM_VERSION"
           git clone --quiet https://github.com/stainless-api/release-please.git "$RUNNER_TEMP/release-please"
           git -C "$RUNNER_TEMP/release-please" checkout --quiet "$RELEASE_PLEASE_REF"
           pnpm --dir "$RUNNER_TEMP/release-please" install --frozen-lockfile
