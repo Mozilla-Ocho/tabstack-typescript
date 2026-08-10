@@ -28,7 +28,7 @@ export const newMcpServer = async ({
   new McpServer(
     {
       name: 'tabstack_sdk_api',
-      version: '2.7.1',
+      version: '2.8.0',
     },
     {
       instructions: await getInstructions({ stainlessApiKey, customInstructionsPath }),
