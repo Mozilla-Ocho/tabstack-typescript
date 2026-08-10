@@ -46,7 +46,12 @@ jobs:
         env:
           INPUT_PATH: ${{ github.event.inputs.path }}
 
+      # Only on a release event: workflow_dispatch has no github.event.release, so
+      # the tag argument is empty and this fails after npm publish has already
+      # succeeded. Manual dispatch is now the normal path, since a release created
+      # with GITHUB_TOKEN does not trigger this workflow.
       - name: Upload MCP Server DXT GitHub release asset
+        if: github.event_name == 'release'
         run: |
           gh release upload ${{ github.event.release.tag_name }} \
             packages/mcp-server/tabstack_sdk_api.mcpb
