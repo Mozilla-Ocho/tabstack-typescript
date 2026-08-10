@@ -101,9 +101,18 @@ jobs:
           fi
 
           echo "releasing $main_version -> $version"
-          # Fast-forward only. release-please branches off main, so this succeeds
-          # unless main moved underneath us, in which case failing is correct.
-          git push origin "refs/remotes/origin/$branch:refs/heads/main"
+          # The release branch is next plus the release commit, and main has its own
+          # history, so it cannot be fast-forwarded. Record a merge whose tree is
+          # taken wholesale from the release branch: main ends up with exactly next's
+          # content plus the version bump, with no conflict resolution to get wrong,
+          # and a real merge base for next time.
+          git checkout --quiet -B main refs/remotes/origin/main
+          git merge --quiet --no-commit --no-ff "refs/remotes/origin/$branch" || true
+          git read-tree --reset -u "refs/remotes/origin/$branch"
+          git -c user.name='github-actions[bot]' \
+              -c user.email='41898282+github-actions[bot]@users.noreply.github.com' \
+              commit --quiet -m "release: $version"
+          git push origin main
           gh release create "v$version" --repo '${{ github.repository }}' \
             --target main --title "v$version" --generate-notes
           echo "version=$version" >> "$GITHUB_OUTPUT"
