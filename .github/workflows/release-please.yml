@@ -164,17 +164,23 @@ jobs:
           # Assign whoever pushed, so this is delivered rather than merely filed.
           # Bots are skipped: codegen commits and this workflow's own manifest sync
           # would otherwise assign the release to github-actions.
+          # `gh issue create` spells this --assignee, `gh issue edit` --add-assignee.
+          create_args=()
+          edit_args=()
           actor='${{ github.actor }}'
           case "$actor" in
-            *'[bot]') set -- ;;
-            *) set -- --assignee "$actor" ;;
+            *'[bot]') ;;
+            *)
+              create_args=(--assignee "$actor")
+              edit_args=(--add-assignee "$actor")
+              ;;
           esac
 
           if [ -n "$existing" ]; then
             gh issue edit "$existing" --repo '${{ github.repository }}' \
-              --body-file "$RUNNER_TEMP/release-issue.md" "$@"
+              --body-file "$RUNNER_TEMP/release-issue.md" "${edit_args[@]}"
             echo "updated issue #$existing"
           else
             gh issue create --repo '${{ github.repository }}' --title "$title" \
-              --body-file "$RUNNER_TEMP/release-issue.md" "$@"
+              --body-file "$RUNNER_TEMP/release-issue.md" "${create_args[@]}"
           fi
