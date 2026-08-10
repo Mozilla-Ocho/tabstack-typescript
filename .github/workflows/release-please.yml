@@ -161,11 +161,20 @@ jobs:
           existing=$(gh issue list --repo '${{ github.repository }}' --state open \
             --search "$title in:title" --json number --jq '.[0].number')
 
+          # Assign whoever pushed, so this is delivered rather than merely filed.
+          # Bots are skipped: codegen commits and this workflow's own manifest sync
+          # would otherwise assign the release to github-actions.
+          actor='${{ github.actor }}'
+          case "$actor" in
+            *'[bot]') set -- ;;
+            *) set -- --assignee "$actor" ;;
+          esac
+
           if [ -n "$existing" ]; then
             gh issue edit "$existing" --repo '${{ github.repository }}' \
-              --body-file "$RUNNER_TEMP/release-issue.md"
+              --body-file "$RUNNER_TEMP/release-issue.md" "$@"
             echo "updated issue #$existing"
           else
             gh issue create --repo '${{ github.repository }}' --title "$title" \
-              --body-file "$RUNNER_TEMP/release-issue.md"
+              --body-file "$RUNNER_TEMP/release-issue.md" "$@"
           fi
