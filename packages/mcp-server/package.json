@@ -1,6 +1,6 @@
 {
   "name": "@tabstack/sdk-mcp",
-  "version": "2.7.0",
+  "version": "2.7.1",
   "description": "The official MCP Server for the Tabstack API",
   "author": "Tabstack <>",
   "types": "dist/index.d.ts",
