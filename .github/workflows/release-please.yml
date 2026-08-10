@@ -87,10 +87,12 @@ jobs:
           git fetch --quiet origin main next
           main_version=$(git show refs/remotes/origin/main:.release-please-manifest.json | jq -r '.["."]')
           next_version=$(git show refs/remotes/origin/next:.release-please-manifest.json | jq -r '.["."]')
-          if [ "$main_version" = "$next_version" ]; then
-            echo "next already at $next_version, nothing to sync"
-            exit 0
-          fi
+
+          # Deliberately not skipped when the manifest versions already match. They
+          # can agree while package.json and the version module still lag, which is
+          # precisely the state an earlier manifest-only sync left behind. The staged
+          # diff below is the only reliable test for whether there is work to do.
+          echo "main is at $main_version, next at $next_version"
 
           # Every file release-please rewrites on a release, not just the manifest.
           # Syncing the manifest alone leaves package.json, the version module and
