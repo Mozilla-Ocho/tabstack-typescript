@@ -1,11 +1,6 @@
-# Cuts releases automatically, with no pull request.
-#
-# The Mozilla-Ocho org forbids GitHub Actions from creating pull requests, so the
-# usual release-please flow — open a release PR, merge it, tag on merge — cannot
-# run here. Pushing commits and creating releases are both allowed, so this does
-# that instead: release-please prepares the version bump and changelog on its
-# release branch, that branch is fast-forwarded onto main, and the release is
-# created directly.
+# Opens and updates the release PR, and creates the GitHub release once that PR
+# merges. This replaces Stainless's hosted release-please, which stopped with
+# their shutdown.
 #
 # It runs Stainless's fork of release-please rather than googleapis/release-please
 # because release-please-config.json relies on --changes-branch, which only the
@@ -17,21 +12,29 @@
 # than the fork's tsconfig allows and the build fails on
 # `moduleResolution=node10`.
 #
-# Publishing is not done here. npm and PyPI trusted publishing is bound to a
-# specific workflow filename, so it has to stay in publish-npm.yml /
-# publish-pypi.yml.
+# This file lives on both `main` and `next`. A push only runs the workflow file
+# as it exists on the pushed branch, and workflow_dispatch is only offered on the
+# default branch, so both copies are needed: `next` keeps the release PR current,
+# `main` cuts the release when that PR merges.
+#
+# The Mozilla-Ocho org forbids GitHub Actions from creating pull requests, so the
+# release PR cannot be opened here. The branch, version bump and changelog are all
+# prepared automatically; a human runs one command to open the PR. When that
+# happens this workflow files an issue containing the exact command, so nobody has
+# to remember it or notice on their own that a release is waiting.
 name: Release Please
 
 on:
   push:
     branches:
+      - main
       - next
   workflow_dispatch:
 
 permissions:
   contents: write
   pull-requests: write
-  actions: write
+  issues: write
 
 env:
   RELEASE_PLEASE_REF: a116e1e520e0f87824acf46a2e79c91d41e819d7
@@ -44,8 +47,8 @@ env:
   GH_TOKEN: ${{ secrets.RELEASE_PLEASE_TOKEN || secrets.GITHUB_TOKEN }}
 
 jobs:
-  release:
-    name: release
+  release-please:
+    name: release-please
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
@@ -65,11 +68,44 @@ jobs:
           pnpm --dir "$RUNNER_TEMP/release-please" install --frozen-lockfile
           pnpm --dir "$RUNNER_TEMP/release-please" run build
 
-      # Prepares the release branch with the version bump and changelog. The final
-      # step of this command, opening the PR, always fails with 403 here because of
-      # the org policy. The branch is already written by then, so that failure is
-      # expected and ignored.
-      - name: Prepare the release branch
+      # --changes-branch is not accepted by github-release, only by release-pr,
+      # and the CLI runs yargs in strict mode, so passing it here would fail.
+      - name: Create the GitHub release
+        run: |
+          node "$RUNNER_TEMP/release-please/build/src/bin/release-please.js" github-release \
+            --repo-url='${{ github.repository }}' \
+            --target-branch=main \
+            --token="$GH_TOKEN"
+
+      # release-pr reads the current version from .release-please-manifest.json on
+      # the changes branch, but a release only bumps it on main. Without this, next
+      # keeps its old version and every subsequent run re-proposes a version that
+      # has already shipped. Stainless's bot did this step; it is not optional.
+      - name: Sync the release manifest back to next
+        if: github.ref == 'refs/heads/main'
+        run: |
+          git fetch --quiet origin main next
+          main_version=$(git show origin/main:.release-please-manifest.json | jq -r '.["."]')
+          next_version=$(git show origin/next:.release-please-manifest.json | jq -r '.["."]')
+          if [ "$main_version" = "$next_version" ]; then
+            echo "next already at $next_version, nothing to sync"
+            exit 0
+          fi
+          echo "syncing next from $next_version to $main_version"
+          git checkout --quiet -B next origin/next
+          git show origin/main:.release-please-manifest.json > .release-please-manifest.json
+          git -c user.name='github-actions[bot]' \
+              -c user.email='41898282+github-actions[bot]@users.noreply.github.com' \
+              commit --quiet -m "chore: sync release manifest to next ($main_version)" \
+              .release-please-manifest.json
+          git push --quiet origin next
+
+      # Fails with 403 when it has to create the PR, because the org forbids it.
+      # Updating an existing PR succeeds. Either way the branch, bump and changelog
+      # are already written, so this must not fail the run — the next step turns the
+      # failure into an actionable issue.
+      - name: Open or update the release PR
+        id: release_pr
         continue-on-error: true
         run: |
           node "$RUNNER_TEMP/release-please/build/src/bin/release-please.js" release-pr \
@@ -78,84 +114,73 @@ jobs:
             --changes-branch=next \
             --token="$GH_TOKEN"
 
-      - name: Release
-        id: release
+      - name: File an issue with the command to open the release PR
+        if: steps.release_pr.outcome == 'failure'
         run: |
           branch=$(git ls-remote --heads origin 'release-please--branches--main--changes--next*' \
             | head -1 | sed 's|.*refs/heads/||')
           if [ -z "$branch" ]; then
-            echo "no release branch prepared, nothing to release"
+            echo "no release branch prepared; nothing to announce"
             exit 0
           fi
-          git fetch --quiet origin "$branch" main
+          git fetch --quiet origin "$branch"
+          version=$(git show "origin/$branch:.release-please-manifest.json" | jq -r '.["."]')
+          title="Release $version is ready to open"
 
-          version=$(git show "refs/remotes/origin/$branch:.release-please-manifest.json" | jq -r '.["."]')
-          main_version=$(git show refs/remotes/origin/main:.release-please-manifest.json | jq -r '.["."]')
-          if [ "$version" = "$main_version" ]; then
-            echo "main is already at $version, nothing to release"
-            exit 0
-          fi
-          if gh release view "v$version" --repo '${{ github.repository }}' >/dev/null 2>&1; then
-            echo "v$version already released"
-            exit 0
-          fi
-
-          echo "releasing $main_version -> $version"
-          # The release branch is next plus the release commit, and main has its own
-          # history, so it cannot be fast-forwarded. Record a merge whose tree is
-          # taken wholesale from the release branch: main ends up with exactly next's
-          # content plus the version bump, with no conflict resolution to get wrong,
-          # and a real merge base for next time.
-          git checkout --quiet -B main refs/remotes/origin/main
-          git merge --quiet --no-commit --no-ff "refs/remotes/origin/$branch" || true
-          git read-tree --reset -u "refs/remotes/origin/$branch"
-          git -c user.name='github-actions[bot]' \
-              -c user.email='41898282+github-actions[bot]@users.noreply.github.com' \
-              commit --quiet -m "release: $version"
-          git push origin main
-          gh release create "v$version" --repo '${{ github.repository }}' \
-            --target main --title "v$version" --generate-notes
-          echo "version=$version" >> "$GITHUB_OUTPUT"
-          echo "released=true" >> "$GITHUB_OUTPUT"
-
-      # release-pr reads the current version from .release-please-manifest.json on
-      # the changes branch, but the release only bumps it on main. Without this,
-      # next keeps its old version and every later run re-proposes a version that
-      # has already shipped.
-      - name: Sync the release manifest back to next
-        if: steps.release.outputs.released == 'true'
-        run: |
-          git fetch --quiet origin main next
-          main_version=$(git show refs/remotes/origin/main:.release-please-manifest.json | jq -r '.["."]')
-          next_version=$(git show refs/remotes/origin/next:.release-please-manifest.json | jq -r '.["."]')
-          if [ "$main_version" = "$next_version" ]; then
-            echo "next already at $next_version"
-            exit 0
-          fi
-          git checkout --quiet -B next refs/remotes/origin/next
-          git show refs/remotes/origin/main:.release-please-manifest.json > .release-please-manifest.json
-          git -c user.name='github-actions[bot]' \
-              -c user.email='41898282+github-actions[bot]@users.noreply.github.com' \
-              commit --quiet -m "chore: sync release manifest to next ($main_version)" \
-              .release-please-manifest.json
-          git push --quiet origin next
-
-      # A release created with GITHUB_TOKEN does not trigger other workflows, so
-      # publish-*.yml will not have fired. Try to dispatch it. If GITHUB_TOKEN is
-      # not permitted to dispatch either, report what to run by hand rather than
-      # failing the release, which has already succeeded by this point.
-      - name: Publish
-        if: steps.release.outputs.released == 'true'
-        continue-on-error: true
-        run: |
           if [ -f package.json ]; then
             publish=publish-npm.yml
           else
             publish=publish-pypi.yml
           fi
-          if gh workflow run "$publish" --repo '${{ github.repository }}'; then
-            echo "dispatched $publish"
+
+          fence='```'
+          {
+            echo "Release **$version** is prepared on \`$branch\`. The version bump and changelog are already committed there."
+            echo
+            echo "This org does not allow GitHub Actions to create pull requests, so a person has to open it:"
+            echo
+            echo "$fence"
+            echo "gh pr create --repo ${{ github.repository }} --base main \\"
+            echo "  --head $branch \\"
+            echo "  --title \"release: $version\" \\"
+            echo "  --label \"autorelease: pending\" \\"
+            echo "  --body \"Automated release.\""
+            echo "$fence"
+            echo
+            echo "The \`autorelease: pending\` label is required: \`github-release\` uses it to find the merged PR, and without it the release is silently skipped."
+            echo
+            echo "Merging that PR creates the tag and GitHub release automatically. Publishing needs one more command, because a release created with \`GITHUB_TOKEN\` does not trigger other workflows:"
+            echo
+            echo "$fence"
+            echo "gh workflow run $publish --repo ${{ github.repository }}"
+            echo "$fence"
+            echo
+            echo "Close this by hand if you decide not to release."
+          } > "$RUNNER_TEMP/release-issue.md"
+
+          existing=$(gh issue list --repo '${{ github.repository }}' --state open \
+            --search "$title in:title" --json number --jq '.[0].number')
+
+          # Assign whoever pushed, so this is delivered rather than merely filed.
+          # Bots are skipped: codegen commits and this workflow's own manifest sync
+          # would otherwise assign the release to github-actions.
+          # `gh issue create` spells this --assignee, `gh issue edit` --add-assignee.
+          create_args=()
+          edit_args=()
+          actor='${{ github.actor }}'
+          case "$actor" in
+            *'[bot]') ;;
+            *)
+              create_args=(--assignee "$actor")
+              edit_args=(--add-assignee "$actor")
+              ;;
+          esac
+
+          if [ -n "$existing" ]; then
+            gh issue edit "$existing" --repo '${{ github.repository }}' \
+              --body-file "$RUNNER_TEMP/release-issue.md" "${edit_args[@]}"
+            echo "updated issue #$existing"
           else
-            echo "::warning::could not dispatch $publish; run: gh workflow run $publish --repo ${{ github.repository }}"
-            exit 1
+            gh issue create --repo '${{ github.repository }}' --title "$title" \
+              --body-file "$RUNNER_TEMP/release-issue.md" "${create_args[@]}"
           fi
