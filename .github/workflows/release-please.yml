@@ -148,6 +148,27 @@ jobs:
       # publishing never fires on its own. workflow_dispatch is an explicit
       # exception to that rule, so GITHUB_TOKEN can start it directly. Same repo
       # only, and it needs `actions: write` above.
+      # release-please files "Release X is ready to open" when it cannot create
+      # the PR, and nothing closed it once the release shipped — one dead issue
+      # per release, each telling you to do work already done. The release
+      # existing is the definitive done signal.
+      - name: Close the release issue
+        if: steps.github_release.outputs.released != ''
+        run: |
+          set -euo pipefail
+          version="${{ steps.github_release.outputs.released }}"
+          version="${version#v}"
+          num=$(gh issue list --repo '${{ github.repository }}' --state open \
+            --search "Release $version is ready to open in:title" \
+            --json number --jq '.[0].number // empty')
+          if [ -n "$num" ]; then
+            gh issue close "$num" --repo '${{ github.repository }}' \
+              --comment "Shipped — release $version is cut and publishing dispatched."
+            echo "closed #$num"
+          else
+            echo "no open release issue for $version"
+          fi
+
       - name: Publish the release
         if: steps.github_release.outputs.released != ''
         run: |
