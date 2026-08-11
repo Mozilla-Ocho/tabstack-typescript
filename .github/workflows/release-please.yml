@@ -1,0 +1,228 @@
+# Opens and updates the release PR, and creates the GitHub release once that PR
+# merges. This replaces Stainless's hosted release-please, which stopped with
+# their shutdown.
+#
+# It runs Stainless's fork of release-please rather than googleapis/release-please
+# because release-please-config.json relies on --changes-branch, which only the
+# fork supports: conventional commits are read from `next` while the release
+# lands on `main`.
+#
+# The fork is built with pnpm and its own lockfile rather than installed with
+# `npm install -g git+...`. npm's git-dep preparation resolves a newer TypeScript
+# than the fork's tsconfig allows and the build fails on
+# `moduleResolution=node10`.
+#
+# This file lives on both `main` and `next`. A push only runs the workflow file
+# as it exists on the pushed branch, and workflow_dispatch is only offered on the
+# default branch, so both copies are needed: `next` keeps the release PR current,
+# `main` cuts the release when that PR merges.
+#
+# The Mozilla-Ocho org forbids GitHub Actions from creating pull requests, so the
+# release PR cannot be opened here. The branch, version bump and changelog are all
+# prepared automatically; a human runs one command to open the PR. When that
+# happens this workflow files an issue containing the exact command, so nobody has
+# to remember it or notice on their own that a release is waiting.
+name: Release Please
+
+on:
+  push:
+    branches:
+      - main
+      - next
+  workflow_dispatch:
+
+permissions:
+  contents: write
+  pull-requests: write
+  issues: write
+
+env:
+  RELEASE_PLEASE_REF: a116e1e520e0f87824acf46a2e79c91d41e819d7
+  # The version the fork itself declares in packageManager. pnpm/action-setup is
+  # not used: it needs a version from a root package.json, which tabstack-python
+  # does not have, and in tabstack-typescript it would clash with that repo's own
+  # packageManager pin. We are building the fork, so the fork's version is the
+  # one that matters.
+  PNPM_VERSION: 9.11.0
+  GH_TOKEN: ${{ secrets.RELEASE_PLEASE_TOKEN || secrets.GITHUB_TOKEN }}
+
+jobs:
+  release-please:
+    name: release-please
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
+        with:
+          fetch-depth: 0
+
+      - name: Set up Node
+        uses: actions/setup-node@3235b876344d2a9aa001b8d1453c930bba69e610 # v3.9.1
+        with:
+          node-version: '20'
+
+      - name: Build release-please
+        run: |
+          npm install -g "pnpm@$PNPM_VERSION"
+          git clone --quiet https://github.com/stainless-api/release-please.git "$RUNNER_TEMP/release-please"
+          git -C "$RUNNER_TEMP/release-please" checkout --quiet "$RELEASE_PLEASE_REF"
+          pnpm --dir "$RUNNER_TEMP/release-please" install --frozen-lockfile
+          pnpm --dir "$RUNNER_TEMP/release-please" run build
+
+      # --changes-branch is not accepted by github-release, only by release-pr,
+      # and the CLI runs yargs in strict mode, so passing it here would fail.
+      - name: Create the GitHub release
+        run: |
+          node "$RUNNER_TEMP/release-please/build/src/bin/release-please.js" github-release \
+            --repo-url='${{ github.repository }}' \
+            --target-branch=main \
+            --token="$GH_TOKEN"
+
+      # release-pr reads the current version from .release-please-manifest.json on
+      # the changes branch, but a release only bumps it on main. Without this, next
+      # keeps its old version and every subsequent run re-proposes a version that
+      # has already shipped. Stainless's bot did this step; it is not optional.
+      - name: Sync the release version back to next
+        if: github.ref == 'refs/heads/main'
+        run: |
+          git fetch --quiet origin main next
+          main_version=$(git show refs/remotes/origin/main:.release-please-manifest.json | jq -r '.["."]')
+          next_version=$(git show refs/remotes/origin/next:.release-please-manifest.json | jq -r '.["."]')
+
+          # Deliberately not skipped when the manifest versions already match. They
+          # can agree while package.json and the version module still lag, which is
+          # precisely the state an earlier manifest-only sync left behind. The staged
+          # diff below is the only reliable test for whether there is work to do.
+          echo "main is at $main_version, next at $next_version"
+
+          # Every file release-please rewrites on a release, not just the manifest.
+          # Syncing the manifest alone leaves package.json, the version module and
+          # the changelog stale on next, and the next release branch then conflicts
+          # with main on all of them. Read the list from the config so it stays
+          # correct if the config changes.
+          files=".release-please-manifest.json CHANGELOG.md"
+          if [ -f package.json ]; then
+            files="$files package.json"
+          else
+            files="$files pyproject.toml"
+          fi
+          extra=$(jq -r '.["extra-files"][]? | if type == "string" then . else .path end' \
+            release-please-config.json)
+          files="$files $extra"
+
+          echo "syncing next from $next_version to $main_version"
+          git checkout --quiet -B next refs/remotes/origin/next
+          synced=""
+          for f in $files; do
+            if git cat-file -e "refs/remotes/origin/main:$f" 2>/dev/null; then
+              git show "refs/remotes/origin/main:$f" > "$f"
+              synced="$synced $f"
+            else
+              echo "not on main, skipping: $f"
+            fi
+          done
+
+          git add -- $synced
+          if git diff --cached --quiet; then
+            echo "no differences to sync"
+            exit 0
+          fi
+          git -c user.name='github-actions[bot]' \
+              -c user.email='41898282+github-actions[bot]@users.noreply.github.com' \
+              commit --quiet -m "chore: sync release $main_version to next"
+          git push --quiet origin next
+
+      # Fails with 403 when it has to create the PR, because the org forbids it.
+      # Updating an existing PR succeeds. Either way the branch, bump and changelog
+      # are already written, so this must not fail the run — the next step turns the
+      # failure into an actionable issue.
+      - name: Open or update the release PR
+        id: release_pr
+        continue-on-error: true
+        run: |
+          node "$RUNNER_TEMP/release-please/build/src/bin/release-please.js" release-pr \
+            --repo-url='${{ github.repository }}' \
+            --target-branch=main \
+            --changes-branch=next \
+            --token="$GH_TOKEN"
+
+      - name: File an issue with the command to open the release PR
+        if: steps.release_pr.outcome == 'failure'
+        run: |
+          branch=$(git ls-remote --heads origin 'release-please--branches--main--changes--next*' \
+            | head -1 | sed 's|.*refs/heads/||')
+          if [ -z "$branch" ]; then
+            echo "no release branch prepared; nothing to announce"
+            exit 0
+          fi
+          git fetch --quiet origin "$branch"
+          version=$(git show "origin/$branch:.release-please-manifest.json" | jq -r '.["."]')
+          title="Release $version is ready to open"
+
+          if [ -f package.json ]; then
+            publish=publish-npm.yml
+          else
+            publish=publish-pypi.yml
+          fi
+
+          short=$(echo '${{ github.repository }}' | cut -d/ -f2)
+          fence='```'
+          {
+            echo "Release **$version** is prepared on \`$branch\`. The version bump and changelog are already committed there."
+            echo
+            echo "This org does not allow GitHub Actions to create pull requests, so a person has to open it. From a \`tabstack-api-docs\` checkout:"
+            echo
+            echo "$fence"
+            echo "node scripts/open-sdk-release.mjs $short"
+            echo "$fence"
+            echo
+            echo "That finds the branch and version itself and applies the required label. Add \`--dry-run\` to see what it would do."
+            echo
+            echo "<details><summary>Without that checkout</summary>"
+            echo
+            echo "$fence"
+            echo "gh pr create --repo ${{ github.repository }} --base main \\"
+            echo "  --head $branch \\"
+            echo "  --title \"release: $version\" \\"
+            echo "  --label \"autorelease: pending\" \\"
+            echo "  --body \"Automated release.\""
+            echo "$fence"
+            echo
+            echo "The \`autorelease: pending\` label is required: \`github-release\` uses it to find the merged PR, and without it the release is silently skipped."
+            echo
+            echo "</details>"
+            echo
+            echo "Merging that PR creates the tag and GitHub release automatically. Publishing needs one more command, because a release created with \`GITHUB_TOKEN\` does not trigger other workflows:"
+            echo
+            echo "$fence"
+            echo "gh workflow run $publish --repo ${{ github.repository }}"
+            echo "$fence"
+            echo
+            echo "Close this by hand if you decide not to release."
+          } > "$RUNNER_TEMP/release-issue.md"
+
+          existing=$(gh issue list --repo '${{ github.repository }}' --state open \
+            --search "$title in:title" --json number --jq '.[0].number')
+
+          # Assign whoever pushed, so this is delivered rather than merely filed.
+          # Bots are skipped: codegen commits and this workflow's own manifest sync
+          # would otherwise assign the release to github-actions.
+          # `gh issue create` spells this --assignee, `gh issue edit` --add-assignee.
+          create_args=()
+          edit_args=()
+          actor='${{ github.actor }}'
+          case "$actor" in
+            *'[bot]') ;;
+            *)
+              create_args=(--assignee "$actor")
+              edit_args=(--add-assignee "$actor")
+              ;;
+          esac
+
+          if [ -n "$existing" ]; then
+            gh issue edit "$existing" --repo '${{ github.repository }}' \
+              --body-file "$RUNNER_TEMP/release-issue.md" "${edit_args[@]}"
+            echo "updated issue #$existing"
+          else
+            gh issue create --repo '${{ github.repository }}' --title "$title" \
+              --body-file "$RUNNER_TEMP/release-issue.md" "${create_args[@]}"
+          fi
