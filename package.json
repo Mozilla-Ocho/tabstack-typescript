@@ -1,6 +1,6 @@
 {
   "name": "@tabstack/sdk",
-  "version": "2.8.2",
+  "version": "2.8.3",
   "description": "The official TypeScript library for the Tabstack API",
   "author": "Tabstack <>",
   "types": "dist/index.d.ts",
