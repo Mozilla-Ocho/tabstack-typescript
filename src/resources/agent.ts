@@ -3804,7 +3804,7 @@ export interface AgentResearchParams {
   mode?: 'fast' | 'balanced';
 
   /**
-   * Skip cache and force fresh research
+   * Bypass cache and force fresh research
    */
   nocache?: boolean;
 }
