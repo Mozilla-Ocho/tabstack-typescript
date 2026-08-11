@@ -44,8 +44,8 @@ importers:
         specifier: ^29.4.0
         version: 29.7.0(@types/node@20.19.11)(ts-node@10.7.0(@swc/core@1.4.16)(@types/node@20.19.11)(typescript@5.8.3))
       prettier:
-        specifier: ^3.0.0
-        version: 3.1.1
+        specifier: ^3.9.6
+        version: 3.9.6
       publint:
         specifier: ^0.2.12
         version: 0.2.12
@@ -2722,10 +2722,10 @@ packages:
       }
     engines: { node: '>= 0.8.0' }
 
-  prettier@3.1.1:
+  prettier@3.9.6:
     resolution:
       {
-        integrity: sha512-22UbSzg8luF4UuZtzgiUOfcGM8s4tjBv6dJRT7j275NXsy2jb4aJa4NNveul5x4eqlF1wuhuR2RElK71RvmVaw==,
+        integrity: sha512-OpN0zzVdiaiAhxpuuj5efpIS4sY9j7bY6uR5mnj5yPzGkdkjNKSJeUThPb60Jw29QuAZgA4o+/iB49kFiaBX6g==,
       }
     engines: { node: '>=14' }
     hasBin: true
@@ -5199,7 +5199,7 @@ snapshots:
 
   prelude-ls@1.2.1: {}
 
-  prettier@3.1.1: {}
+  prettier@3.9.6: {}
 
   pretty-format@29.7.0:
     dependencies:
