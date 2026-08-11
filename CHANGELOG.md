@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.8.4](https://github.com/Mozilla-Ocho/tabstack-typescript/compare/v2.8.3...v2.8.4) (2026-08-11)
+
+
+### Bug Fixes
+
+* **api:** regenerate from spec 59ef8e7a ([#61](https://github.com/Mozilla-Ocho/tabstack-typescript/issues/61)) ([87278db](https://github.com/Mozilla-Ocho/tabstack-typescript/commit/87278db67c427615f751fc89fc0b69b77927e654))
+
 ## [2.8.3](https://github.com/Mozilla-Ocho/tabstack-typescript/compare/v2.8.2...v2.8.3) (2026-08-11)
 
 
