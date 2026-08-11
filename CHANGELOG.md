@@ -1,5 +1,17 @@
 # Changelog
 
+## [2.8.5](https://github.com/Mozilla-Ocho/tabstack-typescript/compare/v2.8.4...v2.8.5) (2026-08-11)
+
+
+### Bug Fixes
+
+* **ci:** close the release issue once the release is cut ([#64](https://github.com/Mozilla-Ocho/tabstack-typescript/issues/64)) ([0d5a849](https://github.com/Mozilla-Ocho/tabstack-typescript/commit/0d5a849854fd2b06f9a217287a563e8a22c1992c))
+
+
+### Chores
+
+* **deps:** bump prettier to 3.9.6 ([#65](https://github.com/Mozilla-Ocho/tabstack-typescript/issues/65)) ([4d2d4be](https://github.com/Mozilla-Ocho/tabstack-typescript/commit/4d2d4befd8eab0f43e8d7aa6057cf8ad3464ed39))
+
 ## [2.8.4](https://github.com/Mozilla-Ocho/tabstack-typescript/compare/v2.8.3...v2.8.4) (2026-08-11)
 
 
