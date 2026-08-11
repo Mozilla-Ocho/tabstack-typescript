@@ -35,6 +35,7 @@ permissions:
   contents: write
   pull-requests: write
   issues: write
+  actions: write # to dispatch the publish workflow below
 
 env:
   RELEASE_PLEASE_REF: a116e1e520e0f87824acf46a2e79c91d41e819d7
@@ -71,11 +72,37 @@ jobs:
       # --changes-branch is not accepted by github-release, only by release-pr,
       # and the CLI runs yargs in strict mode, so passing it here would fail.
       - name: Create the GitHub release
+        id: github_release
         run: |
+          before=$(gh release list --repo '${{ github.repository }}' --limit 1 \
+            --json tagName --jq '.[0].tagName // ""')
           node "$RUNNER_TEMP/release-please/build/src/bin/release-please.js" github-release \
             --repo-url='${{ github.repository }}' \
             --target-branch=main \
             --token="$GH_TOKEN"
+          after=$(gh release list --repo '${{ github.repository }}' --limit 1 \
+            --json tagName --jq '.[0].tagName // ""')
+          echo "before=$before after=$after"
+          if [ "$before" != "$after" ]; then
+            echo "released=$after" >> "$GITHUB_OUTPUT"
+          fi
+
+      # A release created with GITHUB_TOKEN does not emit a `release: published`
+      # event, so the publish workflow never fires on its own and someone has to
+      # dispatch it by hand. workflow_dispatch is an explicit exception to that
+      # rule though, so GITHUB_TOKEN *can* start it directly. Same repo only,
+      # and it needs `actions: write` above.
+      - name: Publish the release
+        if: steps.github_release.outputs.released != ''
+        run: |
+          set -euo pipefail
+          if [ -f .github/workflows/publish-npm.yml ]; then
+            publish=publish-npm.yml
+          else
+            publish=publish-pypi.yml
+          fi
+          echo "dispatching $publish for ${{ steps.github_release.outputs.released }}"
+          gh workflow run "$publish" --repo '${{ github.repository }}'
 
       # release-pr reads the current version from .release-please-manifest.json on
       # the changes branch, but a release only bumps it on main. Without this, next
