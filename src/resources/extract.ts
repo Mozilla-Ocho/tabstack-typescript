@@ -238,8 +238,7 @@ export interface ExtractMarkdownParams {
   geo_target?: Shared.GeotargetGeoTarget;
 
   /**
-   * Include extracted metadata (Open Graph and HTML metadata) as a separate field in
-   * the response
+   * Include Open Graph and HTML metadata as a separate field in the response
    */
   metadata?: boolean;
 
