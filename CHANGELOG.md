@@ -1,5 +1,18 @@
 # Changelog
 
+## [2.8.2](https://github.com/Mozilla-Ocho/tabstack-typescript/compare/v2.8.1...v2.8.2) (2026-08-11)
+
+
+### Bug Fixes
+
+* drop the mcp-server files the reconcile merge restored (TAB-1196) ([74d5e77](https://github.com/Mozilla-Ocho/tabstack-typescript/commit/74d5e77c9d997f959265e61a96d49c8350a0c9b9))
+
+
+### Chores
+
+* reconcile next with main after 2.8.1 ([d7c9e78](https://github.com/Mozilla-Ocho/tabstack-typescript/commit/d7c9e78cf2760f17df32eb32b0dc76ab1f487a49))
+* sync release 2.8.1 to next ([8c605b0](https://github.com/Mozilla-Ocho/tabstack-typescript/commit/8c605b0b6f28e2cd4690105d457f20b6fa71c64d))
+
 ## [2.8.1](https://github.com/Mozilla-Ocho/tabstack-typescript/compare/v2.8.0...v2.8.1) (2026-08-10)
 
 
