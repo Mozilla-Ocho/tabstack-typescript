@@ -63,7 +63,9 @@ export class Agent extends APIResource {
    * **Lifecycle:**
    *
    * - Input requests expire after 2 minutes by default
-   * - Expired or already-answered requests return `410 Gone`
+   * - Expired, already-answered, or unknown requests return `410 Gone`
+   * - A `requestID` belonging to another organization is not visible to you and
+   *   returns `410 Gone`
    * - Successful submissions return `202 Accepted` (fire-and-forget from caller's
    *   perspective)
    *
