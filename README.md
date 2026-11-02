@@ -55,9 +55,19 @@ const client = new Tabstack({
 
 const params: Tabstack.AgentAutomateParams = {
   task: 'Find the top 3 trending repositories and extract their names, descriptions, and star counts',
+  url: 'https://github.com/trending',
 };
-const automateEvent: Tabstack.AutomateEvent = await client.agent.automate(params);
+const stream = await client.agent.automate(params);
+
+for await (const event of stream) {
+  const automateEvent: Tabstack.AutomateEvent = event;
+  if (automateEvent.event === 'complete') {
+    console.log(automateEvent.data.finalAnswer);
+  }
+}
 ```
+
+`client.agent.automate()` and `client.agent.research()` always stream. They return a `Stream` of `AutomateEvent` or `ResearchEvent`, and the final result arrives in the `complete` event. Both unions include an `error` event, and `AutomateEvent` also ends with a `done` event.
 
 Documentation for each method, request param, and response field are available in docstrings and will appear on hover in most modern editors.
 
@@ -69,20 +79,35 @@ a subclass of `APIError` will be thrown:
 
 <!-- prettier-ignore -->
 ```ts
-const automateEvent = await client.agent
-  .automate({
+try {
+  const stream = await client.agent.automate({
     task: 'Find the top 3 trending repositories and extract their names, descriptions, and star counts',
-  })
-  .catch(async (err) => {
-    if (err instanceof Tabstack.APIError) {
-      console.log(err.status); // 400
-      console.log(err.name); // BadRequestError
-      console.log(err.headers); // {server: 'nginx', ...}
-    } else {
-      throw err;
-    }
+    url: 'https://github.com/trending',
   });
+
+  for await (const event of stream) {
+    if (event.event === 'complete') {
+      if (event.data.success) {
+        console.log(event.data.finalAnswer);
+      } else {
+        console.error(event.data.error?.message);
+      }
+    } else if (event.event === 'error') {
+      console.error(event.data.error.message);
+    }
+  }
+} catch (err) {
+  if (err instanceof Tabstack.APIError) {
+    console.log(err.status); // 400
+    console.log(err.name); // BadRequestError
+    console.log(err.headers); // {server: 'nginx', ...}
+  } else {
+    throw err;
+  }
+}
 ```
+
+Errors that happen after the stream opens arrive as events in the stream (an `error` event, or a `complete` event with `success: false`), not as a thrown `APIError`.
 
 Error codes are as follows:
 
@@ -113,14 +138,17 @@ const client = new Tabstack({
 });
 
 // Or, configure per-request:
-await client.agent.automate({ task: 'Find the top 3 trending repositories and extract their names, descriptions, and star counts' }, {
+const stream = await client.agent.automate({ task: 'Find the top 3 trending repositories and extract their names, descriptions, and star counts' }, {
   maxRetries: 5,
 });
+for await (const event of stream) {
+  if (event.event === 'complete') console.log(event.data.finalAnswer);
+}
 ```
 
 ### Timeouts
 
-Requests time out after 1 minute by default. You can configure this with a `timeout` option:
+Requests time out after 1 minute by default. `client.agent.automate()` and `client.agent.research()` default to 10 minutes unless you set a client-level `timeout`. You can configure this with a `timeout` option:
 
 <!-- prettier-ignore -->
 ```ts
@@ -130,9 +158,12 @@ const client = new Tabstack({
 });
 
 // Override per-request:
-await client.agent.automate({ task: 'Find the top 3 trending repositories and extract their names, descriptions, and star counts' }, {
+const stream = await client.agent.automate({ task: 'Find the top 3 trending repositories and extract their names, descriptions, and star counts' }, {
   timeout: 5 * 1000,
 });
+for await (const event of stream) {
+  if (event.event === 'complete') console.log(event.data.finalAnswer);
+}
 ```
 
 On timeout, an `APIConnectionTimeoutError` is thrown.
@@ -147,7 +178,7 @@ The "raw" `Response` returned by `fetch()` can be accessed through the `.asRespo
 This method returns as soon as the headers for a successful response are received and does not consume the response body, so you are free to write custom parsing or streaming logic.
 
 You can also use the `.withResponse()` method to get the raw `Response` along with the parsed data.
-Unlike `.asResponse()` this method consumes the body, returning once it is parsed.
+Unlike `.asResponse()` this method consumes the body, returning once it is parsed. Streaming methods are the exception: for `client.agent.automate()` and `client.agent.research()`, the parsed data is the event `Stream`, which reads the body as you iterate it.
 
 <!-- prettier-ignore -->
 ```ts
@@ -161,13 +192,15 @@ const response = await client.agent
 console.log(response.headers.get('X-My-Header'));
 console.log(response.statusText); // access the underlying Response object
 
-const { data: automateEvent, response: raw } = await client.agent
+const { data: stream, response: raw } = await client.agent
   .automate({
     task: 'Find the top 3 trending repositories and extract their names, descriptions, and star counts',
   })
   .withResponse();
 console.log(raw.headers.get('X-My-Header'));
-console.log(automateEvent);
+for await (const event of stream) {
+  if (event.event === 'complete') console.log(event.data.finalAnswer);
+}
 ```
 
 ### Logging
