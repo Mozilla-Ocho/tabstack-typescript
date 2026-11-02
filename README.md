@@ -2,6 +2,8 @@
 
 [![NPM version](<https://img.shields.io/npm/v/@tabstack/sdk.svg?label=npm%20(stable)>)](https://npmjs.org/package/@tabstack/sdk) ![npm bundle size](https://img.shields.io/bundlephobia/minzip/@tabstack/sdk)
 
+Give your model the web without giving up your privacy. Never trained on. Private by default. Built by Mozilla.
+
 This library provides convenient access to the Tabstack REST API from server-side TypeScript or JavaScript.
 
 The full API of this library can be found in [api.md](api.md).
@@ -26,9 +28,17 @@ const client = new Tabstack({
   apiKey: process.env['TABSTACK_API_KEY'], // This is the default and can be omitted
 });
 
-const automateEvent = await client.agent.automate({
-  task: 'Find the top 3 trending repositories and extract their names, descriptions, and star counts',
+const stream = await client.agent.research({
+  query: 'What are the latest developments in quantum computing?',
 });
+
+for await (const event of stream) {
+  if (event.event === 'complete') {
+    console.log(event.data.report);
+  } else if (event.event === 'error') {
+    console.error(event.data.message);
+  }
+}
 ```
 
 ### Request & Response types
