@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.9.0](https://github.com/Mozilla-Ocho/tabstack-typescript/compare/v2.8.6...v2.9.0) (2026-11-09)
+
+
+### Features
+
+* **api:** add research trace context event and usage ([#72](https://github.com/Mozilla-Ocho/tabstack-typescript/issues/72)) ([3897117](https://github.com/Mozilla-Ocho/tabstack-typescript/commit/389711723ad4d5087e6dec86f3ca47cd209d4f90))
+
 ## [2.8.6](https://github.com/Mozilla-Ocho/tabstack-typescript/compare/v2.8.5...v2.8.6) (2026-08-11)
 
 
