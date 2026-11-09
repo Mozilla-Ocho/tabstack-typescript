@@ -63,7 +63,9 @@ export class Agent extends APIResource {
    * **Lifecycle:**
    *
    * - Input requests expire after 2 minutes by default
-   * - Expired or already-answered requests return `410 Gone`
+   * - Expired, already-answered, or unknown requests return `410 Gone`
+   * - A `requestID` belonging to another organization is not visible to you and
+   *   returns `410 Gone`
    * - Successful submissions return `202 Accepted` (fire-and-forget from caller's
    *   perspective)
    *
@@ -91,6 +93,11 @@ export class Agent extends APIResource {
    *
    * - All responses are streamed using Server-Sent Events (`text/event-stream`)
    * - Real-time progress updates as research progresses through phases
+   * - The first event, `task:trace_context`, carries the trace ID for this request
+   *   (also sent as the `X-Trace-Id` header)
+   * - The `complete` event carries a `usage` object with the number of billable
+   *   actions the request used. Requests that end in an `error` event are not
+   *   charged
    *
    * **Research Modes:**
    *
@@ -2624,9 +2631,10 @@ export namespace AutomateEvent {
    */
   export interface V1AutomateEventTaskTraceContext {
     /**
-     * Payload for the task:trace_context event. Carries the OpenTelemetry trace ID for
-     * this /v1/automate request so consumers can deep-link to distributed-tracing UIs
-     * (e.g. Cloud Trace, Cloud Logging) for the run.
+     * Payload for the task:trace_context event, the first event on /v1/automate and
+     * /v1/research streams. Carries the OpenTelemetry trace ID for this request, the
+     * same value as the X-Trace-Id response header. Quote it when contacting support,
+     * or use it to match a request to its usage.
      */
     data: V1AutomateEventTaskTraceContext.Data;
 
@@ -2635,9 +2643,10 @@ export namespace AutomateEvent {
 
   export namespace V1AutomateEventTaskTraceContext {
     /**
-     * Payload for the task:trace_context event. Carries the OpenTelemetry trace ID for
-     * this /v1/automate request so consumers can deep-link to distributed-tracing UIs
-     * (e.g. Cloud Trace, Cloud Logging) for the run.
+     * Payload for the task:trace_context event, the first event on /v1/automate and
+     * /v1/research streams. Carries the OpenTelemetry trace ID for this request, the
+     * same value as the X-Trace-Id response header. Quote it when contacting support,
+     * or use it to match a request to its usage.
      */
     export interface Data {
       /**
@@ -2733,6 +2742,7 @@ export type ResearchEvent =
   | ResearchEvent.V1ResearchEventSearchingEnd
   | ResearchEvent.V1ResearchEventSearchingStart
   | ResearchEvent.V1ResearchEventStart
+  | ResearchEvent.V1ResearchEventTaskTraceContext
   | ResearchEvent.V1ResearchEventWritingEnd
   | ResearchEvent.V1ResearchEventWritingStart;
 
@@ -2837,6 +2847,13 @@ export namespace ResearchEvent {
       report: string;
 
       timestamp: number;
+
+      /**
+       * What this request consumed. Added by Tabstack, not by the research engine.
+       * Multiply actions by the per-action rate for the research mode to get the cost of
+       * this request. Requests that end in an error event are not charged.
+       */
+      usage?: Data.Usage;
     }
 
     export namespace Data {
@@ -3115,6 +3132,19 @@ export namespace ResearchEvent {
 
           userProvided: number;
         }
+      }
+
+      /**
+       * What this request consumed. Added by Tabstack, not by the research engine.
+       * Multiply actions by the per-action rate for the research mode to get the cost of
+       * this request. Requests that end in an error event are not charged.
+       */
+      export interface Usage {
+        /**
+         * Billable actions this request used. Research charges one action per research
+         * iteration.
+         */
+        actions: number;
       }
     }
   }
@@ -3607,6 +3637,36 @@ export namespace ResearchEvent {
       message: string;
 
       timestamp: number;
+    }
+  }
+
+  /**
+   * Envelope for the "task:trace_context" event from /v1/research.
+   */
+  export interface V1ResearchEventTaskTraceContext {
+    /**
+     * Payload for the task:trace_context event, the first event on /v1/automate and
+     * /v1/research streams. Carries the OpenTelemetry trace ID for this request, the
+     * same value as the X-Trace-Id response header. Quote it when contacting support,
+     * or use it to match a request to its usage.
+     */
+    data: V1ResearchEventTaskTraceContext.Data;
+
+    event: 'task:trace_context';
+  }
+
+  export namespace V1ResearchEventTaskTraceContext {
+    /**
+     * Payload for the task:trace_context event, the first event on /v1/automate and
+     * /v1/research streams. Carries the OpenTelemetry trace ID for this request, the
+     * same value as the X-Trace-Id response header. Quote it when contacting support,
+     * or use it to match a request to its usage.
+     */
+    export interface Data {
+      /**
+       * W3C trace ID — 32-character lowercase hexadecimal string.
+       */
+      traceId: string;
     }
   }
 
