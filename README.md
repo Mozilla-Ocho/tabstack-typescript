@@ -349,7 +349,7 @@ We take backwards-compatibility seriously and work hard to ensure you can rely o
 
 ## Feedback
 
-Report a problem or request a feature in [tabstack-feedback](https://github.com/Mozilla-Ocho/tabstack-feedback/issues/new/choose). Include the SDK version and the `x-trace-id` from the failing response when relevant. Never paste API keys or personal data into an issue.
+Report a problem or request a feature in [tabstack-feedback](https://github.com/Mozilla-Ocho/tabstack-feedback/issues/new/choose). Include the SDK version and the `x-trace-id` header from the failing response when relevant (see [Accessing raw Response data](#accessing-raw-response-data-eg-headers)). Never paste API keys or personal data into an issue.
 
 ## Requirements
 
