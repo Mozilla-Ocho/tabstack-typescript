@@ -347,7 +347,9 @@ This package generally follows [SemVer](https://semver.org/spec/v2.0.0.html) con
 
 We take backwards-compatibility seriously and work hard to ensure you can rely on a smooth upgrade experience.
 
-We are keen for your feedback; please open an [issue](https://www.github.com/Mozilla-Ocho/tabstack-typescript/issues) with questions, bugs, or suggestions.
+## Feedback
+
+Report a problem or request a feature in [tabstack-feedback](https://github.com/Mozilla-Ocho/tabstack-feedback/issues/new/choose). Include the SDK version and the `x-trace-id` from the failing response when relevant. Never paste API keys or personal data into an issue.
 
 ## Requirements
 
